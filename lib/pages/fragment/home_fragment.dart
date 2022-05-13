@@ -4,16 +4,10 @@ import 'package:telumerce/pages/main_window.dart';
 import '../../utils/category_card.dart';
 import '../../utils/product_card.dart';
 
+
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  //style
-  final TextStyle _screenTitleText = const TextStyle(
-      fontSize: 16.0, fontWeight: FontWeight.w700, color: darkBlue);
-  final TextStyle _screenSubTitleText =
-      const TextStyle(fontSize: 12.0, color: Color(0xff707070));
-  final TextStyle _sectionTitleText = const TextStyle(
-      fontSize: 12.0, fontWeight: FontWeight.w600, color: darkBlue);
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +21,17 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 14.0, bottom: 4.0),
               child: RichText(
-                text: TextSpan(children: [
-                  const TextSpan(
+                text: const TextSpan(children: [
+                  TextSpan(
                       text: 'Hai, ', style: TextStyle(color: darkBlue)),
-                  TextSpan(text: 'Judah Dasuki', style: _screenTitleText),
+                  TextSpan(text: 'Judah Dasuki', style: screenTitleText),
                 ]),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 14.0, bottom: 18.0),
+            const Padding(
+              padding: EdgeInsets.only(left: 14.0, bottom: 18.0),
               child: Text('Ayo cari barang kesukaanmu.',
-                  style: _screenSubTitleText),
+                  style: screenSubTitleText),
             ),
 
             // Random product
@@ -50,10 +44,10 @@ class HomeScreen extends StatelessWidget {
             ),
 
             // Kategori
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.only(left: 14.0, top: 24.0, bottom: 12.0),
-              child: Text('Kategori', style: _sectionTitleText),
+                  EdgeInsets.only(left: 14.0, top: 24.0, bottom: 12.0),
+              child: Text('Kategori', style: sectionTitleText),
             ),
             SingleChildScrollView(
               padding: const EdgeInsets.only(left: 14.0, right: 24.0),
@@ -64,10 +58,10 @@ class HomeScreen extends StatelessWidget {
             ),
 
             //  Produk
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.only(left: 14.0, top: 20.0, bottom: 12.0),
-              child: Text('Produk', style: _sectionTitleText),
+                  EdgeInsets.only(left: 14.0, top: 20.0, bottom: 12.0),
+              child: Text('Produk', style: sectionTitleText),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -103,12 +97,12 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 12.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.search,
+                        children: const [
+                          Icon(Icons.search,
                               size: 14.0, color: Color(0xff707070)),
-                          const SizedBox(width: 10.0),
+                          SizedBox(width: 10.0),
                           Text('Cari barangmu disini..',
-                              style: _screenSubTitleText)
+                              style: screenSubTitleText)
                         ],
                       ),
                     ),

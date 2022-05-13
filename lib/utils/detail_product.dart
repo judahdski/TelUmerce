@@ -38,6 +38,10 @@ class DetailProduct extends StatelessWidget {
           IconButton(
               onPressed: () {
                 //  Navigate to the cart screen
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MainWindow()));
               },
               splashRadius: 24.0,
               icon: const FaIcon(
