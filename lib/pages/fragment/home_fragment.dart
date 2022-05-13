@@ -3,11 +3,12 @@ import 'package:telumerce/pages/main_window.dart';
 
 import '../../utils/category_card.dart';
 import '../../utils/product_card.dart';
+import '../../utils/search_screen.dart';
 
 
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeFragment extends StatelessWidget {
+  const HomeFragment({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 65.0),
             // User welcome text
             Padding(
-              padding: const EdgeInsets.only(left: 14.0, bottom: 4.0),
+              padding: const EdgeInsets.only(left: 14.0,top: 12.0, bottom: 4.0),
               child: RichText(
                 text: const TextSpan(children: [
                   TextSpan(
@@ -29,17 +30,21 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 14.0, bottom: 18.0),
+              padding: EdgeInsets.only(left: 14.0, bottom: 20.0),
               child: Text('Ayo cari barang kesukaanmu.',
                   style: screenSubTitleText),
             ),
 
             // Random product
-            SizedBox(
-              height: 90,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const [Text('helllooooo')],
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(left: 14.0),
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  ProductCard(),
+                  ProductCard(),
+                  ProductCard(),
+                ],
               ),
             ),
 
@@ -89,21 +94,27 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   // Search-bar button
                   Expanded(
-                    child: Container(
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                          color: const Color(0xfff5f5f5),
-                          borderRadius: BorderRadius.circular(6.0)),
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.search,
-                              size: 14.0, color: Color(0xff707070)),
-                          SizedBox(width: 10.0),
-                          Text('Cari barangmu disini..',
-                              style: screenSubTitleText)
-                        ],
+                    child: InkWell(
+                      onTap: () {
+                      //  Navigate to search screen
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchScreen()));
+                      },
+                      child: Container(
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                            color: const Color(0xfff5f5f5),
+                            borderRadius: BorderRadius.circular(6.0)),
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.search,
+                                size: 14.0, color: Color(0xff707070)),
+                            SizedBox(width: 10.0),
+                            Text('Cari barangmu disini..',
+                                style: screenSubTitleText)
+                          ],
+                        ),
                       ),
                     ),
                   ),

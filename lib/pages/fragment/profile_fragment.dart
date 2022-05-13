@@ -5,8 +5,8 @@ class ProfileFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Hello World'),
+    return Center(
+      child: Text(MediaQuery.of(context).size.width.toStringAsFixed(2)),
     );
   }
 }

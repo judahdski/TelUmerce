@@ -13,32 +13,19 @@ class WishlistFragment extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 48.0),
           child: ListView(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 10.0, left: 14.0, right: 14.0),
             children: const [
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.0),
-                  child: ProductCard()),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
+              ProductCard(),
             ],
           ),
         ),
