@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:telumerce/pages/fragment/cart_fragment.dart';
 import 'package:telumerce/pages/fragment/profile_fragment.dart';
@@ -17,25 +18,33 @@ const TextStyle sectionTitleText =
     TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: darkBlue);
 
 class MainWindow extends StatefulWidget {
-  const MainWindow({Key? key}) : super(key: key);
+  final int pageIndex;
+
+  const MainWindow(this.pageIndex, {Key? key}) : super(key: key);
 
   @override
   State<MainWindow> createState() => _MainWindowState();
 }
 
 class _MainWindowState extends State<MainWindow> {
+  //style
+  final TextStyle _navText = const TextStyle(fontSize: 10, color: darkBlue);
+
   //state
   int _pageIndex = 0;
 
-  //style
-  final TextStyle _navText = const TextStyle(fontSize: 10, color: darkBlue);
+  @override
+  void initState() {
+    _pageIndex = widget.pageIndex;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
           child: GNav(
             backgroundColor: Colors.white,
             iconSize: 18.0,
@@ -46,6 +55,7 @@ class _MainWindowState extends State<MainWindow> {
             gap: 6.0,
             padding:
                 const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10.0),
+            selectedIndex: _pageIndex,
             onTabChange: (index) {
               setState(() {
                 _pageIndex = index;
@@ -53,18 +63,21 @@ class _MainWindowState extends State<MainWindow> {
             },
             tabs: [
               GButton(
-                  icon: Icons.home_filled,
+                  icon: FontAwesomeIcons.house,
                   text: 'Beranda',
                   textStyle: _navText),
               GButton(
-                  icon: Icons.shopping_cart,
+                  icon: FontAwesomeIcons.cartShopping,
                   text: 'Keranjang',
                   textStyle: _navText),
               GButton(
-                  icon: Icons.monitor_heart_rounded,
+                  icon: FontAwesomeIcons.solidHeart,
                   text: 'Wishlist',
                   textStyle: _navText),
-              GButton(icon: Icons.person, text: 'Akun', textStyle: _navText),
+              GButton(
+                  icon: FontAwesomeIcons.solidUser,
+                  text: 'Akun',
+                  textStyle: _navText),
             ],
           ),
         ),

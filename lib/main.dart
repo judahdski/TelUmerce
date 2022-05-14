@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'pages/main_window.dart';
+import 'package:telumerce/pages/auth/get_started_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(
         Theme.of(context).textTheme,
       )),
-      home: const MainWindow(),
+      home: const GetStartedScreen(),
     );
   }
 }

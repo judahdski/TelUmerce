@@ -41,7 +41,7 @@ class DetailProduct extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MainWindow()));
+                        builder: (context) => const MainWindow(1)));
               },
               splashRadius: 24.0,
               icon: const FaIcon(

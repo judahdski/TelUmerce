@@ -69,7 +69,7 @@ class CartFragment extends StatelessWidget {
           left: 14.0,
           right: 14.0,
           child: Container(
-            color: Colors.white,
+            color: Colors.transparent,
             padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
             child: Container(
               height: 100.0,
@@ -99,8 +99,12 @@ class CartFragment extends StatelessWidget {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(darkBlue)),
                       onPressed: () {
-                      //  Navigate to checkout screen
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ConfirmationScreen()));
+                        //  Navigate to checkout screen
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ConfirmationScreen()));
                       },
                       child: const Text('Checkout'))
                 ],

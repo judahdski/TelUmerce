@@ -9,10 +9,12 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-      //  Navigate to search screen
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CategorizedScreen()));
+        //  Navigate to search screen
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const CategorizedScreen()));
       },
       child: Container(
+        margin: const EdgeInsets.only(right: 12.0),
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
         decoration: BoxDecoration(
             color: Colors.white,
