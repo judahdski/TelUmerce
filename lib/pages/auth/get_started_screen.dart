@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/pages/auth/login_screen.dart';
 import 'package:telumerce/pages/auth/signup_screen.dart';
-import 'package:telumerce/pages/main_window.dart';
+
+import '../../const/color_scheme.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
 
   //style
   final TextStyle _titleScreenText = const TextStyle(
-      fontSize: 18.0, fontWeight: FontWeight.w700, color: darkBlue);
+      fontSize: 24.0, fontWeight: FontWeight.bold, color: darkBlue);
   final TextStyle _subTitleScreenText = const TextStyle(color: darkBlue);
 
   @override
   Widget build(BuildContext context) {
+    var screenWidthSize = MediaQuery.of(context).size.width;
+    var leftNRightScreenPadding = 0.0;
+
+    if (screenWidthSize < 360) {
+      leftNRightScreenPadding = 18.0;
+    } else if (screenWidthSize < 414) {
+      leftNRightScreenPadding = 20.0;
+    } else {
+      leftNRightScreenPadding = 24.0;
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -22,7 +34,8 @@ class GetStartedScreen extends StatelessWidget {
               child: Image.asset('assets/logo.png', width: 125, height: 125),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(18.0, 16.0, 18.0, 42.0),
+              padding: EdgeInsets.fromLTRB(
+                  leftNRightScreenPadding, 16.0, leftNRightScreenPadding, 42.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

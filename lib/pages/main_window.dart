@@ -5,10 +5,8 @@ import 'package:telumerce/pages/fragment/cart_fragment.dart';
 import 'package:telumerce/pages/fragment/profile_fragment.dart';
 import 'package:telumerce/pages/fragment/wishlist_fragment.dart';
 
+import '../const/color_scheme.dart';
 import 'fragment/home_fragment.dart';
-
-const darkBlue = Color(0xff25253d);
-const darkBlueShade300 = Color(0x5725253d);
 
 const TextStyle screenTitleText =
     TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: darkBlue);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telumerce/pages/main_window.dart';
 import 'package:telumerce/utils/categorized_screen.dart';
+
+import '../const/color_scheme.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({Key? key}) : super(key: key);

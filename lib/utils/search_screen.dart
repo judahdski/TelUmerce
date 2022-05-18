@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/pages/main_window.dart';
 import 'package:telumerce/utils/product_card.dart';
 
+import '../const/color_scheme.dart';
 import 'category_card.dart';
 
 class SearchScreen extends StatelessWidget {

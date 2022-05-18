@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/pages/main_window.dart';
+
+import '../const/color_scheme.dart';
 
 class ConfirmationScreen extends StatelessWidget {
   const ConfirmationScreen({Key? key}) : super(key: key);
@@ -30,14 +31,15 @@ class ConfirmationScreen extends StatelessWidget {
               padding: EdgeInsets.all(14.0),
               child: Text(
                 'Mohon maaf!\nUntuk sementara konfirmasi pesanan dan pembayaran dilakukan melalui whatsapp. Terimakasih🙏🏻',
-                textAlign: TextAlign.center, style: TextStyle(color: darkBlue),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: darkBlue),
               ),
             ),
             ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(darkBlue)
-                ),
-                onPressed: () {}, child: const Text('Pergi ke whatsapp')),
+                    backgroundColor: MaterialStateProperty.all(darkBlue)),
+                onPressed: () {},
+                child: const Text('Pergi ke whatsapp')),
           ],
         ),
       ),

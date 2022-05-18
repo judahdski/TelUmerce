@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/pages/main_window.dart';
 
+import '../../const/color_scheme.dart';
 import '../../utils/category_card.dart';
 import '../../utils/product_card.dart';
 import '../../utils/search_screen.dart';
-
-
 
 class HomeFragment extends StatelessWidget {
   const HomeFragment({Key? key}) : super(key: key);
@@ -20,11 +19,11 @@ class HomeFragment extends StatelessWidget {
             const SizedBox(height: 65.0),
             // User welcome text
             Padding(
-              padding: const EdgeInsets.only(left: 14.0,top: 12.0, bottom: 4.0),
+              padding:
+                  const EdgeInsets.only(left: 14.0, top: 12.0, bottom: 4.0),
               child: RichText(
                 text: const TextSpan(children: [
-                  TextSpan(
-                      text: 'Hai, ', style: TextStyle(color: darkBlue)),
+                  TextSpan(text: 'Hai, ', style: TextStyle(color: darkBlue)),
                   TextSpan(text: 'Judah Dasuki', style: screenTitleText),
                 ]),
               ),
@@ -50,8 +49,7 @@ class HomeFragment extends StatelessWidget {
 
             // Kategori
             const Padding(
-              padding:
-                  EdgeInsets.only(left: 14.0, top: 24.0, bottom: 12.0),
+              padding: EdgeInsets.only(left: 14.0, top: 24.0, bottom: 12.0),
               child: Text('Kategori', style: sectionTitleText),
             ),
             SingleChildScrollView(
@@ -64,8 +62,7 @@ class HomeFragment extends StatelessWidget {
 
             //  Produk
             const Padding(
-              padding:
-                  EdgeInsets.only(left: 14.0, top: 20.0, bottom: 12.0),
+              padding: EdgeInsets.only(left: 14.0, top: 20.0, bottom: 12.0),
               child: Text('Produk', style: sectionTitleText),
             ),
             Padding(
@@ -96,8 +93,11 @@ class HomeFragment extends StatelessWidget {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                      //  Navigate to search screen
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchScreen()));
+                        //  Navigate to search screen
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchScreen()));
                       },
                       child: Container(
                         height: 40.0,

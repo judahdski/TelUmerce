@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/pages/main_window.dart';
+import 'package:telumerce/pages/payment/checkout_screen.dart';
 import 'package:telumerce/utils/product_card.dart';
-import 'package:telumerce/utils/wa_confirmation.dart';
+
+import '../../const/color_scheme.dart';
 
 class CartFragment extends StatelessWidget {
   const CartFragment({Key? key}) : super(key: key);
@@ -103,8 +105,7 @@ class CartFragment extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const ConfirmationScreen()));
+                                builder: (context) => CheckoutScreen()));
                       },
                       child: const Text('Checkout'))
                 ],

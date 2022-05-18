@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/pages/auth/login_screen.dart';
 
-import '../main_window.dart';
+import '../../const/color_scheme.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var screenWidthSize = MediaQuery.of(context).size.width;
+    var leftNRightScreenPadding = 0.0;
+
+    if (screenWidthSize < 360) {
+      leftNRightScreenPadding = 18.0;
+    } else if (screenWidthSize < 414) {
+      leftNRightScreenPadding = 20.0;
+    } else {
+      leftNRightScreenPadding = 24.0;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(18.0),
+          padding: EdgeInsets.symmetric(
+              vertical: 18.0, horizontal: leftNRightScreenPadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,7 +66,8 @@ class SignupScreen extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => const LoginScreen()));
                         },
-                        child: const Text('Masuk', style: confirmationButtonText))
+                        child:
+                            const Text('Masuk', style: confirmationButtonText))
                   ],
                 ),
               ),

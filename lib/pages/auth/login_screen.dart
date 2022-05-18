@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:telumerce/pages/auth/signup_screen.dart';
 import 'package:telumerce/pages/main_window.dart';
 
+import '../../const/color_scheme.dart';
+
 const TextStyle titleText =
-    TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600, color: darkBlue);
+    TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: darkBlue);
 const TextStyle confirmationText =
-    TextStyle(fontSize: 12.0, color: Color(0xff707070));
+    TextStyle(fontSize: 14.0, color: Color(0xff707070));
 const TextStyle confirmationButtonText =
-    TextStyle(fontSize: 12.0, color: darkBlue);
+    TextStyle(fontSize: 14.0, color: darkBlue);
 const TextStyle hintStyle = TextStyle(fontSize: 12.0, color: Color(0xffaaaaaa));
 
 class LoginScreen extends StatelessWidget {
@@ -15,10 +17,21 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidthSize = MediaQuery.of(context).size.width;
+    var leftNRightScreenPadding = 0.0;
+
+    if (screenWidthSize < 360) {
+      leftNRightScreenPadding = 18.0;
+    } else if (screenWidthSize < 414) {
+      leftNRightScreenPadding = 20.0;
+    } else {
+      leftNRightScreenPadding = 24.0;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(18.0),
+          padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: leftNRightScreenPadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
