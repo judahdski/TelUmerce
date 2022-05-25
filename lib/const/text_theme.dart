@@ -16,9 +16,9 @@ const TextStyle titleSmall =
 const TextStyle labelLarge =
     TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: darkBlue);
 const TextStyle labelMedium =
-    TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600, color: darkBlue);
-const TextStyle labelSmall =
     TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: darkBlue);
+const TextStyle labelSmall =
+    TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: darkBlue);
 const TextStyle bodyLarge = TextStyle(fontSize: 16.0, color: darkBlue);
 const TextStyle bodyMedium = TextStyle(fontSize: 14.0, color: darkBlue);
 const TextStyle bodySmall = TextStyle(fontSize: 12.0, color: darkBlue);

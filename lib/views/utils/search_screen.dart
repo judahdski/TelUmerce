@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/pages/main_window.dart';
-import 'package:telumerce/utils/product_card.dart';
-
-import '../const/color_scheme.dart';
+import '../../const/color_scheme.dart';
+import '../pages/fragment/main_window.dart';
 import 'category_card.dart';
+import 'product_card.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);

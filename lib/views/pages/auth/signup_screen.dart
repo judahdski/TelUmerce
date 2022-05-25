@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telumerce/pages/auth/login_screen.dart';
 
-import '../../const/color_scheme.dart';
+import '../../../const/color_scheme.dart';
+import 'login_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);

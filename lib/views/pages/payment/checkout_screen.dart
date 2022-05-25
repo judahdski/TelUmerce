@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/pages/main_window.dart';
-import 'package:telumerce/pages/payment/payment_validation_screen.dart';
 
-import '../../const/color_scheme.dart';
-import '../../const/text_theme.dart';
+import '../../../const/color_scheme.dart';
+import '../../../const/text_theme.dart';
+import '../../widgets/order_detail_card.dart';
+import '../fragment/main_window.dart';
+import 'payment_validation_screen.dart';
 
 class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({Key? key}) : super(key: key);
@@ -18,35 +19,26 @@ class CheckoutScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {},
-          splashRadius: 24.0,
-          icon: const FaIcon(FontAwesomeIcons.chevronLeft),
-        ),
+        leading: const SizedBox(),
         title: const Text('Checkout', style: screenTitleText),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-                onPressed: () {},
-                splashRadius: 24.0,
-                icon: const FaIcon(FontAwesomeIcons.cartShopping)),
-          )
-        ],
       ),
       body: Stack(
         children: [
           ListView(
             padding:
-                const EdgeInsets.symmetric(vertical: 24.0, horizontal: 14.0),
+                const EdgeInsets.symmetric(vertical: 10.0),
             children: const [
-              Text('Detail pesanan', style: titleSmall),
-              SizedBox(height: 16.0),
               OrderDetail(),
-              SizedBox(height: 24.0),
-              TimeCounter(),
+              Divider(color: Color(0xfff2f2f2), thickness: 6.0, height: 6.0),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical:14.0, horizontal: 14.0),
+                child: TimeCounter(),
+              ),
               SizedBox(height: 8.0),
-              InfoBank(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.0),
+                child: InfoBank(),
+              ),
               SizedBox(height: 48.0),
             ],
           ),
@@ -68,84 +60,6 @@ class CheckoutScreen extends StatelessWidget {
                   },
                   child: const Text('Bayar')),
             ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class OrderDetail extends StatelessWidget {
-  const OrderDetail({Key? key}) : super(key: key);
-
-  //style
-  final TextStyle priceLabel = const TextStyle(
-      fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 12.0, right: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Tumbler', style: labelLarge),
-              Text('Rp25.000', style: labelSmall)
-            ],
-          ),
-          const SizedBox(height: 12.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'Ongkos kirim',
-                style: bodySmall,
-              ),
-              Text(
-                'Rp4.500',
-                style: labelSmall,
-              ),
-            ],
-          ),
-          const SizedBox(height: 12.0),
-          const Text(
-            'Alamat penerima',
-            style: labelSmall,
-          ),
-          const SizedBox(height: 6.0),
-          const Text(
-            'Komplek konoha Jl.Kebon akatsuki no.14 Kec. Benteng rose, kab.marley, Paradise, 45218',
-            style: bodySmall,
-          ),
-          const Divider(color: darkBlueShade300, height: 24.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'Harga produk',
-                style: bodySmall,
-              ),
-              Text('Rp25.000', style: bodySmall),
-            ],
-          ),
-          const SizedBox(height: 6.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Ongkos kirim', style: bodySmall),
-              Text('Rp4.500', style: bodySmall),
-            ],
-          ),
-          const Divider(color: darkBlueShade300, height: 24.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Total bayar', style: labelSmall),
-              Text('Rp29.500', style: priceLabel),
-            ],
           )
         ],
       ),

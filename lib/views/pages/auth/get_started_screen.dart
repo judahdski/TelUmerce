@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telumerce/pages/auth/login_screen.dart';
-import 'package:telumerce/pages/auth/signup_screen.dart';
+import 'package:telumerce/views/pages/auth/signup_screen.dart';
 
-import '../../const/color_scheme.dart';
+import '../../../const/color_scheme.dart';
+import 'login_screen.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({Key? key}) : super(key: key);

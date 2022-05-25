@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
-import 'package:telumerce/pages/payment/checkout_screen.dart';
+
+import '../widgets/order_detail_card.dart';
 
 class DetailOrderScreen extends StatelessWidget {
   const DetailOrderScreen({Key? key}) : super(key: key);

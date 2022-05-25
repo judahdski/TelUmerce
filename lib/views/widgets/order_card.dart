@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
-import 'package:telumerce/utils/detail_order.dart';
+
+import '../utils/detail_order_screen.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard({Key? key}) : super(key: key);

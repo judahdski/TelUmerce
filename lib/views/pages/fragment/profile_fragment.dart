@@ -1,26 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
-import 'package:telumerce/utils/edit_profile.dart';
-import 'package:telumerce/utils/waiting_payment.dart';
-import 'package:telumerce/utils/waiting_payment_verification.dart';
-import 'package:telumerce/widgets/order_card.dart';
+
+import '../../utils/edit_profile.dart';
+import '../../utils/waiting_payment.dart';
+import '../../utils/waiting_payment_verification.dart';
+import '../../widgets/order_card.dart';
+import 'main_window.dart';
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        ProfileCard(),
-        Divider(thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
-        OrderConfirmationButton(
-            icon: FontAwesomeIcons.bagShopping, text: "Menunggu pembayaran"),
-        OrderConfirmationButton(
-            icon: FontAwesomeIcons.solidCircleCheck,
-            text: "Menunggu verifikasi"),
-        OrderList()
+    return Stack(
+      children: [
+        // Main-content
+        Padding(
+          padding: const EdgeInsets.only(top: 48.0),
+          child: ListView(
+            children: const [
+              ProfileCard(),
+              Divider(thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
+              OrderConfirmationButton(
+                  icon: FontAwesomeIcons.bagShopping,
+                  text: "Menunggu pembayaran"),
+              OrderConfirmationButton(
+                  icon: FontAwesomeIcons.solidCircleCheck,
+                  text: "Menunggu verifikasi"),
+              OrderList()
+            ],
+          ),
+        ),
+
+        // Top-bar
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  color: Color(0xffe1e1e1),
+                  offset: Offset(0, 2),
+                  blurRadius: 6.0)
+            ]),
+            padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+            child: const Text('Keranjang',
+                textAlign: TextAlign.center, style: screenTitleText),
+          ),
+        ),
       ],
     );
   }

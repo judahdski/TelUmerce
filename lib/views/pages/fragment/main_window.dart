@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:telumerce/pages/fragment/cart_fragment.dart';
-import 'package:telumerce/pages/fragment/profile_fragment.dart';
-import 'package:telumerce/pages/fragment/wishlist_fragment.dart';
 
-import '../const/color_scheme.dart';
-import 'fragment/home_fragment.dart';
+import '../../../const/color_scheme.dart';
+import 'cart_fragment.dart';
+import 'home_fragment.dart';
+import 'profile_fragment.dart';
+import 'wishlist_fragment.dart';
 
 const TextStyle screenTitleText =
     TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: darkBlue);

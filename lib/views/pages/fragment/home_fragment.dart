@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:telumerce/pages/main_window.dart';
 
-import '../../const/color_scheme.dart';
+import '../../../const/color_scheme.dart';
 import '../../utils/category_card.dart';
 import '../../utils/product_card.dart';
 import '../../utils/search_screen.dart';
+import 'main_window.dart';
 
 class HomeFragment extends StatelessWidget {
   const HomeFragment({Key? key}) : super(key: key);

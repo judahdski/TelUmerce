@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telumerce/pages/auth/signup_screen.dart';
-import 'package:telumerce/pages/main_window.dart';
 
-import '../../const/color_scheme.dart';
+import '../../../const/color_scheme.dart';
+import '../fragment/main_window.dart';
+import 'signup_screen.dart';
 
 const TextStyle titleText =
     TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: darkBlue);

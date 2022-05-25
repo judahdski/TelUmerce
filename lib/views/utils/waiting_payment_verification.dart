@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/widgets/order_card.dart';
+
+import '../widgets/order_card.dart';
 
 class WaitingPaymentVerificationScreen extends StatelessWidget {
   const WaitingPaymentVerificationScreen({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:telumerce/pages/main_window.dart';
-import 'package:telumerce/pages/payment/checkout_screen.dart';
-import 'package:telumerce/utils/product_card.dart';
 
-import '../../const/color_scheme.dart';
+import '../../../const/color_scheme.dart';
+import '../../utils/product_card.dart';
+import '../payment/checkout_screen.dart';
+import 'main_window.dart';
 
 class CartFragment extends StatelessWidget {
   const CartFragment({Key? key}) : super(key: key);
@@ -59,7 +59,12 @@ class CartFragment extends StatelessWidget {
           left: 0,
           right: 0,
           child: Container(
-            color: Colors.white,
+            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  color: Color(0xffe1e1e1),
+                  offset: Offset(0, 2),
+                  blurRadius: 6.0)
+            ]),
             padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
             child: const Text('Keranjang',
                 textAlign: TextAlign.center, style: screenTitleText),

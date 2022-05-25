@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../const/color_scheme.dart';
-import '../../const/text_theme.dart';
+import '../../../const/color_scheme.dart';
+import '../../../const/text_theme.dart';
 
 class PaymentValidationScreen extends StatelessWidget {
   const PaymentValidationScreen({Key? key}) : super(key: key);

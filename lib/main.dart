@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:telumerce/pages/auth/get_started_screen.dart';
-import 'package:telumerce/pages/main_window.dart';
+import 'package:telumerce/views/pages/auth/get_started_screen.dart';
 
 import 'const/color_scheme.dart';
 
