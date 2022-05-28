@@ -40,9 +40,26 @@ class HomeFragment extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: const [
-                  ProductCard(),
-                  ProductCard(),
-                  ProductCard(),
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: ProductCard(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: ProductCard(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: ProductCard(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: ProductCard(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: ProductCard(),
+                  ),
                 ],
               ),
             ),
@@ -69,7 +86,10 @@ class HomeFragment extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
               child: Column(
                 children: const [
-                  ProductCard(),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 16.0),
+                    child: ProductCard(),
+                  ),
                 ],
               ),
             ),
@@ -93,7 +113,6 @@ class HomeFragment extends StatelessWidget {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        //  Navigate to search screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(

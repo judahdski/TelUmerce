@@ -5,7 +5,6 @@ import 'package:telumerce/const/text_theme.dart';
 import '../../const/color_scheme.dart';
 import '../pages/fragment/main_window.dart';
 import '../widgets/price_counter.dart';
-import 'wa_confirmation.dart';
 
 class DetailProduct extends StatelessWidget {
   const DetailProduct({Key? key}) : super(key: key);
@@ -87,10 +86,7 @@ class DetailProduct extends StatelessWidget {
                   const PriceCountWidget(),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ConfirmationScreen())
-                        );
+                        //  TODO: Add to the cart list
                       },
                       child: const Text('Tambah'))
                 ],

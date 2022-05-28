@@ -33,9 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: (isScrollable)
-              ? SingleChildScrollView(
+        body: SafeArea(
+            child: Visibility(
+                visible: isScrollable,
+                child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(
                       vertical: 18.0, horizontal: leftNRightScreenPadding),
                   child: Column(
@@ -69,18 +70,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignupScreen()));
+                                          builder: (context) => const SignupScreen()));
                                 },
-                                child: const Text('Daftar',
-                                    style: confirmationButtonText))
+                                child:
+                                    const Text('Daftar', style: confirmationButtonText))
                           ],
                         ),
                       ),
                       ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(darkBlue)),
+                              backgroundColor: MaterialStateProperty.all(darkBlue)),
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -90,8 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text('Login'))
                     ],
                   ),
-                )
-              : Padding(
+                ),
+                replacement: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -123,24 +122,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  //  Navigate to signup screen
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignupScreen()));
+                                          builder: (context) => const SignupScreen()));
                                 },
-                                child: const Text('Daftar',
-                                    style: confirmationButtonText))
+                                child:
+                                    const Text('Daftar', style: confirmationButtonText))
                           ],
                         ),
                       ),
                       ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(darkBlue)),
+                              backgroundColor: MaterialStateProperty.all(darkBlue)),
                           onPressed: () {
-                            //  Navigate to main window
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -149,7 +144,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text('Login'))
                     ],
                   ),
-                )),
+                ),
+            )
+        )
     );
   }
 }

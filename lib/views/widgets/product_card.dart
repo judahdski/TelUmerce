@@ -40,7 +40,7 @@ class _ProductCardState extends State<ProductCard> {
         builder: (_, BoxConstraints constraints) {
           if (constraints.maxWidth < 900) {
             return Container(
-              height: 116.0,
+              height: 120.0,
               padding: const EdgeInsets.only(
                   left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
               decoration: BoxDecoration(
@@ -94,7 +94,7 @@ class _ProductCardState extends State<ProductCard> {
                         ),
 
                         // Product name
-                        const Text('Tumbler', style: titleSmall),
+                        const Text('Tumbler', style: titleSmall, overflow: TextOverflow.ellipsis),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -122,8 +122,8 @@ class _ProductCardState extends State<ProductCard> {
             );
           } else {
             return Container(
-              height: 116.0,
-              width: 292.0,
+              height: 120.0,
+              width: 300.0,
               padding: const EdgeInsets.only(
                   left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
               decoration: BoxDecoration(

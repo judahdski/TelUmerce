@@ -27,6 +27,7 @@ class BankInfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [
               Text('Nomor rekening', style: bodySmall),
               SizedBox(height: 6.0),

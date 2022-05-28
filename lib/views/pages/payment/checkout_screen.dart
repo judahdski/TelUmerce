@@ -22,7 +22,7 @@ class CheckoutScreen extends StatelessWidget {
         children: [
           // Main-content
           ListView(
-            padding: const EdgeInsets.only(bottom: 48.0),
+            padding: const EdgeInsets.only(bottom: 80.0),
             children: const [
               OrderDetail(),
               Divider(color: Color(0xfff2f2f2), thickness: 6.0, height: 6.0),

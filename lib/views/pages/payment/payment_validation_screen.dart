@@ -4,8 +4,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../const/color_scheme.dart';
 import '../../../const/text_theme.dart';
 
-class PaymentValidationScreen extends StatelessWidget {
+class PaymentValidationScreen extends StatefulWidget {
   const PaymentValidationScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PaymentValidationScreen> createState() =>
+      _PaymentValidationScreenState();
+}
+
+class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
+  bool isUploaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,97 +23,48 @@ class PaymentValidationScreen extends StatelessWidget {
         leading: const Text(''),
         title: const Text('Validasi Pembayaran'),
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14.0),
-        child: CustomContainer(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14.0),
+        child: Visibility(
+          visible: isUploaded,
+          child: const ImageUploadedContainer(),
+          replacement: ImagePickerContainer(
+            buttonImage: imagePickerButton(
+                icon: FontAwesomeIcons.image, text: 'Pilih Gambar'),
+            buttonCamera: imagePickerButton(
+                icon: FontAwesomeIcons.camera, text: 'Ambil Gambar'),
+          ),
+        ),
       ),
     );
   }
+
+  ElevatedButton imagePickerButton(
+      {required IconData icon, required String text}
+      ) {
+    return ElevatedButton(
+        onPressed: () {
+          setState(() {
+            isUploaded = true;
+          });
+          //  TODO: Take an image from the gallery
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FaIcon(icon, size: 14.0),
+            const SizedBox(width: 10.0),
+            Text(text)
+          ],
+        ));
+  }
 }
 
-class CustomContainer extends StatefulWidget {
-  const CustomContainer({Key? key}) : super(key: key);
-
-  @override
-  State<CustomContainer> createState() => _CustomContainerState();
-}
-
-class _CustomContainerState extends State<CustomContainer> {
-  bool isUploaded = false;
+class ImageUploadedContainer extends StatelessWidget {
+  const ImageUploadedContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: (isUploaded) ? imageUploadedContainer() : imagePickerContainer(),
-    );
-  }
-
-  // user masih harus upload bukti transfer
-  Column imagePickerContainer() {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 24.0, bottom: 16.0),
-          child: Text('Mohon untuk mengupload bukti transfer.',
-              style: TextStyle(color: darkBlue, fontSize: 12.0)),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 42.0, horizontal: 56.0),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(6.0),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x29000000),
-                    offset: Offset(0, 0),
-                    blurRadius: 6.0)
-              ]),
-          child: Column(
-            children: [
-              const FaIcon(FontAwesomeIcons.image, color: Color(0xff707070)),
-              const SizedBox(height: 12.0),
-              const Text(
-                'JPG, JPEG, PNG max. 5 mb',
-                style: TextStyle(fontSize: 10.0, color: Color(0xff707070)),
-              ),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      isUploaded = true;
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      FaIcon(FontAwesomeIcons.image, size: 14.0),
-                      SizedBox(width: 10.0),
-                      Text('Pilih Gambar')
-                    ],
-                  )),
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      isUploaded = true;
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      FaIcon(FontAwesomeIcons.camera, size: 14.0),
-                      SizedBox(width: 10.0),
-                      Text('Ambil Gambar')
-                    ],
-                  )),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-//  user sudah berhasil mengupload bukti transfer
-  Stack imageUploadedContainer() {
     return Stack(
       children: [
         Column(
@@ -138,6 +97,56 @@ class _CustomContainerState extends State<CustomContainer> {
             ),
           ),
         )
+      ],
+    );
+  }
+}
+
+class ImagePickerContainer extends StatelessWidget {
+  const ImagePickerContainer(
+      {Key? key, required this.buttonImage, required this.buttonCamera})
+      : super(key: key);
+
+  final ElevatedButton buttonImage;
+  final ElevatedButton buttonCamera;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(top: 24.0, bottom: 16.0),
+          child: Text('Mohon untuk mengupload bukti transfer.',
+              style: TextStyle(color: darkBlue, fontSize: 12.0)),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 48.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(6.0),
+              boxShadow: const [
+                BoxShadow(
+                    color: Color(0x29000000),
+                    offset: Offset(1, 2),
+                    blurRadius: 6.0)
+              ]),
+          child: Column(
+            children: [
+              const FaIcon(FontAwesomeIcons.image,
+                  color: Color(0xff707070), size: 24.0),
+              const SizedBox(height: 14.0),
+              const Text('JPG, JPEG, PNG max. 5 mb', style: bodySmall),
+              const SizedBox(height: 18.0),
+              Column(
+                children: [
+                  // TODO: make a separated widget
+                  buttonImage,
+                  buttonCamera
+                ],
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
