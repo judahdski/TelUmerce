@@ -4,7 +4,6 @@ import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
 
 import '../fragment/main_window.dart';
-import 'checkout_screen.dart';
 
 class PaymentOptionsScreen extends StatelessWidget {
   const PaymentOptionsScreen({Key? key}) : super(key: key);
