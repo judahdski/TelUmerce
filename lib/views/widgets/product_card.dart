@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telumerce/const/text_theme.dart';
 
 import '../../const/color_scheme.dart';
-import 'detail_product.dart';
+import '../utils/detail_product.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   const ProductCard({Key? key}) : super(key: key);
 
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
   //style
   final TextStyle _categoryText = const TextStyle(
       color: Colors.white, fontSize: 10.0, fontWeight: FontWeight.w600);
-  final TextStyle _productNameText = const TextStyle(
-      color: darkBlue,
-      fontWeight: FontWeight.w600,
-      overflow: TextOverflow.ellipsis);
-  final TextStyle _priceButton =
-      const TextStyle(color: darkBlue, fontWeight: FontWeight.w800);
   final TextStyle _buyButtonText =
       const TextStyle(color: Colors.white, fontSize: 12.0);
 
+  //variable
+  bool isFav = false;
+
+  //function
+  void setWishlist() {
+    setState(() => isFav = !isFav);
+  }
+
+  //UI
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
+        Navigator.push(
+            context,
             MaterialPageRoute(builder: (context) => const DetailProduct()));
       },
       child: LayoutBuilder(
@@ -31,13 +41,11 @@ class ProductCard extends StatelessWidget {
           if (constraints.maxWidth < 900) {
             return Container(
               height: 116.0,
-              margin: const EdgeInsets.only(bottom: 16.0),
               padding: const EdgeInsets.only(
-                  left: 6.0, top: 8.0, bottom: 8.0, right: 10.0),
+                  left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border:
-                      Border.all(color: const Color(0xffcdcdcd), width: .75),
+                  border: Border.all(color: const Color(0xffcdcdcd), width: .75),
                   borderRadius: BorderRadius.circular(10.0)),
               child: Row(
                 children: [
@@ -56,6 +64,7 @@ class ProductCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+
                             //  Category card
                             Container(
                               child: Text('category', style: _categoryText),
@@ -65,6 +74,7 @@ class ProductCard extends StatelessWidget {
                                   color: darkBlue,
                                   borderRadius: BorderRadius.circular(4.0)),
                             ),
+
                             // Like button
                             SizedBox(
                                 width: 28.0,
@@ -72,17 +82,26 @@ class ProductCard extends StatelessWidget {
                                 child: IconButton(
                                     padding: const EdgeInsets.all(6.0),
                                     iconSize: 16.0,
-                                    onPressed: () {},
-                                    icon: const FaIcon(FontAwesomeIcons.heart)))
+                                    onPressed: () {
+                                      //  TODO : Change isFav state
+                                      //  TODO : Change the love icon color
+                                      //  TODO : Add to the wishlist
+                                      setWishlist();
+                                    },
+                                    color: (isFav) ? Colors.red : Colors.grey,
+                                    icon: (isFav) ? const FaIcon(FontAwesomeIcons.solidHeart) : const FaIcon(FontAwesomeIcons.heart)))
                           ],
                         ),
+
                         // Product name
-                        Text('Tumbler', style: _productNameText),
+                        const Text('Tumbler', style: titleSmall),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+
                             // Product price
-                            Text('Rp. 25,000', style: _priceButton),
+                            const Text('Rp. 25,000', style: labelLarge),
+
                             // Buy button
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -91,7 +110,7 @@ class ProductCard extends StatelessWidget {
                                 color: darkBlue,
                                 borderRadius: BorderRadius.circular(6.0),
                               ),
-                              child: Text('Beli', style: _buyButtonText),
+                              child: Text('Tambah', style: _buyButtonText),
                             )
                           ],
                         )
@@ -105,13 +124,11 @@ class ProductCard extends StatelessWidget {
             return Container(
               height: 116.0,
               width: 292.0,
-              margin: const EdgeInsets.only(right: 16.0),
               padding: const EdgeInsets.only(
-                  left: 6.0, top: 8.0, bottom: 8.0, right: 10.0),
+                  left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border:
-                      Border.all(color: const Color(0xffcdcdcd), width: .75),
+                  border: Border.all(color: const Color(0xffcdcdcd), width: .75),
                   borderRadius: BorderRadius.circular(10.0)),
               child: Row(
                 children: [
@@ -130,6 +147,7 @@ class ProductCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+
                             //  Category card
                             Container(
                               child: Text('category', style: _categoryText),
@@ -139,6 +157,7 @@ class ProductCard extends StatelessWidget {
                                   color: darkBlue,
                                   borderRadius: BorderRadius.circular(4.0)),
                             ),
+
                             // Like button
                             SizedBox(
                                 width: 28.0,
@@ -146,17 +165,26 @@ class ProductCard extends StatelessWidget {
                                 child: IconButton(
                                     padding: const EdgeInsets.all(6.0),
                                     iconSize: 16.0,
-                                    onPressed: () {},
-                                    icon: const FaIcon(FontAwesomeIcons.heart)))
+                                    onPressed: () {
+                                      //  TODO : Change isFav state
+                                      //  TODO : Change the love icon color
+                                      //  TODO : Add to the wishlist
+                                      setWishlist();
+                                    },
+                                    color: (isFav) ? Colors.red : Colors.grey,
+                                    icon: (isFav) ? const FaIcon(FontAwesomeIcons.solidHeart) : const FaIcon(FontAwesomeIcons.heart)))
                           ],
                         ),
+
                         // Product name
-                        Text('Tumbler', style: _productNameText),
+                        const Text('Tumbler', style: titleSmall),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+
                             // Product price
-                            Text('Rp. 25,000', style: _priceButton),
+                            const Text('Rp. 25,000', style: labelLarge),
+
                             // Buy button
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -165,7 +193,7 @@ class ProductCard extends StatelessWidget {
                                 color: darkBlue,
                                 borderRadius: BorderRadius.circular(6.0),
                               ),
-                              child: Text('Beli', style: _buyButtonText),
+                              child: Text('Tambah', style: _buyButtonText),
                             )
                           ],
                         )

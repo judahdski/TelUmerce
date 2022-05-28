@@ -34,12 +34,12 @@ class MyApp extends StatelessWidget {
           buttonTheme: ButtonThemeData(
               buttonColor: darkBlue,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0))),
+                  borderRadius: BorderRadius.circular(6.0))),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(darkBlue),
                 shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0))),
+                    borderRadius: BorderRadius.circular(6.0))),
                 fixedSize:
                     MaterialStateProperty.all(const Size.fromHeight(36.0))),
           )),

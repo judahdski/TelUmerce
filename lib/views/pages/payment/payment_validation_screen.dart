@@ -15,8 +15,8 @@ class PaymentValidationScreen extends StatelessWidget {
         leading: const Text(''),
         title: const Text('Validasi Pembayaran'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 14.0),
         child: CustomContainer(),
       ),
     );
@@ -24,6 +24,8 @@ class PaymentValidationScreen extends StatelessWidget {
 }
 
 class CustomContainer extends StatefulWidget {
+  const CustomContainer({Key? key}) : super(key: key);
+
   @override
   State<CustomContainer> createState() => _CustomContainerState();
 }

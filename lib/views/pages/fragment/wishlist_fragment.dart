@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:telumerce/views/widgets/top_bar.dart';
 
-import '../../utils/product_card.dart';
-import 'main_window.dart';
+import '../../widgets/product_card.dart';
 
 class WishlistFragment extends StatelessWidget {
   const WishlistFragment({Key? key}) : super(key: key);
@@ -10,41 +10,28 @@ class WishlistFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 48.0),
+        Positioned(
+          top: 50.0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           child: ListView(
-            padding: const EdgeInsets.only(top: 10.0, left: 14.0, right: 14.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
             children: const [
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: ProductCard(),
+              )
             ],
           ),
         ),
+
         // Top-bar
-        Positioned(
+        const Positioned(
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                  color: Color(0xffe1e1e1),
-                  offset: Offset(0, 2),
-                  blurRadius: 6.0)
-            ]),
-            padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-            child: const Text('Wishlist',
-                textAlign: TextAlign.center, style: screenTitleText),
-          ),
+          child: TopBar(text: 'Wishlist'),
         ),
       ],
     );

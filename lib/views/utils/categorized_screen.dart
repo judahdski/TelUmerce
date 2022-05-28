@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../const/color_scheme.dart';
 import '../pages/fragment/main_window.dart';
-import 'product_card.dart';
+import '../widgets/product_card.dart';
 
 class CategorizedScreen extends StatelessWidget {
   const CategorizedScreen({Key? key}) : super(key: key);

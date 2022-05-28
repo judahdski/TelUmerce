@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
+import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../utils/edit_profile.dart';
-import '../../utils/waiting_payment.dart';
-import '../../utils/waiting_payment_verification.dart';
 import '../../widgets/order_card.dart';
-import 'main_window.dart';
+import '../../widgets/order_verification_button.dart';
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({Key? key}) : super(key: key);
@@ -16,8 +15,11 @@ class ProfileFragment extends StatelessWidget {
     return Stack(
       children: [
         // Main-content
-        Padding(
-          padding: const EdgeInsets.only(top: 48.0),
+        Positioned(
+          top: 50.0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           child: ListView(
             children: const [
               ProfileCard(),
@@ -34,21 +36,11 @@ class ProfileFragment extends StatelessWidget {
         ),
 
         // Top-bar
-        Positioned(
+        const Positioned(
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                  color: Color(0xffe1e1e1),
-                  offset: Offset(0, 2),
-                  blurRadius: 6.0)
-            ]),
-            padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-            child: const Text('Keranjang',
-                textAlign: TextAlign.center, style: screenTitleText),
-          ),
+          child: TopBar(text: 'Profil'),
         ),
       ],
     );
@@ -85,49 +77,6 @@ class ProfileCard extends StatelessWidget {
             const SizedBox(height: 4.0),
             Text('Edit profile >', style: subNameText)
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class OrderConfirmationButton extends StatelessWidget {
-  const OrderConfirmationButton(
-      {Key? key, required this.text, required this.icon})
-      : super(key: key);
-
-  final String text;
-  final IconData icon;
-
-  //style
-  final TextStyle titleText = const TextStyle(fontSize: 12.0, color: darkBlue);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(14.0, 12.0, 14.0, 0),
-      child: InkWell(
-        onTap: () {
-          Widget screen = (icon == FontAwesomeIcons.bagShopping)
-              ? const WaitingPaymentScreen()
-              : const WaitingPaymentVerificationScreen();
-
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => screen));
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
-          decoration: BoxDecoration(
-              border: Border.all(color: darkBlueShade300),
-              borderRadius: BorderRadius.circular(6.0)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FaIcon(icon, size: 14.0, color: darkBlue),
-              const SizedBox(width: 14.0),
-              Text(text, style: titleText)
-            ],
-          ),
         ),
       ),
     );

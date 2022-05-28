@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telumerce/const/text_theme.dart';
 
 import '../../const/color_scheme.dart';
 import '../pages/fragment/main_window.dart';
+import '../widgets/price_counter.dart';
 import 'wa_confirmation.dart';
 
 class DetailProduct extends StatelessWidget {
   const DetailProduct({Key? key}) : super(key: key);
 
   //style
-  final TextStyle _screenTitleText =
-      const TextStyle(color: darkBlue, fontSize: 14.0);
-  final TextStyle _productNameText =
-      const TextStyle(color: darkBlue, fontWeight: FontWeight.w600);
   final TextStyle _productNameSubText =
       const TextStyle(fontSize: 10.0, color: Color(0xff5f5f5f));
 
@@ -33,7 +31,7 @@ class DetailProduct extends StatelessWidget {
               size: 14.0,
               color: darkBlue,
             )),
-        title: Text('Produk', style: _screenTitleText),
+        title: const Text('Produk'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -59,12 +57,12 @@ class DetailProduct extends StatelessWidget {
                   'https://s4.bukalapak.com/img/4954929533/large/TUMBLER_STARBUCKS_RARE_LIMITED_EDITION_2.jpg',
                   fit: BoxFit.cover)),
           Container(
-            height: 125.0,
+            height: 180.0,
             padding:
-                const EdgeInsets.only(left: 14.0, right: 14.0, bottom: 14.0),
+                const EdgeInsets.only(left: 14.0, right: 14.0, bottom: 24.0),
             child: Container(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0),
@@ -75,132 +73,32 @@ class DetailProduct extends StatelessWidget {
                         blurRadius: 6.0)
                   ]),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Tumbler', style: _productNameText),
+                      const Text('Tumbler', style: titleSmall),
                       Text('Stok tersedia', style: _productNameSubText),
                     ],
                   ),
-                  const SizedBox(height: 16.0),
-                  const PriceCountWidget()
+                  const PriceCountWidget(),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ConfirmationScreen())
+                        );
+                      },
+                      child: const Text('Tambah'))
                 ],
               ),
             ),
           )
         ],
       ),
-    );
-  }
-}
-
-class PriceCountWidget extends StatefulWidget {
-  const PriceCountWidget({Key? key}) : super(key: key);
-
-  @override
-  State<PriceCountWidget> createState() => _PriceCountWidgetState();
-}
-
-class _PriceCountWidgetState extends State<PriceCountWidget> {
-  //state
-  int amount = 1;
-  int basePrice = 25000;
-  int price = 25000;
-
-  //function
-  increaseAmount() {
-    setState(() {
-      amount++;
-      price = basePrice * amount;
-    });
-  }
-
-  decreaseAmount() {
-    if (amount != 1) {
-      setState(() {
-        amount--;
-        price = basePrice * amount;
-      });
-    }
-    return;
-  }
-
-  //style
-  final TextStyle _productPriceText =
-      const TextStyle(color: darkBlue, fontWeight: FontWeight.w800);
-
-  final TextStyle _minusText =
-      const TextStyle(color: Color(0xff707070), fontWeight: FontWeight.w600);
-
-  final TextStyle _amountText =
-      const TextStyle(color: darkBlue, fontWeight: FontWeight.w600);
-
-  final TextStyle _plusText =
-      const TextStyle(color: Color(0xff646464), fontWeight: FontWeight.w600);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(width: 90, child: Text('Rp $price', style: _productPriceText)),
-        Container(
-          width: 80.0,
-          height: 32.0,
-          decoration: BoxDecoration(
-              color: const Color(0xfff5f5f5),
-              borderRadius: BorderRadius.circular(6.0)),
-          child: Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                    onTap: () {
-                      //  Decrease amount
-                      decreaseAmount();
-                    },
-                    child: Text(
-                      '-',
-                      textAlign: TextAlign.center,
-                      style: _minusText,
-                    )),
-              ),
-              // Amount of the product's
-              Expanded(
-                child: Text(
-                  '$amount',
-                  textAlign: TextAlign.center,
-                  style: _amountText,
-                ),
-              ),
-              Expanded(
-                child: InkWell(
-                    onTap: () {
-                      //  Increase amount
-                      increaseAmount();
-                    },
-                    child: Text(
-                      '+',
-                      textAlign: TextAlign.center,
-                      style: _plusText,
-                    )),
-              ),
-            ],
-          ),
-        ),
-        ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(darkBlue)),
-            onPressed: () {
-              //  Navigate to confirmation screen
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ConfirmationScreen()));
-            },
-            child: const Text('Beli', style: TextStyle(fontSize: 12.0)))
-      ],
     );
   }
 }

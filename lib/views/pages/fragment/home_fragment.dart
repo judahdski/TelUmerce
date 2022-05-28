@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../const/color_scheme.dart';
-import '../../utils/category_card.dart';
-import '../../utils/product_card.dart';
+import '../../widgets/category_card.dart';
+import '../../widgets/product_card.dart';
 import '../../utils/search_screen.dart';
 import 'main_window.dart';
 
