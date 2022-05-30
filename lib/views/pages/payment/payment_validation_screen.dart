@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../../const/text_theme.dart';
@@ -13,6 +18,7 @@ class PaymentValidationScreen extends StatefulWidget {
 }
 
 class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
+  File? image;
   bool isUploaded = false;
 
   @override
@@ -27,27 +33,63 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 14.0),
         child: Visibility(
           visible: isUploaded,
-          child: const ImageUploadedContainer(),
+          child: ImageUploadedContainer(image: image),
           replacement: ImagePickerContainer(
             buttonImage: imagePickerButton(
-                icon: FontAwesomeIcons.image, text: 'Pilih Gambar'),
+                icon: FontAwesomeIcons.image,
+                text: 'Pilih Gambar',
+                isCamera: false),
             buttonCamera: imagePickerButton(
-                icon: FontAwesomeIcons.camera, text: 'Ambil Gambar'),
+                icon: FontAwesomeIcons.camera,
+                text: 'Ambil Gambar',
+                isCamera: true),
           ),
         ),
       ),
     );
   }
 
-  ElevatedButton imagePickerButton(
-      {required IconData icon, required String text}
-      ) {
+  Future takeFromGallery() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future takeFromCamera() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+
+    Navigator.of(context).pop();
+  }
+
+  ElevatedButton imagePickerButton({
+    required IconData icon,
+    required String text,
+    required bool isCamera})
+  {
     return ElevatedButton(
         onPressed: () {
-          setState(() {
-            isUploaded = true;
-          });
-          //  TODO: Take an image from the gallery
+          (isCamera) ? takeFromCamera() : takeFromGallery();
+          setState(() => isUploaded = true);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -61,23 +103,32 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
 }
 
 class ImageUploadedContainer extends StatelessWidget {
-  const ImageUploadedContainer({Key? key}) : super(key: key);
+  const ImageUploadedContainer({Key? key, required this.image})
+      : super(key: key);
+
+  final File? image;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    if ((image == null)) {
+      return const SizedBox();
+    } else {
+      return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 32.0),
               child: Container(
-                  width: 220.0,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: darkBlueShade300, width: 8.0)),
-                  child: Image.network(
-                      'https://i.pinimg.com/736x/a5/0e/5e/a50e5e839949d2f19271d83c12bd0abc.jpg')),
+                width: 220.0,
+                decoration: BoxDecoration(
+                    border: Border.all(color: darkBlueShade300, width: 8.0)),
+                child: AspectRatio(
+                    aspectRatio: 2/3,
+                    child: Image.file(image!, fit: BoxFit.cover, alignment: Alignment.center)),
+              ),
             ),
             const Text(
                 'Bukti transfer akan diverifikasi terlebih dahulu oleh admin kami, pastikan bukti transfer sudah benar',
@@ -85,20 +136,25 @@ class ImageUploadedContainer extends StatelessWidget {
                 textAlign: TextAlign.center),
           ],
         ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: ElevatedButton(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            OutlinedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentValidationScreen()));
+              },
+              child: const Text('Ambil ulang gambar', style: labelLarge),
+            ),
+            ElevatedButton(
               onPressed: () {},
               child: const Text('Selesai'),
             ),
-          ),
+          ],
         )
+
       ],
     );
+    }
   }
 }
 

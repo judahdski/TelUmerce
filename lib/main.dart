@@ -17,33 +17,34 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'TelU-merce',
       theme: ThemeData(
-          backgroundColor: Colors.white,
-          textTheme: GoogleFonts.poppinsTextTheme(
-            Theme.of(context).textTheme,
+        backgroundColor: Colors.white,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        primaryColor: darkBlue,
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            shadowColor: Color(0x29000000),
+            centerTitle: true,
+            titleTextStyle: TextStyle(
+                fontSize: 14.0, fontWeight: FontWeight.w600, color: darkBlue),
+            iconTheme: IconThemeData(
+              size: 16.0,
+              color: darkBlue,
+            )),
+        buttonTheme: ButtonThemeData(
+            buttonColor: darkBlue,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6.0))),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(darkBlue),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6.0))),
+            // fixedSize: MaterialStateProperty.all(const Size.fromHeight(36.0))
           ),
-          primaryColor: darkBlue,
-          appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.white,
-              shadowColor: Color(0x29000000),
-              centerTitle: true,
-              titleTextStyle: TextStyle(
-                  fontSize: 14.0, fontWeight: FontWeight.w600, color: darkBlue),
-              iconTheme: IconThemeData(
-                size: 16.0,
-                color: darkBlue,
-              )),
-          buttonTheme: ButtonThemeData(
-              buttonColor: darkBlue,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0))),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(darkBlue),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.0))),
-                fixedSize:
-                    MaterialStateProperty.all(const Size.fromHeight(36.0))),
-          )),
+        ),
+      ),
       home: const GetStartedScreen(),
     );
   }

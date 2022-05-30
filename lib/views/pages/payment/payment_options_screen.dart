@@ -4,6 +4,7 @@ import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
 
 import '../fragment/main_window.dart';
+import 'checkout_screen.dart';
 
 class PaymentOptionsScreen extends StatelessWidget {
   const PaymentOptionsScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class PaymentOptionsScreen extends StatelessWidget {
                 onPressed: () {
                   //  TODO: update address if address changed
                   //  TODO: navigate to checkout screen
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckoutScreen()));
                 },
                 child: const Text('Lanjutkan')),
           )

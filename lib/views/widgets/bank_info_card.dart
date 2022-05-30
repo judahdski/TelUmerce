@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
@@ -76,6 +77,7 @@ class PasteButton extends StatelessWidget {
     return InkWell(
       onTap: () {
       //  TODO : copy to the clipboard
+        FlutterClipboard.copy('hello flutter friends').then(( value ) => print('copied'));
       },
       child: Container(
         padding: const EdgeInsets.fromLTRB(8.0, 8.0, 16.0, 8.0),
