@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -58,7 +59,9 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      if (kDebugMode) {
+        print('Failed to pick image: $e');
+      }
     }
   }
 
@@ -76,7 +79,9 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      if (kDebugMode) {
+        print('Failed to pick image: $e');
+      }
     }
 
     Navigator.of(context).pop();

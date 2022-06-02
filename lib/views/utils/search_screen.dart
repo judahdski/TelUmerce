@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+
 import '../../const/color_scheme.dart';
-import '../pages/fragment/main_window.dart';
 import '../widgets/category_card.dart';
 import '../widgets/product_card.dart';
 

@@ -4,7 +4,6 @@ import 'package:telumerce/const/text_theme.dart';
 import '../../widgets/bank_info_card.dart';
 import '../../widgets/order_detail_card.dart';
 import '../../widgets/payment_countdown_timer.dart';
-import '../fragment/main_window.dart';
 import 'payment_validation_screen.dart';
 
 class CheckoutScreen extends StatelessWidget {

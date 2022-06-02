@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
 
-import '../fragment/main_window.dart';
 import 'checkout_screen.dart';
 
 class PaymentOptionsScreen extends StatelessWidget {
@@ -31,7 +30,10 @@ class PaymentOptionsScreen extends StatelessWidget {
                 onPressed: () {
                   //  TODO: update address if address changed
                   //  TODO: navigate to checkout screen
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckoutScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CheckoutScreen()));
                 },
                 child: const Text('Lanjutkan')),
           )
