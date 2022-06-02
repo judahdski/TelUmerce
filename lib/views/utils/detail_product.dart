@@ -10,8 +10,7 @@ class DetailProduct extends StatelessWidget {
   const DetailProduct({Key? key}) : super(key: key);
 
   //style
-  final TextStyle _productNameSubText =
-      const TextStyle(fontSize: 10.0, color: Color(0xff5f5f5f));
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +77,9 @@ class DetailProduct extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Tumbler', style: titleSmall),
-                      Text('Stok tersedia', style: _productNameSubText),
+                    children: const [
+                      Text('Tumbler', style: titleSmall),
+                      Text('Stok tersedia', style: productNameSubText),
                     ],
                   ),
                   const PriceCountWidget(),

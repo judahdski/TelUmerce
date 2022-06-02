@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/pages/auth/signup_screen.dart';
 
 import '../../../const/color_scheme.dart';
@@ -6,11 +7,6 @@ import 'login_screen.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({Key? key}) : super(key: key);
-
-  //style
-  final TextStyle _titleScreenText = const TextStyle(
-      fontSize: 24.0, fontWeight: FontWeight.bold, color: darkBlue);
-  final TextStyle _subTitleScreenText = const TextStyle(color: darkBlue);
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +35,11 @@ class GetStartedScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('Selamat datang!', style: _titleScreenText),
+                  const Text('Selamat datang!', style: headlineSmall),
                   const SizedBox(height: 10.0),
-                  Text(
+                  const Text(
                     'Kami menyediakan barang yang anda perlukan.',
-                    style: _subTitleScreenText,
+                    style: bodyMedium,
                   ),
                   const SizedBox(height: 32.0),
                   Row(

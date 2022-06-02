@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/widgets/password_textfields.dart';
 
 import '../../../const/color_scheme.dart';
@@ -48,7 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text('Buat akun', style: titleText),
+                    const Text('Buat akun', style: headlineSmall),
                     const SizedBox(height: 24.0),
                     TextField(
                         autofocus: true,
@@ -104,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text('Buat akun', style: titleText),
+                    const Text('Buat akun', style: headlineSmall),
                     const SizedBox(height: 24.0),
                     TextField(
                         onTap: _changeToScrollView,

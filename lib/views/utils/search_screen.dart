@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telumerce/const/text_theme.dart';
 import '../../const/color_scheme.dart';
 import '../pages/fragment/main_window.dart';
 import '../widgets/category_card.dart';
@@ -41,7 +42,7 @@ class SearchScreen extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
-            child: Text('Rekomendasi Produk untukmu', style: sectionTitleText),
+            child: Text('Rekomendasi Produk untukmu', style: labelMedium),
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -59,7 +60,7 @@ class SearchScreen extends StatelessWidget {
           ),
           const Padding(
             padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
-            child: Text('Produk unggul', style: sectionTitleText),
+            child: Text('Produk unggul', style: labelMedium),
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

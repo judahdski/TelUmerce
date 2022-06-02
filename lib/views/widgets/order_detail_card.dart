@@ -7,12 +7,6 @@ import '../../const/text_theme.dart';
 class OrderDetail extends StatelessWidget {
   const OrderDetail({Key? key}) : super(key: key);
 
-  //custom style
-  final TextStyle totalBayar = const TextStyle(
-      fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
-  final TextStyle alamatUser =
-      const TextStyle(fontSize: 12.0, color: Color(0xff707070));
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,9 +71,9 @@ class OrderDetail extends StatelessWidget {
                   //  total bayar
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         //label
-                        const Text('Total harga', style: labelMedium),
+                        Text('Total harga', style: labelMedium),
                         // total keseluruhan harga
                         Text('Rp.29.500', style: totalBayar)
                       ],
@@ -100,10 +94,10 @@ class OrderDetail extends StatelessWidget {
                 const SizedBox(height: 12.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+                  children: const [
                   //  label
-                    const Text('Alamat penerima', style: labelSmall),
-                    const SizedBox(height: 8.0),
+                    Text('Alamat penerima', style: labelSmall),
+                    SizedBox(height: 8.0),
                     //  alamat user
                     Text('Komplek Graha Santika Blok C1 No.15, Jatiluhur, Jati Asih, Bekasi', style: alamatUser)
                   ],

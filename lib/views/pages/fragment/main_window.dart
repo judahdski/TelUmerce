@@ -8,13 +8,6 @@ import 'home_fragment.dart';
 import 'profile_fragment.dart';
 import 'wishlist_fragment.dart';
 
-const TextStyle screenTitleText =
-    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: darkBlue);
-const TextStyle screenSubTitleText =
-    TextStyle(fontSize: 12.0, color: Color(0xff707070));
-const TextStyle sectionTitleText =
-    TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: darkBlue);
-
 class MainWindow extends StatefulWidget {
   final int pageIndex;
 

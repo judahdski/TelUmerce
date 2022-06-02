@@ -15,7 +15,7 @@ class PaymentOptionsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: const SizedBox(),
-        title: const Text('Checkout', style: screenTitleText),
+        title: const Text('Checkout', style: titleMedium),
       ),
       body: ListView(
         children: [

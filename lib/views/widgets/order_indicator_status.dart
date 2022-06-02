@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../const/color_scheme.dart';
+import '../../const/text_theme.dart';
 
 class OrderStatusIndicator extends StatelessWidget {
   const OrderStatusIndicator({Key? key}) : super(key: key);
 
-  //style
-  final TextStyle statusMessage =
-      const TextStyle(fontSize: 12.0, color: Color(0xff707070));
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +14,7 @@ class OrderStatusIndicator extends StatelessWidget {
       padding: const EdgeInsets.all(14.0),
       child: Column(
         children: [
-          Text(
+          const Text(
               'Pesanan anda akan diproses apabila pembayaran sudah terverifikasi',
               style: statusMessage,
               textAlign: TextAlign.center),

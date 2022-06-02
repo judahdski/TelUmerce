@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telumerce/const/text_theme.dart';
 
 import '../../const/color_scheme.dart';
 import '../pages/fragment/main_window.dart';
@@ -21,7 +22,7 @@ class CategorizedScreen extends StatelessWidget {
               Navigator.pop(context);
             },
             icon: const FaIcon(FontAwesomeIcons.chevronLeft, size: 14.0)),
-        title: const Text('Category 1', style: screenTitleText),
+        title: const Text('Category 1', style: titleMedium),
         centerTitle: true,
       ),
       body: ListView(

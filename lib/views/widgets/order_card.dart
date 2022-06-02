@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
+import 'package:telumerce/const/text_theme.dart';
 
 import '../utils/detail_order_screen.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard({Key? key}) : super(key: key);
-
-  //style
-  final TextStyle regText = const TextStyle(fontSize: 12.0, color: darkBlue);
-  final TextStyle linkText = const TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: Color(0xff19d619));
-  final TextStyle orderId = const TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: Color(0xff666677));
-  final TextStyle productName = const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xff000000));
-  final TextStyle productPrice = const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: darkBlue);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +32,9 @@ class OrderCard extends StatelessWidget {
                     const FaIcon(FontAwesomeIcons.bagShopping, size: 16.0, color: darkBlue,),
                     const SizedBox(width: 14.0),
                     Column(
-                      children: [
-                        Text('Pesanan', style: regText),
-                        const SizedBox(height: 4.0),
+                      children: const [
+                        Text('Pesanan', style: bodySmall),
+                        SizedBox(height: 4.0),
                         Text('14 Mei 2022', style: orderId),
                       ],
                     ),
@@ -48,9 +42,9 @@ class OrderCard extends StatelessWidget {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const OrderStatus(),
-                    const SizedBox(height: 2.0),
+                  children: const [
+                    OrderStatus(),
+                    SizedBox(height: 2.0),
                     Text('011', style: orderId),
                   ],
                 )
@@ -64,18 +58,18 @@ class OrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 Text('Tumbler', style: productName, overflow: TextOverflow.ellipsis, maxLines: 1),
+                 const Text('Tumbler', style: productName, overflow: TextOverflow.ellipsis, maxLines: 1),
                  Column(
                    crossAxisAlignment: CrossAxisAlignment.end,
-                   children: [
-                     Text('Total belanja', style: regText),
-                     const SizedBox(height: 4.0),
-                     Text('Rp25.000', style: productPrice),
+                   children: const [
+                     Text('Total belanja', style: bodySmall),
+                     SizedBox(height: 4.0),
+                     Text('Rp25.000', style: labelLarge),
                    ],
                  )
                ],
             ),
-            Text('Lihat detail pesanan', style: linkText)
+            const Text('Lihat detail pesanan', style: linkText)
           ],
         ),
       ),

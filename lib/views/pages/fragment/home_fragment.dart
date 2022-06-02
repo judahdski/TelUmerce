@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:telumerce/const/text_theme.dart';
 
 import '../../../const/color_scheme.dart';
+import '../../utils/search_screen.dart';
 import '../../widgets/category_card.dart';
 import '../../widgets/product_card.dart';
-import '../../utils/search_screen.dart';
-import 'main_window.dart';
 
 class HomeFragment extends StatelessWidget {
   const HomeFragment({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class HomeFragment extends StatelessWidget {
               child: RichText(
                 text: const TextSpan(children: [
                   TextSpan(text: 'Hai, ', style: TextStyle(color: darkBlue)),
-                  TextSpan(text: 'Judah Dasuki', style: screenTitleText),
+                  TextSpan(text: 'Judah Dasuki', style: titleMedium),
                 ]),
               ),
             ),
@@ -67,7 +67,7 @@ class HomeFragment extends StatelessWidget {
             // Kategori
             const Padding(
               padding: EdgeInsets.only(left: 14.0, top: 24.0, bottom: 12.0),
-              child: Text('Kategori', style: sectionTitleText),
+              child: Text('Kategori', style: labelMedium),
             ),
             SingleChildScrollView(
               padding: const EdgeInsets.only(left: 14.0, right: 24.0),
@@ -80,7 +80,7 @@ class HomeFragment extends StatelessWidget {
             //  Produk
             const Padding(
               padding: EdgeInsets.only(left: 14.0, top: 20.0, bottom: 12.0),
-              child: Text('Produk', style: sectionTitleText),
+              child: Text('Produk', style: labelMedium),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),

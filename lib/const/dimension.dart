@@ -1,3 +1,2 @@
-int small = 390;
-int medium = 650;
-int large = 800;
+int small = 320;
+int medium = 360;

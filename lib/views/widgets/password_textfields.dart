@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../pages/auth/login_screen.dart';
+import '../../const/text_theme.dart';
 
 class PasswordTextfield extends StatefulWidget {
   const PasswordTextfield({Key? key, required this.passController})
@@ -39,7 +39,7 @@ class _PasswordTextfieldState extends State<PasswordTextfield> {
               borderSide: const BorderSide(color: Colors.blueAccent),
             ),
             suffixIconConstraints:
-            const BoxConstraints(minWidth: 48.0, minHeight: 24.0),
+                const BoxConstraints(minWidth: 48.0, minHeight: 24.0),
             suffixIconColor: Colors.blueAccent,
             suffixIcon: InkWell(
               onTap: _setRevealPassword,

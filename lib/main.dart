@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(darkBlue),
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0))),
-            // fixedSize: MaterialStateProperty.all(const Size.fromHeight(36.0))
           ),
         ),
       ),

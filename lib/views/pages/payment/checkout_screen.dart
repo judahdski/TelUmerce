@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:telumerce/const/text_theme.dart';
 
 import '../../widgets/bank_info_card.dart';
 import '../../widgets/order_detail_card.dart';
@@ -16,7 +17,7 @@ class CheckoutScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: const SizedBox(),
-        title: const Text('Checkout', style: screenTitleText),
+        title: const Text('Checkout', style: titleMedium),
       ),
       body: Stack(
         children: [

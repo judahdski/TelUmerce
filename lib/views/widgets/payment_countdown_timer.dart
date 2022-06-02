@@ -41,6 +41,7 @@ class _TimeCounterState extends State<TimeCounter> {
             minutes--;
             seconds = TimeCounter.maxTime;
           });
+        } else {
           timesUp();
         }
       }
@@ -48,6 +49,8 @@ class _TimeCounterState extends State<TimeCounter> {
   }
 
   void timesUp() {
+    timer?.cancel();
+
     //  do something..
     if (kDebugMode) {
       print('status pesanan berubah jadi dibatalkan');

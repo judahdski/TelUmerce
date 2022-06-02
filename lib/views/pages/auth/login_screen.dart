@@ -1,18 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/authentication_services.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../widgets/password_textfields.dart';
 import '../fragment/main_window.dart';
 import 'signup_screen.dart';
-
-const TextStyle titleText =
-    TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: darkBlue);
-const TextStyle confirmationText =
-    TextStyle(fontSize: 14.0, color: Color(0xff707070));
-const TextStyle confirmationButtonText =
-    TextStyle(fontSize: 14.0, color: darkBlue);
-const TextStyle hintStyle = TextStyle(fontSize: 12.0, color: Color(0xffaaaaaa));
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   bool isScrollable = false;
+  bool isRegistered = false;
 
   //function / logic
   void _changeToScrollView() {
@@ -37,10 +32,18 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _login() {
-    if (kDebugMode) {
-      print(_emailController.text);
-      print(_passController.text);
+  void _loginUser() async {
+    final response = await login(_emailController.text, _passController.text);
+
+    if (response.errorMessage == null) {
+      if (kDebugMode) {
+        print('login berhasil');
+      }
+      isRegistered = true;
+    } else {
+      if (kDebugMode) {
+        print('login gagal. ERROR:${response.errorMessage}');
+      }
     }
   }
 
@@ -57,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text('Login', style: titleText),
+                  const Text('Login', style: headlineSmall),
                   const SizedBox(height: 24.0),
                   TextField(
                     controller: _emailController,
@@ -94,12 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(darkBlue)),
                       onPressed: () {
-                        _login();
-                        //TODO: goto main window
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const MainWindow(0)));
+                        // _loginUser();
+
+                        if (isRegistered) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainWindow(0)));
+                        }
                       },
                       child: const Text('Login'))
                 ],
@@ -111,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text('Login', style: titleText),
+                  const Text('Login', style: headlineSmall),
                   const SizedBox(height: 24.0),
                   TextField(
                     onTap: _changeToScrollView,
