@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/services/authentication_services.dart';
+import 'package:telumerce/views/widgets/regular_textfields.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../widgets/password_textfields.dart';
@@ -62,14 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Text('Login', style: headlineSmall),
                   const SizedBox(height: 24.0),
-                  TextField(
-                    controller: _emailController,
-                    autofocus: true,
-                    decoration: const InputDecoration(
-                        hintText: 'Masukan e-mail',
-                        hintStyle: hintStyle,
-                        contentPadding: EdgeInsets.only(left: 10.0)),
-                  ),
+                  RegularTextfields(label: 'E-mail', hint: 'Masukan e-mail', autoFocus: true, controller: _emailController, inputType: TextInputType.emailAddress),
                   const SizedBox(height: 16.0),
                   PasswordTextfield(passController: _passController),
                   Padding(

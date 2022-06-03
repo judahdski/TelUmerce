@@ -13,17 +13,15 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  //style
-  final TextStyle _categoryText = const TextStyle(
-      color: Colors.white, fontSize: 10.0, fontWeight: FontWeight.w600);
-  final TextStyle _buyButtonText =
-      const TextStyle(color: Colors.white, fontSize: 12.0);
-
   //variable
   bool isFav = false;
 
   //function
   void setWishlist() {
+    //  TODO : Change isFav state
+    //  TODO : Change the love icon color
+    //  TODO : Add to the wishlist (create new wishlist's table data)
+
     setState(() => isFav = !isFav);
   }
 
@@ -38,6 +36,7 @@ class _ProductCardState extends State<ProductCard> {
       },
       child: LayoutBuilder(
         builder: (_, BoxConstraints constraints) {
+          //regular card
           if (constraints.maxWidth < 900) {
             return Container(
               height: 120.0,
@@ -67,7 +66,7 @@ class _ProductCardState extends State<ProductCard> {
 
                             //  Category card
                             Container(
-                              child: Text('category', style: _categoryText),
+                              child: const Text('category', style: categoryText),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2.0, horizontal: 8.0),
                               decoration: BoxDecoration(
@@ -94,32 +93,17 @@ class _ProductCardState extends State<ProductCard> {
                         ),
 
                         // Product name
-                        const Text('Tumbler', style: titleSmall, overflow: TextOverflow.ellipsis),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                        const Text('Tumbler', style: bodyLarge, overflow: TextOverflow.ellipsis),
 
-                            // Product price
-                            const Text('Rp. 25,000', style: labelLarge),
-
-                            // Buy button
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 6.0, horizontal: 18.0),
-                              decoration: BoxDecoration(
-                                color: darkBlue,
-                                borderRadius: BorderRadius.circular(6.0),
-                              ),
-                              child: Text('Tambah', style: _buyButtonText),
-                            )
-                          ],
-                        )
+                        //Product price
+                        const Text('Rp. 25,000', style: labelLarge)
                       ],
                     ),
                   )
                 ],
               ),
             );
+          //  side scrollview card
           } else {
             return Container(
               height: 120.0,
@@ -150,7 +134,7 @@ class _ProductCardState extends State<ProductCard> {
 
                             //  Category card
                             Container(
-                              child: Text('category', style: _categoryText),
+                              child: const Text('category', style: categoryText),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2.0, horizontal: 8.0),
                               decoration: BoxDecoration(
@@ -166,9 +150,6 @@ class _ProductCardState extends State<ProductCard> {
                                     padding: const EdgeInsets.all(6.0),
                                     iconSize: 16.0,
                                     onPressed: () {
-                                      //  TODO : Change isFav state
-                                      //  TODO : Change the love icon color
-                                      //  TODO : Add to the wishlist
                                       setWishlist();
                                     },
                                     color: (isFav) ? Colors.red : Colors.grey,
@@ -177,26 +158,10 @@ class _ProductCardState extends State<ProductCard> {
                         ),
 
                         // Product name
-                        const Text('Tumbler', style: titleSmall),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                        const Text('Tumbler', style: bodyLarge),
 
-                            // Product price
-                            const Text('Rp. 25,000', style: labelLarge),
-
-                            // Buy button
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 6.0, horizontal: 18.0),
-                              decoration: BoxDecoration(
-                                color: darkBlue,
-                                borderRadius: BorderRadius.circular(6.0),
-                              ),
-                              child: Text('Tambah', style: _buyButtonText),
-                            )
-                          ],
-                        )
+                        // Product price
+                        const Text('Rp. 25,000', style: labelLarge),
                       ],
                     ),
                   )

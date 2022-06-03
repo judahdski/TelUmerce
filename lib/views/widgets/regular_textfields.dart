@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 
 import '../../const/color_scheme.dart';
 
-class UserInput extends StatelessWidget {
-  const UserInput({Key? key, required this.label, required this.hint})
+class RegularTextfields extends StatelessWidget {
+  const RegularTextfields(
+      {Key? key,
+      required this.label,
+      required this.hint,
+      required this.autoFocus,
+      required this.controller,
+      required this.inputType})
       : super(key: key);
 
   final String label;
   final String hint;
+  final bool autoFocus;
+  final TextEditingController controller;
+  final TextInputType inputType;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: TextField(
+        controller: controller,
+        autofocus: autoFocus,
+        keyboardType: inputType,
         decoration: InputDecoration(
           label: Text(label),
           labelStyle: const TextStyle(fontSize: 13.0),

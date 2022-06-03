@@ -62,14 +62,22 @@ class ProfileCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 14.0),
       child: ListTile(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const EditProfileScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EditProfileScreen()));
         },
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-        leading: const FaIcon(FontAwesomeIcons.circle, size: 45.0),
+        leading: AspectRatio(
+          aspectRatio: 1 / 1,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Image.network(
+              'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+              fit: BoxFit.cover,
+              alignment: Alignment.center,
+            ),
+          ),
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

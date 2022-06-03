@@ -3,7 +3,16 @@ import 'package:flutter/material.dart';
 import '../../const/text_theme.dart';
 
 class PriceCountWidget extends StatefulWidget {
-  const PriceCountWidget({Key? key}) : super(key: key);
+  const PriceCountWidget(
+      {Key? key,
+      required this.price,
+      required this.amountOfProduct,
+      required this.isCartCard})
+      : super(key: key);
+
+  final double price;
+  final int amountOfProduct;
+  final bool isCartCard;
 
   @override
   State<PriceCountWidget> createState() => _PriceCountWidgetState();
@@ -11,12 +20,15 @@ class PriceCountWidget extends StatefulWidget {
 
 class _PriceCountWidgetState extends State<PriceCountWidget> {
   //state
-  int amount = 1;
-  int basePrice = 25000;
-  int price = 25000;
+  int amount = 0;
+  double basePrice = 0;
+  double price = 0;
 
   //function
   increaseAmount() {
+    // TODO : Check if isCartCard is true or false
+    // TODO : if true then update the amount of product and the price
+
     setState(() {
       amount++;
       price = basePrice * amount;
@@ -24,6 +36,9 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
   }
 
   decreaseAmount() {
+    // TODO : Check if isCartCard is true or false
+    // TODO : if true then update the amount of product and the price
+
     if (amount != 1) {
       setState(() {
         amount--;
@@ -33,12 +48,14 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
     return;
   }
 
-  //style
-  final TextStyle _minusText =
-  const TextStyle(color: Color(0xff707070), fontWeight: FontWeight.w600);
+  @override
+  void initState() {
+    super.initState();
 
-  final TextStyle _plusText =
-  const TextStyle(color: Color(0xff646464), fontWeight: FontWeight.w600);
+    amount = widget.amountOfProduct;
+    basePrice = widget.price;
+    price = widget.price;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +77,10 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
                       //  Decrease amount
                       decreaseAmount();
                     },
-                    child: Text(
+                    child: const Text(
                       '-',
                       textAlign: TextAlign.center,
-                      style: _minusText,
+                      style: minusText,
                     )),
               ),
               // Amount of the product's
@@ -80,10 +97,10 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
                       //  Increase amount
                       increaseAmount();
                     },
-                    child: Text(
+                    child: const Text(
                       '+',
                       textAlign: TextAlign.center,
-                      style: _plusText,
+                      style: plusText,
                     )),
               ),
             ],

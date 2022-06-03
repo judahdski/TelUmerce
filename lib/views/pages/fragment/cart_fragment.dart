@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:telumerce/views/widgets/cart_product_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../widgets/checkout_bar.dart';
-import '../../widgets/product_card.dart';
 
 class CartFragment extends StatelessWidget {
   const CartFragment({Key? key}) : super(key: key);
@@ -22,15 +22,16 @@ class CartFragment extends StatelessWidget {
           left: 0,
           right: 0,
           bottom: 0,
-          child: ListView(
+          child: ListView.builder(
             padding: const EdgeInsets.only(
-                top: 8.0, bottom: 118.0, left: 14.0, right: 14.0),
-            children: const [
-              Padding(
+                top: 8.0, bottom: 124.0, left: 14.0, right: 14.0),
+            itemCount: 10,
+            itemBuilder: (BuildContext context, int index) {
+              return const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: ProductCard(),
-              )
-            ],
+                child: CartProductCard(),
+              );
+            },
           ),
         ),
 

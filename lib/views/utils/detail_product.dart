@@ -11,7 +11,6 @@ class DetailProduct extends StatelessWidget {
 
   //style
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +81,10 @@ class DetailProduct extends StatelessWidget {
                       Text('Stok tersedia', style: productNameSubText),
                     ],
                   ),
-                  const PriceCountWidget(),
+                  const PriceCountWidget(
+                      amountOfProduct: 1, //by default the product amount is 1
+                      price: 25000, //retrieve from the product base price
+                      isCartCard: false),
                   ElevatedButton(
                       onPressed: () {
                         //  TODO: Add to the cart list

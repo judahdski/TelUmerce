@@ -52,7 +52,16 @@ const TextStyle productName = TextStyle(
     fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xff000000));
 
 const TextStyle productNameSubText =
-TextStyle(fontSize: 10.0, color: Color(0xff5f5f5f));
+    TextStyle(fontSize: 10.0, color: Color(0xff5f5f5f));
 
 const TextStyle screenSubTitleText =
-TextStyle(fontSize: 12.0, color: Color(0xff707070));
+    TextStyle(fontSize: 12.0, color: Colors.black);
+
+const TextStyle categoryText =
+    TextStyle(color: Colors.white, fontSize: 10.0, fontWeight: FontWeight.w600);
+
+const TextStyle minusText =
+    TextStyle(color: Color(0xff707070), fontWeight: FontWeight.w600);
+
+const TextStyle plusText =
+    TextStyle(color: Color(0xff646464), fontWeight: FontWeight.w600);
