@@ -15,19 +15,20 @@ class WishlistFragment extends StatelessWidget {
           left: 0,
           right: 0,
           bottom: 0,
-          child: ListView(
+          child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
-            children: const [
-              Padding(
+            itemCount: 12,
+            itemBuilder: (_, int index) {
+              return const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: ProductCard(),
-              )
-            ],
+              );
+            },
           ),
         ),
 
         // Top-bar
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,

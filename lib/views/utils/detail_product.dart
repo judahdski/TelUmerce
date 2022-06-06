@@ -41,7 +41,7 @@ class DetailProduct extends StatelessWidget {
               },
               splashRadius: 24.0,
               icon: const FaIcon(
-                FontAwesomeIcons.basketShopping,
+                FontAwesomeIcons.cartShopping,
                 size: 14.0,
                 color: darkBlue,
               ))

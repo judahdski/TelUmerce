@@ -16,7 +16,7 @@ class CartFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // List product
+        // Main-content
         Positioned(
           top: 50.0,
           left: 0,
@@ -36,7 +36,7 @@ class CartFragment extends StatelessWidget {
         ),
 
         // Top-bar
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,

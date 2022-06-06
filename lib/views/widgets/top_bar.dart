@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../../const/text_theme.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({Key? key, required this.text}) : super(key: key);
+  TopBar({Key? key, this.text, this.topBarWidget}) : super(key: key);
 
-  final String text;
+  String? text;
+  Widget? topBarWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +14,12 @@ class TopBar extends StatelessWidget {
       height: 50.0,
       decoration: const BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(
-            color: Color(0xFFF3F3F3), offset: Offset(1, 2), blurRadius: 6.0)
+            color: Color(0xFFF4F4F4), offset: Offset(1, 2), blurRadius: 6.0)
       ]),
-      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-      child:  Center(child: Text(text, style: titleSmall)),
+      child:  Center(
+          child: (text == null)
+              ? topBarWidget : Text(text!, style: titleSmall),
+      ),
     );
   }
 }

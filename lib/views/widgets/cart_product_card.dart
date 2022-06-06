@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/views/widgets/price_counter.dart';
 
 import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
@@ -60,15 +59,11 @@ class CartProductCard extends StatelessWidget {
                 ),
 
                 // Product name
-                const Text('Tumbler',
+                const Text('Tumbler   (1x)',
                     style: bodyLarge, overflow: TextOverflow.ellipsis),
 
                 //Product price
-                const PriceCountWidget(
-                  amountOfProduct: 15, //product amount from order table
-                  price: 443000, //product price from order table
-                  isCartCard: true,
-                ),
+                const Text('Rp 450.000', style: labelLarge),
               ],
             ),
           )

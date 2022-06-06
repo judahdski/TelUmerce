@@ -65,3 +65,8 @@ const TextStyle minusText =
 
 const TextStyle plusText =
     TextStyle(color: Color(0xff646464), fontWeight: FontWeight.w600);
+
+const TextStyle subNameText =
+    TextStyle(fontSize: 12.0, color: Color(0xffe83232));
+
+const TextStyle searchBarText = TextStyle(fontSize: 13.0, color: darkBlueShade300);

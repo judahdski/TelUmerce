@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../utils/search_screen.dart';
@@ -88,42 +89,41 @@ class HomeFragment extends StatelessWidget {
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            color: Colors.white,
-            height: 65.0,
-            child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Expanded(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SearchScreen()));
-                  },
-                  child: Container(
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                        color: darkBlueShade300,
-                        borderRadius: BorderRadius.circular(6.0)),
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.search,
-                            size: 14.0, color: Colors.white),
-                        SizedBox(width: 10.0),
-                        Text('Cari barangmu disini..',
-                            style: TextStyle(color: Colors.white, fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          child: TopBar(
+            topBarWidget: const HomeSearchBar(),
           ),
         )
       ],
+    );
+  }
+}
+
+class HomeSearchBar extends StatelessWidget {
+  const HomeSearchBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SearchScreen()));
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 14.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: const Color(0xffeeeeee),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          children: const [
+            FaIcon(FontAwesomeIcons.magnifyingGlass,
+                size: 12.0, color: darkBlueShade300),
+            SizedBox(width: 8.0),
+            Text('Cari barang di sini..', style: searchBarText),
+          ],
+        ),
+      ),
     );
   }
 }

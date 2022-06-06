@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/const/color_scheme.dart';
+import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../utils/edit_profile.dart';
@@ -36,7 +36,7 @@ class ProfileFragment extends StatelessWidget {
         ),
 
         // Top-bar
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -49,12 +49,6 @@ class ProfileFragment extends StatelessWidget {
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({Key? key}) : super(key: key);
-
-  //style
-  final TextStyle nameText = const TextStyle(
-      fontSize: 14.0, fontWeight: FontWeight.w600, color: darkBlue);
-  final TextStyle subNameText =
-      const TextStyle(fontSize: 12.0, color: Color(0xffe83232));
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +74,9 @@ class ProfileCard extends StatelessWidget {
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Judah Joshua Martin Dasuki', style: nameText),
-            const SizedBox(height: 4.0),
+          children: const [
+            Text('Judah Joshua Martin Dasuki', style: titleSmall),
+            SizedBox(height: 4.0),
             Text('Edit profile >', style: subNameText)
           ],
         ),
