@@ -1,3 +1,3 @@
-# telumerce
+# TelUmerce
 
-TelU e-commerce
+Telkom University e-commerce
