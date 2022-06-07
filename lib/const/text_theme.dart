@@ -54,9 +54,6 @@ const TextStyle productName = TextStyle(
 const TextStyle productNameSubText =
     TextStyle(fontSize: 10.0, color: Color(0xff5f5f5f));
 
-const TextStyle screenSubTitleText =
-    TextStyle(fontSize: 12.0, color: Colors.black);
-
 const TextStyle categoryText =
     TextStyle(color: Colors.white, fontSize: 10.0, fontWeight: FontWeight.w600);
 

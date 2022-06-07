@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:telumerce/const/text_theme.dart';
 
 import '../../../const/color_scheme.dart';
 import 'cart_fragment.dart';
@@ -18,10 +19,6 @@ class MainWindow extends StatefulWidget {
 }
 
 class _MainWindowState extends State<MainWindow> {
-  //style
-  final TextStyle _navText = const TextStyle(fontSize: 10, color: darkBlue);
-
-  //state
   int _pageIndex = 0;
 
   @override
@@ -33,47 +30,46 @@ class _MainWindowState extends State<MainWindow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-          child: GNav(
-            backgroundColor: Colors.white,
-            iconSize: 18.0,
-            activeColor: darkBlue,
-            color: darkBlueShade300,
-            tabActiveBorder: Border.all(color: darkBlue),
-            tabBorderRadius: 12,
-            gap: 6.0,
-            padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10.0),
-            selectedIndex: _pageIndex,
-            onTabChange: (index) {
-              setState(() {
-                _pageIndex = index;
-              });
-            },
-            tabs: [
-              GButton(
-                  icon: FontAwesomeIcons.house,
-                  text: 'Beranda',
-                  textStyle: _navText),
-              GButton(
-                  icon: FontAwesomeIcons.cartShopping,
-                  text: 'Keranjang',
-                  textStyle: _navText),
-              GButton(
-                  icon: FontAwesomeIcons.solidHeart,
-                  text: 'Wishlist',
-                  textStyle: _navText),
-              GButton(
-                  icon: FontAwesomeIcons.solidUser,
-                  text: 'Akun',
-                  textStyle: _navText),
-            ],
-          ),
+      backgroundColor: Colors.white,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+        child: GNav(
+          backgroundColor: Colors.white,
+          iconSize: 16.0,
+          activeColor: darkBlue,
+          color: darkBlueShade300,
+          tabActiveBorder: Border.all(color: darkBlue),
+          tabBorderRadius: 12,
+          gap: 8.0,
+          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10.0),
+          selectedIndex: _pageIndex,
+          onTabChange: (index) {
+            setState(() {
+              _pageIndex = index;
+            });
+          },
+          tabs: const [
+            GButton(
+                icon: FontAwesomeIcons.house,
+                text: 'Beranda',
+                textStyle: labelSmall),
+            GButton(
+                icon: FontAwesomeIcons.cartShopping,
+                text: 'Keranjang',
+                textStyle: labelSmall),
+            GButton(
+                icon: FontAwesomeIcons.solidHeart,
+                text: 'Wishlist',
+                textStyle: labelSmall),
+            GButton(
+                icon: FontAwesomeIcons.solidUser,
+                text: 'Akun',
+                textStyle: labelSmall),
+          ],
         ),
-        body: SafeArea(
-            child: SafeArea(
+      ),
+      body: SafeArea(
+        child: SafeArea(
           child: Center(
             child: _pageIndex == 0
                 ? const HomeFragment()
@@ -83,6 +79,8 @@ class _MainWindowState extends State<MainWindow> {
                         ? const WishlistFragment()
                         : const ProfileFragment(),
           ),
-        )));
+        ),
+      ),
+    );
   }
 }

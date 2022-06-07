@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
 import '../widgets/product_card.dart';
@@ -24,18 +25,27 @@ class CategorizedScreen extends StatelessWidget {
         title: const Text('Category 1', style: titleMedium),
         centerTitle: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 14.0),
-        children: const [
-          ProductCard(),
-          ProductCard(),
-          ProductCard(),
-          ProductCard(),
-          ProductCard(),
-          ProductCard(),
-          ProductCard(),
-          ProductCard(),
-        ],
+      body: ResponsiveLayout(
+        smallMobile: ListView.builder(
+          padding: const EdgeInsets.only(top:8.0, left: 14.0, right: 14.0),
+          itemCount: 8,
+          itemBuilder: (_, int index) {
+            return const Padding(
+              padding: EdgeInsets.only(bottom: 14.0),
+              child: ProductCard(),
+            );
+          },
+        ),
+        mediumMobile: ListView.builder(
+          padding: const EdgeInsets.only(top:10.0, left: 16.0, right: 16.0),
+          itemCount: 8,
+          itemBuilder: (_, int index) {
+            return const Padding(
+              padding: EdgeInsets.only(bottom: 16.0),
+              child: ProductCard(),
+            );
+          },
+        ),
       ),
     );
   }

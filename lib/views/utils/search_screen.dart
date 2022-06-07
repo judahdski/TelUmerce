@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/product_card.dart';
 
 import '../../const/color_scheme.dart';
@@ -25,21 +26,20 @@ class SearchScreen extends StatelessWidget {
         title: Container(
           height: 36.0,
           decoration: BoxDecoration(
-            color: const Color(0xffeeeeee),
-            borderRadius: BorderRadius.circular(8.0)
-          ),
+              color: const Color(0xffeeeeee),
+              borderRadius: BorderRadius.circular(8.0)),
           child: const TextField(
             maxLines: 1,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                prefixIcon: Icon(
-                  FontAwesomeIcons.magnifyingGlass,
-                  size: 12.0,
-                  color: darkBlueShade300,
-                ),
-                hintText: 'Cari event di sini',
-                hintStyle: searchBarText,
-                border: InputBorder.none,
+              prefixIcon: Icon(
+                FontAwesomeIcons.magnifyingGlass,
+                size: 12.0,
+                color: darkBlueShade300,
+              ),
+              hintText: 'Cari event di sini',
+              hintStyle: searchBarText,
+              border: InputBorder.none,
             ),
           ),
         ),
@@ -47,9 +47,15 @@ class SearchScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
-            child: Text('Rekomendasi Produk untukmu', style: labelMedium),
+          const ResponsiveLayout(
+            smallMobile: Padding(
+              padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
+              child: Text('Rekomendasi Produk untukmu', style: labelMedium),
+            ),
+            mediumMobile: Padding(
+              padding: EdgeInsets.only(top: 18.0, left: 16.0, bottom: 14.0),
+              child: Text('Rekomendasi Produk untukmu', style: labelLarge),
+            ),
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -65,14 +71,20 @@ class SearchScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
-            child: Text('Produk unggul', style: labelMedium),
+          const ResponsiveLayout(
+            smallMobile: Padding(
+              padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
+              child: Text('Produk unggul', style: labelMedium),
+            ),
+            mediumMobile: Padding(
+              padding: EdgeInsets.only(top: 18.0, left: 16.0, bottom: 14.0),
+              child: Text('Produk unggul', style: labelLarge),
+            ),
           ),
           SizedBox(
             height: 120.0,
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 14.0),
+              padding: const EdgeInsets.only(left: 14.0, right: 4.0),
               scrollDirection: Axis.horizontal,
               itemCount: 8,
               itemBuilder: (_, int index) {

@@ -53,7 +53,7 @@ class EditProfileScreen extends StatelessWidget {
                           color: const Color(0x3d949494),
                           borderRadius: BorderRadius.circular(12.0)),
                       child: const Center(
-                          child: FaIcon(FontAwesomeIcons.pencil)),
+                          child: FaIcon(FontAwesomeIcons.pencil, size: 24.0, color: Colors.white,)),
                     ),
                   )
                 ],
@@ -66,24 +66,28 @@ class EditProfileScreen extends StatelessWidget {
               autoFocus: true,
               controller: _namaController,
               inputType: TextInputType.name),
+          const SizedBox(height: 16.0),
           RegularTextfields(
               label: 'E-mail',
               hint: 'Masukan e-mail',
               autoFocus: false,
               controller: _emailController,
               inputType: TextInputType.emailAddress),
+          const SizedBox(height: 16.0),
           RegularTextfields(
               label: 'Nomor HP',
               hint: 'Masukan nomor hp',
               autoFocus: false,
               controller: _phoneNumController,
               inputType: TextInputType.number),
+          const SizedBox(height: 16.0),
           RegularTextfields(
               label: 'Alamat',
               hint: 'Masukan alamat',
               autoFocus: false,
               controller: _addressController,
               inputType: TextInputType.streetAddress),
+          const SizedBox(height: 32.0),
           ElevatedButton(onPressed: () {}, child: const Text('Simpan'))
         ],
       ),
