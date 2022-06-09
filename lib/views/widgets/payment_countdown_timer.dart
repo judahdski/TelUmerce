@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/text_theme.dart';
 
@@ -17,7 +18,7 @@ class TimeCounter extends StatefulWidget {
 class _TimeCounterState extends State<TimeCounter> {
   //style
   final TextStyle timeLabel = const TextStyle(
-      fontSize: 12.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
+      fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
 
   //variable
   int minutes = TimeCounter.maxTime;
@@ -30,7 +31,6 @@ class _TimeCounterState extends State<TimeCounter> {
     startTime();
   }
 
-  //FUNCTION / LOGIC
   void startTime() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (seconds > 0) {
@@ -57,35 +57,66 @@ class _TimeCounterState extends State<TimeCounter> {
     }
   }
 
-  // ---------------------------------------------- U I ------------------------------------------------- //
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(6.0, 8.0, 6.0, 10.0),
-      margin: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(6.0),
-          boxShadow: const [
-            BoxShadow(
-                color: Color(0x29000000), offset: Offset(1, 2), blurRadius: 6.0)
-          ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text('Batas Akhir Pembayaran', style: bodySmall),
-          const SizedBox(height: 8.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Minggu, 15 Mei 2022 20:37', style: labelMedium),
-              Text(
-                  '00:${ (minutes<10) ? '0$minutes' : minutes }:${ (seconds<10) ? '0$seconds' : seconds }',
-                  style: timeLabel
-              ),
-            ],
-          )
-        ],
+    return ResponsiveLayout(
+      smallMobile: Container(
+        padding: const EdgeInsets.fromLTRB(6.0, 8.0, 6.0, 10.0),
+        margin: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6.0),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0x29000000),
+                  offset: Offset(1, 2),
+                  blurRadius: 6.0)
+            ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Batas Akhir Pembayaran', style: bodySmall),
+            const SizedBox(height: 8.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Minggu, 15 Mei 2022 20:37', style: labelMedium),
+                Text(
+                    '00:${(minutes < 10) ? '0$minutes' : minutes}:${(seconds < 10) ? '0$seconds' : seconds}',
+                    style: timeLabel),
+              ],
+            )
+          ],
+        ),
+      ),
+      mediumMobile: Container(
+        padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 12.0),
+        margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0x29000000),
+                  offset: Offset(1, 2),
+                  blurRadius: 6.0)
+            ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Batas Akhir Pembayaran', style: bodyMedium),
+            const SizedBox(height: 10.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Minggu, 15 Mei 2022 20:37', style: labelLarge),
+                Text(
+                    '00:${(minutes < 10) ? '0$minutes' : minutes} : ${(seconds < 10) ? '0$seconds' : seconds}',
+                    style: timeLabel),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

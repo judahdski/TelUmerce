@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
+import '../../../model/dummy/status_order.dart';
 import '../../utils/edit_profile.dart';
 import '../../widgets/order_card.dart';
 import '../../widgets/order_verification_button.dart';
@@ -25,12 +26,21 @@ class ProfileFragment extends StatelessWidget {
               ProfileCard(),
               Divider(thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
               OrderConfirmationButton(
-                  icon: FontAwesomeIcons.bagShopping,
-                  text: "Menunggu pembayaran"),
+                icon: FontAwesomeIcons.creditCard,
+                text: "Menunggu pembayaran",
+                status: StatusBtnIndicator.waitingPayment,
+              ),
               OrderConfirmationButton(
-                  icon: FontAwesomeIcons.solidCircleCheck,
-                  text: "Menunggu verifikasi"),
-              OrderList()
+                icon: FontAwesomeIcons.solidCircleCheck,
+                text: "Menunggu verifikasi",
+                status: StatusBtnIndicator.waitingVerification,
+              ),
+              OrderConfirmationButton(
+                icon: FontAwesomeIcons.ban,
+                text: "Pesanan dibatalkan",
+                status: StatusBtnIndicator.cancelled,
+              ),
+              SuccessOrderList(),
             ],
           ),
         ),
@@ -85,8 +95,8 @@ class ProfileCard extends StatelessWidget {
   }
 }
 
-class OrderList extends StatelessWidget {
-  const OrderList({Key? key}) : super(key: key);
+class SuccessOrderList extends StatelessWidget {
+  const SuccessOrderList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

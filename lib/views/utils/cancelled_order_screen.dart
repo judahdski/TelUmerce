@@ -4,8 +4,8 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../widgets/order_card.dart';
 
-class WaitingPaymentVerificationScreen extends StatelessWidget {
-  const WaitingPaymentVerificationScreen({Key? key}) : super(key: key);
+class CancelledOrderScreen extends StatelessWidget {
+  const CancelledOrderScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +18,12 @@ class WaitingPaymentVerificationScreen extends StatelessWidget {
           },
           icon: const FaIcon(FontAwesomeIcons.chevronLeft, size: 14.0),
         ),
-        title: const Text('Menunggu verifikasi'),
+        title: const Text('Pesanan dibatalkan'),
       ),
       body: ResponsiveLayout(
         smallMobile: ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14.0),
-          itemCount: 9,
+          itemCount: 10,
           itemBuilder: (_, int index) {
             return const Padding(
               padding: EdgeInsets.only(bottom: 14.0),
@@ -33,7 +33,7 @@ class WaitingPaymentVerificationScreen extends StatelessWidget {
         ),
         mediumMobile: ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
-          itemCount: 12,
+          itemCount: 8,
           itemBuilder: (_, int index) {
             return const Padding(
               padding: EdgeInsets.only(bottom: 14.0),

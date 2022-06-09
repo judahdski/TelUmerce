@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/views/utils/cancelled_order_screen.dart';
 
 import '../../const/color_scheme.dart';
 import '../utils/waiting_payment.dart';
@@ -7,11 +9,12 @@ import '../utils/waiting_payment_verification.dart';
 
 class OrderConfirmationButton extends StatelessWidget {
   const OrderConfirmationButton(
-      {Key? key, required this.text, required this.icon})
+      {Key? key, required this.text, required this.icon, required this.status})
       : super(key: key);
 
   // parameter
   final String text;
+  final StatusBtnIndicator status;
   final IconData icon;
 
   // style
@@ -23,9 +26,19 @@ class OrderConfirmationButton extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(14.0, 12.0, 14.0, 0),
       child: InkWell(
         onTap: () {
-          Widget screen = (icon == FontAwesomeIcons.bagShopping)
-              ? const WaitingPaymentScreen()
-              : const WaitingPaymentVerificationScreen();
+          Widget screen;
+
+          switch (status) {
+            case StatusBtnIndicator.waitingPayment:
+              screen = const WaitingPaymentScreen();
+              break;
+            case StatusBtnIndicator.waitingVerification:
+              screen = const WaitingPaymentVerificationScreen();
+              break;
+            case StatusBtnIndicator.cancelled:
+              screen = const CancelledOrderScreen();
+              break;
+          }
 
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => screen));
@@ -40,11 +53,17 @@ class OrderConfirmationButton extends StatelessWidget {
             children: [
               FaIcon(icon, size: 14.0, color: darkBlue),
               const SizedBox(width: 14.0),
-              Text(text, style: titleText)
+              Text(text, style: bodySmall)
             ],
           ),
         ),
       ),
     );
   }
+}
+
+enum StatusBtnIndicator {
+  waitingPayment,
+  waitingVerification,
+  cancelled
 }
