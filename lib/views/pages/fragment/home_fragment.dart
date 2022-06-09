@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/data/categories_datasource.dart';
+import 'package:telumerce/data/product_datasource.dart';
+import 'package:telumerce/model/dummy/category.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
+import '../../../model/dummy/product.dart';
 import '../../widgets/category_card.dart';
 import '../../widgets/home_search_bar.dart';
 import '../../widgets/product_card.dart';
 
 class HomeFragment extends StatelessWidget {
-  const HomeFragment({Key? key}) : super(key: key);
+  HomeFragment({Key? key}) : super(key: key);
+
+  List<Product> productList = ProductDatasource.getAllProductsDummy();
+  List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +55,11 @@ class HomeFragment extends StatelessWidget {
                   child: ListView.builder(
                     padding: const EdgeInsets.only(left: 14.0),
                     scrollDirection: Axis.horizontal,
-                    itemCount: 7,
+                    itemCount: productList.length,
                     itemBuilder: (_, int index) {
-                      return const Padding(
-                        padding: EdgeInsets.only(right: 16.0),
-                        child: ProductCard(),
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: ProductCard(product: productList[index]),
                       );
                     },
                   ),
@@ -66,7 +74,9 @@ class HomeFragment extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 14.0, right: 24.0),
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: const [CategoryCard()],
+                    children: categoryList.map((category) {
+                      return CategoryCard(category: category);
+                    }).toList(),
                   ),
                 ),
 
@@ -79,16 +89,7 @@ class HomeFragment extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
                   child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 14.0),
-                        child: ProductCard(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 14.0),
-                        child: ProductCard(),
-                      ),
-                    ],
+                    children: [],
                   ),
                 ),
               ],
@@ -118,11 +119,11 @@ class HomeFragment extends StatelessWidget {
                   child: ListView.builder(
                     padding: const EdgeInsets.only(left: 14.0),
                     scrollDirection: Axis.horizontal,
-                    itemCount: 7,
+                    itemCount: productList.length,
                     itemBuilder: (_, int index) {
-                      return const Padding(
-                        padding: EdgeInsets.only(right: 16.0),
-                        child: ProductCard(),
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: ProductCard(product: productList[index],),
                       );
                     },
                   ),
@@ -138,7 +139,9 @@ class HomeFragment extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 16.0, right: 24.0),
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: const [CategoryCard()],
+                    children: categoryList.map((category) {
+                      return CategoryCard(category: category);
+                    }).toList(),
                   ),
                 ),
 
@@ -151,12 +154,7 @@ class HomeFragment extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 16.0),
-                        child: ProductCard(),
-                      ),
-                    ],
+                    children: const [],
                   ),
                 ),
               ],

@@ -4,10 +4,17 @@ import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
+import '../../data/categories_datasource.dart';
+import '../../data/product_datasource.dart';
+import '../../model/dummy/category.dart';
+import '../../model/dummy/product.dart';
 import '../widgets/product_card.dart';
 
 class CategorizedScreen extends StatelessWidget {
-  const CategorizedScreen({Key? key}) : super(key: key);
+  CategorizedScreen({Key? key}) : super(key: key);
+
+  List<Product> productList = ProductDatasource.getAllProductsDummy();
+  List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   @override
   Widget build(BuildContext context) {
@@ -28,21 +35,21 @@ class CategorizedScreen extends StatelessWidget {
       body: ResponsiveLayout(
         smallMobile: ListView.builder(
           padding: const EdgeInsets.only(top:8.0, left: 14.0, right: 14.0),
-          itemCount: 8,
+          itemCount: productList.length,
           itemBuilder: (_, int index) {
-            return const Padding(
-              padding: EdgeInsets.only(bottom: 14.0),
-              child: ProductCard(),
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 14.0),
+              child: ProductCard(product: productList[index]),
             );
           },
         ),
         mediumMobile: ListView.builder(
           padding: const EdgeInsets.only(top:10.0, left: 16.0, right: 16.0),
-          itemCount: 8,
+          itemCount: productList.length,
           itemBuilder: (_, int index) {
-            return const Padding(
-              padding: EdgeInsets.only(bottom: 16.0),
-              child: ProductCard(),
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: ProductCard(product: productList[index],),
             );
           },
         ),

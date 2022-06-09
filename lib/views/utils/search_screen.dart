@@ -5,10 +5,17 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/product_card.dart';
 
 import '../../const/color_scheme.dart';
+import '../../data/categories_datasource.dart';
+import '../../data/product_datasource.dart';
+import '../../model/dummy/category.dart';
+import '../../model/dummy/product.dart';
 import '../widgets/category_card.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  SearchScreen({Key? key}) : super(key: key);
+
+  List<Product> productList = ProductDatasource.getAllProductsDummy();
+  List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +68,9 @@ class SearchScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 14.0),
             child: Row(
-              children: const [
-                CategoryCard(),
-                CategoryCard(),
-                CategoryCard(),
-                CategoryCard(),
-                CategoryCard(),
-                CategoryCard(),
-              ],
+              children: categoryList.map((category) {
+                return CategoryCard(category: category);
+              }).toList(),
             ),
           ),
           const ResponsiveLayout(
@@ -86,11 +88,11 @@ class SearchScreen extends StatelessWidget {
             child: ListView.builder(
               padding: const EdgeInsets.only(left: 14.0, right: 4.0),
               scrollDirection: Axis.horizontal,
-              itemCount: 8,
+              itemCount: productList.length,
               itemBuilder: (_, int index) {
-                return const Padding(
-                  padding: EdgeInsets.only(right: 14.0),
-                  child: ProductCard(),
+                return Padding(
+                  padding: const EdgeInsets.only(right: 14.0),
+                  child: ProductCard(product: productList[index]),
                 );
               },
             ),

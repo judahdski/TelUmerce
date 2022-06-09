@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/model/dummy/product.dart';
 
 import '../../const/color_scheme.dart';
+import '../../data/categories_datasource.dart';
+import '../../model/dummy/category.dart';
 import '../utils/detail_product.dart';
 
 class ProductCard extends StatefulWidget {
-  const ProductCard({Key? key}) : super(key: key);
+  const ProductCard({Key? key, required this.product}) : super(key: key);
+
+  final Product product;
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -15,6 +21,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   //variable
   bool isFav = false;
+  var oCcy = NumberFormat("#,##0", "en_US");
 
   //function
   void setWishlist() {
@@ -23,6 +30,17 @@ class _ProductCardState extends State<ProductCard> {
     //  TODO : Add to the wishlist (create new wishlist's table data)
 
     setState(() => isFav = !isFav);
+  }
+
+  List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
+  String getCategoryName(int idCategory) {
+    for (var element in categoryList) {
+      if (element.id == widget.product.idCategory) {
+        return element.name;
+      }
+    }
+
+    return '';
   }
 
   //UI
@@ -66,7 +84,9 @@ class _ProductCardState extends State<ProductCard> {
 
                             //  Category card
                             Container(
-                              child: const Text('category', style: categoryText),
+                              child: Text(
+                                  getCategoryName(widget.product.idCategory),
+                                  style: categoryText),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2.0, horizontal: 8.0),
                               decoration: BoxDecoration(
@@ -93,10 +113,10 @@ class _ProductCardState extends State<ProductCard> {
                         ),
 
                         // Product name
-                        const Text('Tumbler', style: bodyLarge, overflow: TextOverflow.ellipsis),
+                        Text(widget.product.name, style: bodyLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
 
                         //Product price
-                        const Text('Rp. 25,000', style: labelLarge)
+                        Text('Rp. ${oCcy.format(widget.product.price.toInt())}', style: labelLarge)
                       ],
                     ),
                   )
@@ -134,7 +154,9 @@ class _ProductCardState extends State<ProductCard> {
 
                             //  Category card
                             Container(
-                              child: const Text('category', style: categoryText),
+                              child: Text(
+                                  getCategoryName(widget.product.idCategory),
+                                  style: categoryText),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2.0, horizontal: 8.0),
                               decoration: BoxDecoration(
@@ -158,10 +180,10 @@ class _ProductCardState extends State<ProductCard> {
                         ),
 
                         // Product name
-                        const Text('Tumbler', style: bodyLarge),
+                        Text(widget.product.name, style: bodyLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
 
                         // Product price
-                        const Text('Rp. 25,000', style: labelLarge),
+                        Text('Rp. ${oCcy.format(widget.product.price.toInt())}', style: labelLarge),
                       ],
                     ),
                   )

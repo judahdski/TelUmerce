@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/model/dummy/category.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../utils/categorized_screen.dart';
 
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({Key? key}) : super(key: key);
+class CategoryCard extends StatefulWidget {
+  const CategoryCard({Key? key, required this.category}) : super(key: key);
 
+  final Categories category;
+
+  @override
+  State<CategoryCard> createState() => _CategoryCardState();
+}
+
+class _CategoryCardState extends State<CategoryCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const CategorizedScreen()));
+            MaterialPageRoute(builder: (context) => CategorizedScreen()));
       },
       child: ResponsiveLayout(
           smallMobile: Container(
@@ -23,7 +31,7 @@ class CategoryCard extends StatelessWidget {
                 color: Colors.white,
                 border: Border.all(color: const Color(0xffcdcdcd)),
                 borderRadius: BorderRadius.circular(6.0)),
-            child: const Text('Category', style: bodySmall),
+            child: Text(widget.category.name, style: bodySmall),
           ),
           mediumMobile: Container(
             margin: const EdgeInsets.only(right: 14.0),
@@ -33,7 +41,7 @@ class CategoryCard extends StatelessWidget {
                 color: Colors.white,
                 border: Border.all(color: const Color(0xffcdcdcd)),
                 borderRadius: BorderRadius.circular(8.0)),
-            child: const Text('Category', style: bodyMedium),
+            child: Text(widget.category.name, style: bodyMedium),
           )),
     );
   }

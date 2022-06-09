@@ -1,7 +1,7 @@
 import 'package:telumerce/model/dummy/product.dart';
 
 class ProductDatasource {
-  List<Product> getAllProducts() {
+  static List<Product> getAllProductsDummy() {
     return [
       Product(id: 1,
           name: 'Gantungan Kunci Telkom Univeristy', amount: 150,

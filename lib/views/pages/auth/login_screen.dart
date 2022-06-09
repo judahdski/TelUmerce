@@ -151,7 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(darkBlue)),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const MainWindow(0)));
+                        },
                         child: const Text('Login'))
                   ],
                 ),
