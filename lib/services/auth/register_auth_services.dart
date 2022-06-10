@@ -7,7 +7,7 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/authentication.dart';
 
-Future<User?> register(
+Future<ApiResponse> register(
     String name, String email, String password, String confirmationPass) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ApiResponse apiResponse = ApiResponse();
@@ -34,13 +34,10 @@ Future<User?> register(
       print('token $token');
     }
 
-    return responseConverted.user;
+    apiResponse.user = responseConverted.user;
   } catch (e) {
-    if (kDebugMode) {
-      print('Terjadi kesalahan!');
-      print('Exception : $e');
-    }
+    apiResponse.errorMessage = 'Terjadi kesalahan! $e';
   }
 
-  return null;
+  return apiResponse;
 }

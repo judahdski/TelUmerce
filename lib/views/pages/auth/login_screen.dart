@@ -10,8 +10,6 @@ import '../../widgets/password_textfields.dart';
 import '../fragment/main_window.dart';
 import 'signup_screen.dart';
 
-
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -22,10 +20,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   //variable
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _passController = TextEditingController();
-
   bool isScrollable = false;
+  bool isValid = false;
+  String errorMessage = '';
 
   //function / logic
   void _changeToScrollView() {
@@ -34,17 +32,45 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void sanitationCheck() {
+    if (_emailController.text == '') {
+      errorMessage = 'Email tidak boleh kosong';
+      isValid = false;
+      return;
+    }
+    if (_passController.text == '') {
+      errorMessage = 'Password tidak boleh kosong';
+      isValid = false;
+      return;
+    }
+    isValid = true;
+  }
+
   Future<bool> _login() async {
-    try {
-      final response = await login(_emailController.text, _passController.text);
-      if (response.errorMessage == null) {
-        return true;
-      }
-    } catch (e) {
-      print('login gagal');
+    var isSuccess = false;
+
+    if (!isValid) return isSuccess;
+
+    final response = await login(_emailController.text, _passController.text);
+    if (response.errorMessage == null) {
+      isSuccess = true;
+    } else {
+      errorMessage = '${response.errorMessage}';
     }
 
-    return false;
+    return isSuccess;
+  }
+
+  _setLoginButton() async {
+    sanitationCheck();
+
+    if (await _login()) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const MainWindow(0)));
+    } else {
+      var snackBar = SnackBar(content: Text(errorMessage));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
@@ -84,23 +110,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const SignupScreen()));
+                                        builder: (context) =>
+                                            const SignupScreen()));
                               },
-                              child:
-                              const Text('Daftar', style: confirmationButtonText))
+                              child: const Text('Daftar',
+                                  style: confirmationButtonText))
                         ],
                       ),
                     ),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(darkBlue)),
-                        onPressed: () async {
-                          if (await _login()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MainWindow(0)));
-                          }
+                            backgroundColor:
+                                MaterialStateProperty.all(darkBlue)),
+                        onPressed: () {
+                          _setLoginButton();
                         },
                         child: const Text('Login'))
                   ],
@@ -118,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan e-mail',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleSmall,
                           contentPadding: EdgeInsets.only(left: 10.0)),
                     ),
                     const SizedBox(height: 16.0),
@@ -126,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: _changeToScrollView,
                         decoration: const InputDecoration(
                             hintText: 'Masukan password',
-                            hintStyle: hintStyle,
+                            hintStyle: hintStyleSmall,
                             contentPadding: EdgeInsets.only(left: 10.0))),
                     Padding(
                       padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),
@@ -141,18 +164,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const SignupScreen()));
+                                        builder: (context) =>
+                                            const SignupScreen()));
                               },
-                              child:
-                              const Text('Daftar', style: confirmationButtonText))
+                              child: const Text('Daftar',
+                                  style: confirmationButtonText))
                         ],
                       ),
                     ),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(darkBlue)),
+                            backgroundColor:
+                                MaterialStateProperty.all(darkBlue)),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const MainWindow(0)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainWindow(0)));
                         },
                         child: const Text('Login'))
                   ],
@@ -161,7 +189,8 @@ class _LoginScreenState extends State<LoginScreen> {
           mediumMobile: Visibility(
             visible: isScrollable,
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 24.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -189,23 +218,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const SignupScreen()));
+                                      builder: (context) =>
+                                          const SignupScreen()));
                             },
-                            child:
-                            const Text('Daftar', style: confirmationButtonText))
+                            child: const Text('Daftar',
+                                style: confirmationButtonText))
                       ],
                     ),
                   ),
                   ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(darkBlue)),
-                      onPressed: () async {
-                        if (await _login()) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainWindow(0)));
-                        }
+                      onPressed: () {
+                        _setLoginButton();
                       },
                       child: const Text('Login'))
                 ],
@@ -223,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: _changeToScrollView,
                     decoration: const InputDecoration(
                         hintText: 'Masukan e-mail',
-                        hintStyle: hintStyle,
+                        hintStyle: hintStyleSmall,
                         contentPadding: EdgeInsets.only(left: 10.0)),
                   ),
                   const SizedBox(height: 18.0),
@@ -231,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan password',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleMedium,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   Padding(
                     padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),
@@ -246,10 +271,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const SignupScreen()));
+                                      builder: (context) =>
+                                          const SignupScreen()));
                             },
-                            child:
-                            const Text('Daftar', style: confirmationButtonText))
+                            child: const Text('Daftar',
+                                style: confirmationButtonText))
                       ],
                     ),
                   ),
@@ -257,7 +283,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(darkBlue)),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const MainWindow(0)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainWindow(0)));
                       },
                       child: const Text('Login'))
                 ],

@@ -17,7 +17,6 @@ class HomeFragment extends StatelessWidget {
   List<Product> productList = ProductDatasource.getAllProductsDummy();
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -82,14 +81,20 @@ class HomeFragment extends StatelessWidget {
 
                 //  Produk
                 const Padding(
-                  padding:
-                  EdgeInsets.only(left: 14.0, top: 20.0, bottom: 12.0),
+                  padding: EdgeInsets.only(left: 14.0, top: 20.0, bottom: 12.0),
                   child: Text('Produk', style: labelMedium),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
                   child: Column(
-                    children: [],
+                    children: productList.map((p) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: ProductCard(
+                          product: p,
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ],
@@ -98,8 +103,8 @@ class HomeFragment extends StatelessWidget {
               children: [
                 // Teks greeting untuk user
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16.0, top: 8.0, bottom: 20.0),
+                  padding:
+                      const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 20.0),
                   child: RichText(
                     text: const TextSpan(
                         style: TextStyle(height: 1.5),
@@ -123,7 +128,9 @@ class HomeFragment extends StatelessWidget {
                     itemBuilder: (_, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 16.0),
-                        child: ProductCard(product: productList[index],),
+                        child: ProductCard(
+                          product: productList[index],
+                        ),
                       );
                     },
                   ),
@@ -131,8 +138,7 @@ class HomeFragment extends StatelessWidget {
 
                 // Kategori
                 const Padding(
-                  padding:
-                  EdgeInsets.only(left: 16.0, top: 26.0, bottom: 14.0),
+                  padding: EdgeInsets.only(left: 16.0, top: 26.0, bottom: 14.0),
                   child: Text('Kategori', style: labelLarge),
                 ),
                 SingleChildScrollView(
@@ -147,14 +153,20 @@ class HomeFragment extends StatelessWidget {
 
                 //  Produk
                 const Padding(
-                  padding:
-                  EdgeInsets.only(left: 16.0, top: 22.0, bottom: 14.0),
+                  padding: EdgeInsets.only(left: 16.0, top: 22.0, bottom: 14.0),
                   child: Text('Produk', style: labelLarge),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    children: const [],
+                    children: productList.map((p) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: ProductCard(
+                          product: p,
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ],

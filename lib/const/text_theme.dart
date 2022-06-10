@@ -36,7 +36,8 @@ const TextStyle confirmationText =
 const TextStyle confirmationButtonText =
     TextStyle(fontSize: 14.0, color: darkBlue);
 
-const TextStyle hintStyle = TextStyle(fontSize: 12.0, color: Color(0xffaaaaaa));
+const TextStyle hintStyleSmall = TextStyle(fontSize: 12.0, color: Color(0xffaaaaaa));
+const TextStyle hintStyleMedium = TextStyle(fontSize: 14.0, color: Color(0xffaaaaaa));
 
 const TextStyle statusMessage =
     TextStyle(fontSize: 12.0, color: Color(0xff707070));

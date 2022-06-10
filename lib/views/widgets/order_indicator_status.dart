@@ -36,7 +36,7 @@ class OrderStatusIndicator extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 OrderStatus(
-                    icon: FontAwesomeIcons.toiletPaper,
+                    icon: FontAwesomeIcons.scroll,
                     text: 'Berhasil diverifikasi',
                     status: StatusOrder.verified),
                 OrderStatus(

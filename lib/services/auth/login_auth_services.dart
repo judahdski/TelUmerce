@@ -14,27 +14,24 @@ Future<ApiResponse> login(String email, String password) async {
     'Postman-Token': '<calculated when request is sent>',
   };
 
-  final response = await http.post(
-    Uri.parse(loginURL),
-    headers: header,
-    body: {
-      'email': email,
-      'password': password,
-    },
-  );
+  try {
+    final response = await http.post(
+      Uri.parse(loginURL),
+      headers: header,
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
 
-  if (response.statusCode == 200) {
-    final responseConverted =
-    Authentication.fromJson(jsonDecode(response.body));
-
-    apiResponse.user = responseConverted.user;
+    final responseConverted = Authentication.fromJson(jsonDecode(response.body));
 
     String token = responseConverted.token;
     pref.setString('token', token);
-    print('token $token');
-  } else {
-    final errors = jsonDecode(response.body)['message'];
-    apiResponse.errorMessage = errors;
+
+    apiResponse.user = responseConverted.user;
+  } catch(e) {
+    apiResponse.errorMessage = e.toString();
   }
 
   return apiResponse;

@@ -24,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   double leftNRightScreenPadding = 18.0;
   bool isScrollable = false;
-  bool isValid = true;
+  bool isValid = false;
   String errorMessage = '';
 
   void _changeToScrollView() {
@@ -33,57 +33,59 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  void _sanitationCheck() {
+  void sanitationCheck() {
+    print('isValid : $isValid');
     if (_namaController.text == '') {
       errorMessage = 'Nama tidak boleh kosong';
       isValid = false;
+      return;
     }
     if (_emailController.text == '') {
       errorMessage = 'Email tidak boleh kosong';
       isValid = false;
+      return;
     }
     if (_passController.text == '') {
-      errorMessage = 'E-mail tidak boleh kosong';
+      errorMessage = 'Password tidak boleh kosong';
       isValid = false;
+      return;
     }
     if (_passConfirmController.text == '') {
       errorMessage = 'Harap konfirmasi password lagi';
       isValid = false;
+      return;
     }
-  }
-
-  void _checkPassword() {
     if (_passController.text != _passConfirmController.text) {
       errorMessage = 'Password anda tidak sama';
       isValid = false;
+      return;
     }
+    isValid = true;
   }
 
-   _register() async {
-    try {
-      await register(
-          _namaController.text,
-          _emailController.text,
-          _passController.text,
-          _passConfirmController.text);
-    } catch (e) {
-      errorMessage = 'Terjadi kesalahan! $e';
-      isValid = false;
+  Future<bool> _register() async {
+    var isSuccess = false;
+
+    if (!isValid) return isSuccess;
+
+    final response = await register(_namaController.text, _emailController.text,
+        _passController.text, _passConfirmController.text);
+
+    if (response.errorMessage == null) {
+      isSuccess = true;
+    } else {
+      errorMessage = response.errorMessage!;
     }
+
+    return isSuccess;
   }
 
-  _setRegisterButton()  {
-    _sanitationCheck();
-    _checkPassword();
-    if (errorMessage == '') {
-      _register();
-    }
+  _setRegisterButton() async {
+    sanitationCheck();
 
-    if (isValid) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const MainWindow(0)));
+    if (await _register()) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const MainWindow(0)));
     } else {
       var snackBar = SnackBar(content: Text(errorMessage));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -166,28 +168,28 @@ class _SignupScreenState extends State<SignupScreen> {
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan nama',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleSmall,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   const SizedBox(height: 16.0),
                   TextField(
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan e-mail',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleSmall,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   const SizedBox(height: 16.0),
                   TextField(
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan password',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleSmall,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   const SizedBox(height: 16.0),
                   TextField(
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan password',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleSmall,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   Padding(
                     padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),
@@ -290,28 +292,28 @@ class _SignupScreenState extends State<SignupScreen> {
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan nama',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleMedium,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   const SizedBox(height: 16.0),
                   TextField(
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan e-mail',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleMedium,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   const SizedBox(height: 16.0),
                   TextField(
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan password',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleMedium,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   const SizedBox(height: 16.0),
                   TextField(
                       onTap: _changeToScrollView,
                       decoration: const InputDecoration(
                           hintText: 'Masukan password',
-                          hintStyle: hintStyle,
+                          hintStyle: hintStyleMedium,
                           contentPadding: EdgeInsets.only(left: 10.0))),
                   Padding(
                     padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),

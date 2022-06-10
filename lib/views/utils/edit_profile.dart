@@ -99,28 +99,28 @@ class EditProfileScreen extends StatelessWidget {
               inputType: TextInputType.streetAddress),
           const SizedBox(height: 32.0),
           ElevatedButton(onPressed: () {}, child: const Text('Simpan')),
-          ElevatedButton(
-              onPressed: () async {
-                try {
-                  var products = await getAllProducts();
-
-                  for (var product in products) {
-                    if (kDebugMode) {
-                      print('-----------------------');
-                      print(product.id);
-                      print(product.productName);
-                      print(product.harga);
-                      print(product.statusBarang);
-                      print('-----------------------');
-                    }
-                  }
-                } catch(e) {
-                  if (kDebugMode) {
-                    print('datanya null');
-                  }
-                }
-              },
-              child: const Text('Get All products')),
+          // ElevatedButton(
+          //     onPressed: () async {
+          //       try {
+          //         var products = await getAllProducts();
+          //
+          //         for (var product in products) {
+          //           if (kDebugMode) {
+          //             print('-----------------------');
+          //             print(product.id);
+          //             print(product.productName);
+          //             print(product.harga);
+          //             print(product.statusBarang);
+          //             print('-----------------------');
+          //           }
+          //         }
+          //       } catch(e) {
+          //         if (kDebugMode) {
+          //           print('datanya null');
+          //         }
+          //       }
+          //     },
+          //     child: const Text('Get All products')),
         ],
       ),
     );
