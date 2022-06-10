@@ -22,7 +22,7 @@ class DetailOrderScreen extends StatelessWidget {
       ),
       body: ListView(
         children: const [
-          OrderStatusIndicator(),
+          OrderStatusIndicatorContainer(),
           Divider(
             thickness: 6.0,
             height: 6.0,

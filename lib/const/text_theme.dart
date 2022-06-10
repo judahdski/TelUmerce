@@ -40,7 +40,7 @@ const TextStyle hintStyleSmall = TextStyle(fontSize: 12.0, color: Color(0xffaaaa
 const TextStyle hintStyleMedium = TextStyle(fontSize: 14.0, color: Color(0xffaaaaaa));
 
 const TextStyle statusMessage =
-    TextStyle(fontSize: 12.0, color: Color(0xff707070));
+    TextStyle(fontSize: 12.0, color: darkBlue);
 
 const TextStyle totalBayar = TextStyle(
     fontSize: 15.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
@@ -63,8 +63,10 @@ const TextStyle productNameSmall = TextStyle(
 const TextStyle productNameMedium = TextStyle(
     fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xff000000));
 
-const TextStyle productNameSubText =
+const TextStyle productNameSubTextSmall =
     TextStyle(fontSize: 10.0, color: Color(0xff5f5f5f));
+const TextStyle productNameSubTextMedium =
+    TextStyle(fontSize: 12.0, color: Color(0xff5f5f5f));
 
 const TextStyle categoryText =
     TextStyle(color: Colors.white, fontSize: 10.0, fontWeight: FontWeight.w600);

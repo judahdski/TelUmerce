@@ -13,6 +13,7 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        // TODO: if (order.status != succeed) return;
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DetailOrderScreen()));
       },

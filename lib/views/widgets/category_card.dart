@@ -20,7 +20,7 @@ class _CategoryCardState extends State<CategoryCard> {
     return InkWell(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => CategorizedScreen()));
+            MaterialPageRoute(builder: (context) => CategorizedScreen(idCategory: widget.category.id)));
       },
       child: ResponsiveLayout(
           smallMobile: Container(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/text_theme.dart';
 
@@ -23,6 +25,7 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
   int amount = 0;
   double basePrice = 0;
   double price = 0;
+  final oCcy = NumberFormat("#,##0", "en_US");
 
   //function
   increaseAmount() {
@@ -30,6 +33,8 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
     // TODO : if true then update the amount of product and the price
 
     setState(() {
+      if (amount >= 10) return;
+
       amount++;
       price = basePrice * amount;
     });
@@ -38,14 +43,12 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
   decreaseAmount() {
     // TODO : Check if isCartCard is true or false
     // TODO : if true then update the amount of product and the price
+    if (amount <= 1) return;
 
-    if (amount != 1) {
-      setState(() {
-        amount--;
-        price = basePrice * amount;
-      });
-    }
-    return;
+    setState(() {
+      amount--;
+      price = basePrice * amount;
+    });
   }
 
   @override
@@ -62,13 +65,22 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(width: 90, child: Text('Rp $price', style: labelLarge)),
+        ResponsiveLayout(
+          smallMobile: SizedBox(
+            width: 90,
+            child: Text('Rp ${oCcy.format(price)}', style: labelLarge),
+          ),
+          mediumMobile: SizedBox(
+            width: 140,
+            child: Text('Rp ${oCcy.format(price)}', style: titleMedium),
+          ),
+        ),
         Container(
-          width: 90.0,
-          height: 30.0,
+          width: 100.0,
+          height: 38.0,
           decoration: BoxDecoration(
               color: const Color(0xfff5f5f5),
-              borderRadius: BorderRadius.circular(6.0)),
+              borderRadius: BorderRadius.circular(8.0)),
           child: Row(
             children: [
               Expanded(

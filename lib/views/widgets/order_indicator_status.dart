@@ -6,62 +6,94 @@ import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
 import '../../model/dummy/status_order.dart';
 
-class OrderStatusIndicator extends StatelessWidget {
-  const OrderStatusIndicator({Key? key}) : super(key: key);
+class OrderStatusIndicatorContainer extends StatelessWidget {
+  const OrderStatusIndicatorContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(14.0),
-      child: Column(
-        children: [
-          const Text(
-              'Pesanan anda akan diproses apabila pembayaran sudah terverifikasi',
-              style: statusMessage,
-              textAlign: TextAlign.center),
-          const SizedBox(height: 16.0),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(6.0),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Color(0x29000000),
-                      offset: Offset(1, 2),
-                      blurRadius: 6.0)
-                ]),
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                OrderStatus(
-                    icon: FontAwesomeIcons.scroll,
-                    text: 'Berhasil diverifikasi',
-                    status: StatusOrder.verified),
-                OrderStatus(
-                    icon: FontAwesomeIcons.box,
-                    text: 'Sedang dikirim',
-                    status: StatusOrder.packaging),
-                OrderStatus(
-                    icon: FontAwesomeIcons.truck,
-                    text: 'Sedang dikirim',
-                    status: StatusOrder.delivered),
-                OrderStatus(
-                    icon: FontAwesomeIcons.house,
-                    text: 'Produk telah sampai',
-                    status: StatusOrder.completed),
-              ],
-            ),
-          )
+    return ResponsiveLayout(
+        smallMobile: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Column(
+            children: const [
+              ResponsiveLayout(
+                smallMobile: Text(
+                    'Pesanan anda akan diproses apabila pembayaran sudah terverifikasi',
+                    style: bodySmall,
+                    textAlign: TextAlign.center),
+                mediumMobile: Text(
+                    'Pesanan anda akan diproses apabila pembayaran sudah terverifikasi',
+                    style: bodyMedium,
+                    textAlign: TextAlign.center),
+              ),
+              SizedBox(height: 16.0),
+              StatusIndicatorCard(),
+            ],
+          ),
+        ),
+        mediumMobile: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: const [
+              ResponsiveLayout(
+                smallMobile: Text(
+                    'Pesanan anda akan diproses apabila pembayaran sudah terverifikasi',
+                    style: bodySmall,
+                    textAlign: TextAlign.center),
+                mediumMobile: Text(
+                    'Pesanan anda akan diproses apabila pembayaran sudah terverifikasi',
+                    style: bodyMedium,
+                    textAlign: TextAlign.center),
+              ),
+              SizedBox(height: 16.0),
+              StatusIndicatorCard(),
+            ],
+          ),
+        ));
+  }
+}
+
+class StatusIndicatorCard extends StatelessWidget {
+  const StatusIndicatorCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6.0),
+          boxShadow: const [
+            BoxShadow(
+                color: Color(0x29000000), offset: Offset(1, 2), blurRadius: 6.0)
+          ]),
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          StatusIndicator(
+              icon: FontAwesomeIcons.scroll,
+              text: 'Berhasil diverifikasi',
+              status: StatusOrder.verified),
+          StatusIndicator(
+              icon: FontAwesomeIcons.box,
+              text: 'Sedang dikirim',
+              status: StatusOrder.packaging),
+          StatusIndicator(
+              icon: FontAwesomeIcons.truck,
+              text: 'Sedang dikirim',
+              status: StatusOrder.delivered),
+          StatusIndicator(
+              icon: FontAwesomeIcons.house,
+              text: 'Produk telah sampai',
+              status: StatusOrder.completed),
         ],
       ),
     );
   }
 }
 
-class OrderStatus extends StatelessWidget {
-  const OrderStatus(
+class StatusIndicator extends StatelessWidget {
+  const StatusIndicator(
       {Key? key, required this.icon, required this.text, required this.status})
       : super(key: key);
 
