@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/services/product/all_product_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
-import '../../services/auth/getuser_auth_services.dart';
 import '../widgets/regular_textfields.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -62,10 +59,10 @@ class EditProfileScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12.0)),
                         child: const Center(
                             child: FaIcon(
-                              FontAwesomeIcons.pencil,
-                              size: 24.0,
-                              color: Colors.white,
-                            )),
+                          FontAwesomeIcons.pencil,
+                          size: 24.0,
+                          color: Colors.white,
+                        )),
                       ),
                     )
                   ],
@@ -157,10 +154,10 @@ class EditProfileScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12.0)),
                         child: const Center(
                             child: FaIcon(
-                              FontAwesomeIcons.pencil,
-                              size: 24.0,
-                              color: Colors.white,
-                            )),
+                          FontAwesomeIcons.pencil,
+                          size: 24.0,
+                          color: Colors.white,
+                        )),
                       ),
                     )
                   ],

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';

@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
-import '../../../model/dummy/status_order.dart';
 import '../../utils/edit_profile.dart';
 import '../../widgets/order_card.dart';
 import '../../widgets/order_verification_button.dart';
