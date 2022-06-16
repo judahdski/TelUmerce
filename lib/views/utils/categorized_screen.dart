@@ -5,28 +5,14 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
 import '../../data/categories_datasource.dart';
-import '../../data/product_datasource.dart';
 import '../../model/dummy/category.dart';
-import '../../model/dummy/product.dart';
-import '../widgets/product_card.dart';
 
 class CategorizedScreen extends StatelessWidget {
   CategorizedScreen({Key? key, required this.idCategory}) : super(key: key);
 
   final int idCategory;
 
-  List<Product> productList = ProductDatasource.getAllProductsDummy();
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
-
-  List<Product> getCategorizedProduct() {
-    List<Product> products = [];
-    for (var product in productList) {
-      if (product.idCategory == idCategory) {
-        products.add(product);
-      }
-    }
-    return products;
-  }
 
   String getCategoryName() {
     for (var category in categoryList) {
@@ -55,23 +41,22 @@ class CategorizedScreen extends StatelessWidget {
       ),
       body: ResponsiveLayout(
         smallMobile: ListView.builder(
-          padding: const EdgeInsets.only(top:8.0, left: 14.0, right: 14.0),
-          itemCount: getCategorizedProduct().length,
+          padding: const EdgeInsets.only(top: 8.0, left: 14.0, right: 14.0),
+          itemCount: 10,
           itemBuilder: (_, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 14.0),
-              child: ProductCard(product: getCategorizedProduct()[index]),
+            return const Padding(
+              padding: EdgeInsets.only(bottom: 14.0),
+              child: Text('dummy'),
             );
           },
         ),
         mediumMobile: ListView.builder(
-          padding: const EdgeInsets.only(top:10.0, left: 16.0, right: 16.0),
-          itemCount: getCategorizedProduct().length,
-
+          padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
+          itemCount: 10,
           itemBuilder: (_, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: ProductCard(product: getCategorizedProduct()[index]),
+            return const Padding(
+              padding: EdgeInsets.only(bottom: 16.0),
+              child: Text('dummy'),
             );
           },
         ),

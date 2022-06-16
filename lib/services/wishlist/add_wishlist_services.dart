@@ -9,7 +9,7 @@ Future addWishlist(int id) async {
   try {
     final response = await http.post(
       Uri.parse(addWishlistURL(id)),
-      headers: getWishlistHeaderRequest(pref.getString('token')),
+      headers: getHeaderWithCookie(pref.getString('token')),
     );
   } catch(e) {
     if(kDebugMode) {

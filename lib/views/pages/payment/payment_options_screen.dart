@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import 'checkout_screen.dart';
 
@@ -57,18 +58,62 @@ class _DeliveryOptionsState extends State<DeliveryOptions> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14.0),
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text('Metode pengiriman', style: titleSmall),
-          const SizedBox(height: 12.0),
-          RichText(
-            textAlign: TextAlign.center,
-            text: const TextSpan(
-                style: TextStyle(fontSize: 12.0, color: Color(0xff666677)),
+    return ResponsiveLayout(
+      smallMobile: Container(
+        padding: const EdgeInsets.all(14.0),
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Metode pengiriman', style: titleSmall),
+            const SizedBox(height: 12.0),
+            RichText(
+              textAlign: TextAlign.center,
+              text: const TextSpan(
+                  style: TextStyle(fontSize: 12.0, color: Color(0xff666677)),
+                  children: [
+                    TextSpan(
+                        text:
+                            'Kamu harus mengambil langsung barang yang sudah kamu beli di Universitas Telkom.\n'),
+                    TextSpan(
+                        text: 'atau\n',
+                        style: TextStyle(fontWeight: FontWeight.w600)),
+                    TextSpan(
+                        text:
+                            'Kamu juga bisa menggunakan jasa kirim namun akan dikenakan tarif pengiriman.'),
+                  ]),
+            ),
+            const SizedBox(height: 14.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Barang mau diantar?', style: bodySmall),
+                Switch(
+                  value: isDeliver,
+                  onChanged: (_) {
+                    setState(() {
+                      isDeliver = !isDeliver;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      mediumMobile: Container(
+        padding: const EdgeInsets.all(16.0),
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Metode pengiriman', style: titleSmall),
+            const SizedBox(height: 12.0),
+            RichText(
+              textAlign: TextAlign.center,
+              text: const TextSpan(
+                style: TextStyle(
+                    fontSize: 14.0, color: Color(0xff666677), height: 1.55),
                 children: [
                   TextSpan(
                       text:
@@ -79,23 +124,26 @@ class _DeliveryOptionsState extends State<DeliveryOptions> {
                   TextSpan(
                       text:
                           'Kamu juga bisa menggunakan jasa kirim namun akan dikenakan tarif pengiriman.'),
-                ]),
-          ),
-          const SizedBox(height: 14.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Barang mau diantar?', style: labelMedium),
-              Switch(
+                ],
+              ),
+            ),
+            const SizedBox(height: 14.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Barang mau diantar?', style: bodyMedium),
+                Switch(
                   value: isDeliver,
                   onChanged: (_) {
                     setState(() {
                       isDeliver = !isDeliver;
                     });
-                  })
-            ],
-          )
-        ],
+                  },
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -113,14 +161,15 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14.0),
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text('Metode pengiriman', style: titleSmall),
-          paymentMethodOptions(
+    return ResponsiveLayout(
+      smallMobile: Container(
+        padding: const EdgeInsets.all(14.0),
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Metode pengiriman', style: titleSmall),
+            paymentMethodOptions(
               value: 'transfer_bank',
               label: Row(
                 children: const [
@@ -132,15 +181,50 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                     style: TextStyle(fontSize: 12.0, color: Color(0xff666677)),
                   ),
                 ],
-              )),
-          paymentMethodOptions(
+              ),
+            ),
+            paymentMethodOptions(
               value: 'linkaja',
               label: SizedBox(
                 height: 32.0,
                 child: Image.network(
                     'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
-              ))
-        ],
+              ),
+            )
+          ],
+        ),
+      ),
+      mediumMobile: Container(
+        padding: const EdgeInsets.all(16.0),
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text('Metode pengiriman', style: titleSmall),
+            paymentMethodOptions(
+              value: 'transfer_bank',
+              label: Row(
+                children: const [
+                  FaIcon(FontAwesomeIcons.moneyBill,
+                      color: Color(0xff666677), size: 18.0),
+                  SizedBox(width: 10.0),
+                  Text(
+                    'Transfer bank',
+                    style: TextStyle(fontSize: 14.0, color: Color(0xff666677)),
+                  ),
+                ],
+              ),
+            ),
+            paymentMethodOptions(
+              value: 'linkaja',
+              label: SizedBox(
+                height: 36.0,
+                child: Image.network(
+                    'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

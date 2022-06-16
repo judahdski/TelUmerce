@@ -9,7 +9,7 @@ Future addInfoPayment() async {
   try {
     final response = await http.post(
       Uri.parse(paymentURL),
-      headers: getPaymentHeaderRequest(pref.getString('token')),
+      headers: getHeaderWithCookie(pref.getString('token')),
     );
   } catch(e) {
     if (kDebugMode) {

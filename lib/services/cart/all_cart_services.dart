@@ -9,7 +9,7 @@ Future getAllCart() async {
   try {
     final response = await http.get(
       Uri.parse(getAllUserCartURL),
-      headers: getCartHeaderRequest(pref.getString('token')),
+      headers: getHeaderWithCookie(pref.getString('token')),
     );
   } catch(e) {
     if(kDebugMode) {

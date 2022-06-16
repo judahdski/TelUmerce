@@ -87,11 +87,8 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
     Navigator.of(context).pop();
   }
 
-  ElevatedButton imagePickerButton({
-    required IconData icon,
-    required String text,
-    required bool isCamera})
-  {
+  ElevatedButton imagePickerButton(
+      {required IconData icon, required String text, required bool isCamera}) {
     return ElevatedButton(
         onPressed: () {
           (isCamera) ? takeFromCamera() : takeFromGallery();
@@ -120,46 +117,50 @@ class ImageUploadedContainer extends StatelessWidget {
       return const SizedBox();
     } else {
       return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32.0),
-              child: Container(
-                width: 220.0,
-                decoration: BoxDecoration(
-                    border: Border.all(color: darkBlueShade300, width: 8.0)),
-                child: AspectRatio(
-                    aspectRatio: 2/3,
-                    child: Image.file(image!, fit: BoxFit.cover, alignment: Alignment.center)),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32.0),
+                child: Container(
+                  width: 220.0,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: darkBlueShade300, width: 8.0)),
+                  child: AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: Image.file(image!,
+                          fit: BoxFit.cover, alignment: Alignment.center)),
+                ),
               ),
-            ),
-            const Text(
-                'Bukti transfer akan diverifikasi terlebih dahulu oleh admin kami, pastikan bukti transfer sudah benar',
-                style: bodySmall,
-                textAlign: TextAlign.center),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            OutlinedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentValidationScreen()));
-              },
-              child: const Text('Ambil ulang gambar', style: labelLarge),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Selesai'),
-            ),
-          ],
-        )
-
-      ],
-    );
+              const Text(
+                  'Bukti transfer akan diverifikasi terlebih dahulu oleh admin kami, pastikan bukti transfer sudah benar',
+                  style: bodySmall,
+                  textAlign: TextAlign.center),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const PaymentValidationScreen()));
+                },
+                child: const Text('Ambil ulang gambar', style: labelLarge),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Selesai'),
+              ),
+            ],
+          )
+        ],
+      );
     }
   }
 }

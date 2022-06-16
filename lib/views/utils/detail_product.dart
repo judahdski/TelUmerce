@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/auth/getuser_auth_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
@@ -33,12 +34,13 @@ class DetailProduct extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {
-                //  Navigate to the cart screen
+              onPressed: () async {
+                var response = await getUserService();
+
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MainWindow(1)));
+                        builder: (context) => MainWindow(1, response.user?.name)));
               },
               splashRadius: 24.0,
               icon: const FaIcon(

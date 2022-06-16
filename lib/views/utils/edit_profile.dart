@@ -1,17 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telumerce/services/auth/logout_auth_services.dart';
+import 'package:telumerce/views/pages/auth/login_screen.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../widgets/regular_textfields.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
   // variable
   final TextEditingController _namaController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _phoneNumController = TextEditingController();
+
   final TextEditingController _addressController = TextEditingController();
+
+  logout() async {
+    var message = await logoutService();
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+    var snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   // UI
   @override
@@ -98,28 +116,14 @@ class EditProfileScreen extends StatelessWidget {
                 inputType: TextInputType.streetAddress),
             const SizedBox(height: 32.0),
             ElevatedButton(onPressed: () {}, child: const Text('Simpan')),
-            // ElevatedButton(
-            //     onPressed: () async {
-            //       try {
-            //         var products = await getAllProducts();
-            //
-            //         for (var product in products) {
-            //           if (kDebugMode) {
-            //             print('-----------------------');
-            //             print(product.id);
-            //             print(product.productName);
-            //             print(product.harga);
-            //             print(product.statusBarang);
-            //             print('-----------------------');
-            //           }
-            //         }
-            //       } catch(e) {
-            //         if (kDebugMode) {
-            //           print('datanya null');
-            //         }
-            //       }
-            //     },
-            //     child: const Text('Get All products')),
+            OutlinedButton(
+                onPressed: () {
+                  logout();
+                },
+                child: const Text(
+                  'Log Out',
+                  style: TextStyle(color: Colors.red),
+                )),
           ],
         ),
         mediumMobile: ListView(
@@ -193,28 +197,15 @@ class EditProfileScreen extends StatelessWidget {
                 inputType: TextInputType.streetAddress),
             const SizedBox(height: 32.0),
             ElevatedButton(onPressed: () {}, child: const Text('Simpan')),
-            // ElevatedButton(
-            //     onPressed: () async {
-            //       try {
-            //         var products = await getAllProducts();
-            //
-            //         for (var product in products) {
-            //           if (kDebugMode) {
-            //             print('-----------------------');
-            //             print(product.id);
-            //             print(product.productName);
-            //             print(product.harga);
-            //             print(product.statusBarang);
-            //             print('-----------------------');
-            //           }
-            //         }
-            //       } catch(e) {
-            //         if (kDebugMode) {
-            //           print('datanya null');
-            //         }
-            //       }
-            //     },
-            //     child: const Text('Get All products')),
+            const SizedBox(height: 8.0),
+            OutlinedButton(
+                onPressed: () {
+                  logout();
+                },
+                child: const Text(
+                  'Log Out',
+                  style: TextStyle(color: Colors.red),
+                )),
           ],
         ),
       ),

@@ -11,8 +11,9 @@ import 'wishlist_fragment.dart';
 
 class MainWindow extends StatefulWidget {
   final int pageIndex;
+  final String? userName;
 
-  const MainWindow(this.pageIndex, {Key? key}) : super(key: key);
+  const MainWindow(this.pageIndex, this.userName, {Key? key}) : super(key: key);
 
   @override
   State<MainWindow> createState() => _MainWindowState();
@@ -72,7 +73,7 @@ class _MainWindowState extends State<MainWindow> {
         child: SafeArea(
           child: Center(
             child: _pageIndex == 0
-                ? HomeFragment()
+                ? HomeFragment(userName: widget.userName!)
                 : _pageIndex == 1
                     ? const CartFragment()
                     : _pageIndex == 2

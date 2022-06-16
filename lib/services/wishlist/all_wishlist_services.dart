@@ -9,7 +9,7 @@ Future getAllWishlist() async {
   try {
     final response = await http.get(
       Uri.parse(getAllWishlistURL),
-      headers: getWishlistHeaderRequest(pref.getString('token')),
+      headers: getHeaderWithCookie(pref.getString('token')),
     );
   } catch(e) {
     if (kDebugMode) {

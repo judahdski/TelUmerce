@@ -1,4 +1,6 @@
+import 'package:telumerce/model/authentication.dart';
+
 class ApiResponse {
-  Object? user;
+  User? user;
   String? errorMessage;
 }

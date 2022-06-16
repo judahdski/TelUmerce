@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/data/categories_datasource.dart';
-import 'package:telumerce/data/product_datasource.dart';
 import 'package:telumerce/model/dummy/category.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
-import '../../../model/dummy/product.dart';
 import '../../widgets/category_card.dart';
 import '../../widgets/home_search_bar.dart';
-import '../../widgets/product_card.dart';
 
 class HomeFragment extends StatelessWidget {
-  HomeFragment({Key? key}) : super(key: key);
+  final String userName;
 
-  List<Product> productList = ProductDatasource.getAllProductsDummy();
+  HomeFragment({Key? key, required this.userName}) : super(key: key);
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   @override
@@ -35,12 +32,12 @@ class HomeFragment extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(left: 14.0, top: 8.0, bottom: 18.0),
                   child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(height: 1.3),
+                    text: TextSpan(
+                      style: const TextStyle(height: 1.3),
                       children: [
-                        TextSpan(text: 'Hai, ', style: bodyMedium),
-                        TextSpan(text: 'Judah Dasuki\n', style: titleMedium),
-                        TextSpan(
+                        const TextSpan(text: 'Hai, ', style: bodyMedium),
+                        TextSpan(text: '$userName\n', style: titleMedium),
+                        const TextSpan(
                             text: 'Ayo cari barang kesukaanmu.',
                             style: bodySmall),
                       ],
@@ -54,11 +51,11 @@ class HomeFragment extends StatelessWidget {
                   child: ListView.builder(
                     padding: const EdgeInsets.only(left: 14.0),
                     scrollDirection: Axis.horizontal,
-                    itemCount: productList.length,
+                    itemCount: 10,
                     itemBuilder: (_, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 16.0),
-                        child: ProductCard(product: productList[index]),
+                        child: Text('dummy'),
                       );
                     },
                   ),
@@ -87,14 +84,9 @@ class HomeFragment extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
                   child: Column(
-                    children: productList.map((p) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: ProductCard(
-                          product: p,
-                        ),
-                      );
-                    }).toList(),
+                    children: const [
+                      Text('dummy'),
+                    ],
                   ),
                 ),
               ],
@@ -106,12 +98,12 @@ class HomeFragment extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 20.0),
                   child: RichText(
-                    text: const TextSpan(
-                        style: TextStyle(height: 1.5),
+                    text: TextSpan(
+                        style: const TextStyle(height: 1.5),
                         children: [
-                          TextSpan(text: 'Hai, ', style: bodyLarge),
-                          TextSpan(text: 'Judah Dasuki\n', style: titleLarge),
-                          TextSpan(
+                          const TextSpan(text: 'Hai, ', style: bodyLarge),
+                          TextSpan(text: '$userName\n', style: titleLarge),
+                          const TextSpan(
                               text: 'Ayo cari barang kesukaanmu.',
                               style: bodyMedium),
                         ]),
@@ -124,13 +116,11 @@ class HomeFragment extends StatelessWidget {
                   child: ListView.builder(
                     padding: const EdgeInsets.only(left: 14.0),
                     scrollDirection: Axis.horizontal,
-                    itemCount: productList.length,
+                    itemCount: 10,
                     itemBuilder: (_, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: ProductCard(
-                          product: productList[index],
-                        ),
+                      return const Padding(
+                        padding: EdgeInsets.only(right: 16.0),
+                        child: Text('dummy'),
                       );
                     },
                   ),
@@ -159,14 +149,9 @@ class HomeFragment extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    children: productList.map((p) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: ProductCard(
-                          product: p,
-                        ),
-                      );
-                    }).toList(),
+                    children: const [
+                      Text('dummy'),
+                    ],
                   ),
                 ),
               ],

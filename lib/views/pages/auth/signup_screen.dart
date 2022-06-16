@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/auth/getuser_auth_services.dart';
 import 'package:telumerce/views/pages/fragment/main_window.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/password_textfields.dart';
@@ -84,8 +85,10 @@ class _SignupScreenState extends State<SignupScreen> {
     sanitationCheck();
 
     if (await _register()) {
+      var response = await getUserService();
+
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const MainWindow(0)));
+          MaterialPageRoute(builder: (context) => MainWindow(0, response.user?.name)));
     } else {
       var snackBar = SnackBar(content: Text(errorMessage));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -338,7 +341,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(darkBlue)),
-                      onPressed: () {},
+                      onPressed: () {
+                        _changeToScrollView();
+                      },
                       child: const Text('Sign up'))
                 ],
               ),

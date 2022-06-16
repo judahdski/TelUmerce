@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/model/dummy/product.dart';
 
 import '../../const/color_scheme.dart';
 import '../../data/categories_datasource.dart';
 import '../../model/dummy/category.dart';
+import '../../model/product.dart';
 import '../utils/detail_product.dart';
 
 class ProductCard extends StatefulWidget {
@@ -33,6 +33,7 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
+
   String getCategoryName(int idCategory) {
     for (var element in categoryList) {
       if (element.id == widget.product.idCategory) {
@@ -48,8 +49,7 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DetailProduct()));
       },
       child: LayoutBuilder(
@@ -62,7 +62,8 @@ class _ProductCardState extends State<ProductCard> {
                   left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color(0xffcdcdcd), width: .75),
+                  border:
+                      Border.all(color: const Color(0xffcdcdcd), width: .75),
                   borderRadius: BorderRadius.circular(10.0)),
               child: Row(
                 children: [
@@ -81,7 +82,6 @@ class _ProductCardState extends State<ProductCard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-
                             //  Category card
                             Container(
                               child: Text(
@@ -108,22 +108,29 @@ class _ProductCardState extends State<ProductCard> {
                                       setWishlist();
                                     },
                                     color: (isFav) ? Colors.red : Colors.grey,
-                                    icon: (isFav) ? const FaIcon(FontAwesomeIcons.solidHeart) : const FaIcon(FontAwesomeIcons.heart)))
+                                    icon: (isFav)
+                                        ? const FaIcon(
+                                            FontAwesomeIcons.solidHeart)
+                                        : const FaIcon(FontAwesomeIcons.heart)))
                           ],
                         ),
 
                         // Product name
-                        Text(widget.product.name, style: bodyLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        Text(widget.product.productName,
+                            style: bodyLarge,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
 
                         //Product price
-                        Text('Rp. ${oCcy.format(widget.product.price.toInt())}', style: labelLarge)
+                        Text('Rp. ${widget.product.harga}',
+                            style: labelLarge)
                       ],
                     ),
                   )
                 ],
               ),
             );
-          //  side scrollview card
+            //  side scrollview card
           } else {
             return Container(
               height: 120.0,
@@ -132,7 +139,8 @@ class _ProductCardState extends State<ProductCard> {
                   left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: const Color(0xffcdcdcd), width: .75),
+                  border:
+                      Border.all(color: const Color(0xffcdcdcd), width: .75),
                   borderRadius: BorderRadius.circular(10.0)),
               child: Row(
                 children: [
@@ -151,7 +159,6 @@ class _ProductCardState extends State<ProductCard> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-
                             //  Category card
                             Container(
                               child: Text(
@@ -175,15 +182,22 @@ class _ProductCardState extends State<ProductCard> {
                                       setWishlist();
                                     },
                                     color: (isFav) ? Colors.red : Colors.grey,
-                                    icon: (isFav) ? const FaIcon(FontAwesomeIcons.solidHeart) : const FaIcon(FontAwesomeIcons.heart)))
+                                    icon: (isFav)
+                                        ? const FaIcon(
+                                            FontAwesomeIcons.solidHeart)
+                                        : const FaIcon(FontAwesomeIcons.heart)))
                           ],
                         ),
 
                         // Product name
-                        Text(widget.product.name, style: bodyLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        Text(widget.product.productName,
+                            style: bodyLarge,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
 
                         // Product price
-                        Text('Rp. ${oCcy.format(widget.product.price.toInt())}', style: labelLarge),
+                        Text('Rp. ${widget.product.harga}',
+                            style: labelLarge),
                       ],
                     ),
                   )

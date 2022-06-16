@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
+import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/authentication.dart';
 
-Future<User?> getUser() async {
-  print('masuk ke function getUser()');
+Future<ApiResponse> getUserService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
+  ApiResponse apiResponse = ApiResponse();
 
   Map<String, String> header = {
     'Authorization': 'Bearer ${pref.getString('token')}',
@@ -22,9 +23,11 @@ Future<User?> getUser() async {
       headers: header,
     );
 
-    return User.fromJson(jsonDecode(response.body)['user']);
+    var curUser = User.fromJson(jsonDecode(response.body)['data']);
+    apiResponse.user = curUser;
   } catch (e) {
-    print('exceptionnya: $e');
+    apiResponse.errorMessage = e.toString();
   }
-  return null;
+
+  return apiResponse;
 }

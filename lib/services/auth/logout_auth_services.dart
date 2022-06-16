@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 
-Future<String> logout() async {
+Future<String> logoutService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
 
   Map<String, String> header = {

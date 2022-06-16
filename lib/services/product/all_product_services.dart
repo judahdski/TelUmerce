@@ -1,28 +1,41 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
-import 'package:telumerce/model/products_container.dart';
 
-Future<List<Product>> getAllProducts() async {
+import '../../model/product.dart';
+
+Future<List<Product>?> getProductsService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   List<Product>? products;
 
   try {
     final response = await http.get(
       Uri.parse(getAllProductsURL),
-      headers: {
-        'Authorization': 'Bearer ${pref.getString('token')}',
-        'Postman-Token': '<calculated when request is sent>',
-      },
+      headers: getHeaderRequest(
+        pref.getString('token'),
+      ),
     );
 
-    products = ProductsContainer.fromJson(jsonDecode(response.body)).products;
-  } catch(e) {
-    print(getError);
-    print("Berikut exceptionnya : $e");
+    /*
+      convert to String
+     */
+    String productsString = json.encode(jsonDecode(response.body)['products']);
+
+    products = productFromJson(productsString);
+  } catch (e) {
+    if (kDebugMode) {
+      print(getError);
+      print("Berikut exceptionnya : $e");
+    }
   }
 
-  return products!;
+  return products;
 }
+
+/*
+  return value dari getProductsService() itu sifatnya nullable
+  jadi jgn lupa buat tangkep exceptionnya
+ */

@@ -1,20 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/product/all_product_services.dart';
+import 'package:telumerce/services/product/detail_product_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
-import 'package:telumerce/views/widgets/product_card.dart';
 
 import '../../const/color_scheme.dart';
 import '../../data/categories_datasource.dart';
-import '../../data/product_datasource.dart';
 import '../../model/dummy/category.dart';
-import '../../model/dummy/product.dart';
+import '../../model/product.dart';
 import '../widgets/category_card.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
 
-  List<Product> productList = ProductDatasource.getAllProductsDummy();
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   @override
@@ -77,15 +77,25 @@ class SearchScreen extends StatelessWidget {
               child: ListView.builder(
                 padding: const EdgeInsets.only(left: 14.0, right: 4.0),
                 scrollDirection: Axis.horizontal,
-                itemCount: productList.length,
+                itemCount: 10,
                 itemBuilder: (_, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 14.0),
-                    child: ProductCard(product: productList[index]),
+                  return const Padding(
+                    padding: EdgeInsets.only(right: 14.0),
+                    child: Text('dummy'),
                   );
                 },
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  getProducts();
+                },
+                child: const Text('Get all products')),
+            ElevatedButton(
+                onPressed: () {
+                  getProductDetail();
+                },
+                child: const Text('Get product detail'))
           ],
         ),
         mediumMobile: Column(
@@ -113,11 +123,11 @@ class SearchScreen extends StatelessWidget {
               child: ListView.builder(
                 padding: const EdgeInsets.only(left: 14.0, right: 4.0),
                 scrollDirection: Axis.horizontal,
-                itemCount: productList.length,
+                itemCount: 10,
                 itemBuilder: (_, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 14.0),
-                    child: ProductCard(product: productList[index]),
+                  return const Padding(
+                    padding: EdgeInsets.only(right: 14.0),
+                    child: Text('dummy'),
                   );
                 },
               ),
@@ -126,5 +136,45 @@ class SearchScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void getProducts() async {
+    List<Product>? products;
+
+    try {
+      products = await getProductsService();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+
+    products?.forEach((product) {
+      if (kDebugMode) {
+        print(product.id);
+        print(product.productName);
+        print(product.jumlahProduct);
+      }
+    });
+  }
+
+  void getProductDetail() async {
+    Product? product;
+
+    try {
+      product = await getProductDetailService(4);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+
+    if (product != null) {
+      if (kDebugMode) {
+        print(product.id);
+        print(product.productName);
+        print(product.jumlahProduct);
+      }
+    }
   }
 }
