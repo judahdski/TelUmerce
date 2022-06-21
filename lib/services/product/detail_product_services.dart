@@ -15,7 +15,7 @@ Future<Product?> getProductDetailService(int id) async {
     final response = await http.get(
       Uri.parse(getProductDetailURL(id)),
       headers: getHeaderRequest(
-        pref.getString('token'),
+        pref.getString(tokenConst),
       ),
     );
     

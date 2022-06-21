@@ -27,11 +27,13 @@ Future<ApiResponse> login(String email, String password) async {
     final responseConverted = Authentication.fromJson(jsonDecode(response.body));
 
     String token = responseConverted.token;
-    pref.setString('token', token);
+    pref.setString(tokenConst, token);
 
-    apiResponse.user = responseConverted.user;
+    apiResponse.data = responseConverted.user;
+    apiResponse.isSuccessful = true;
   } catch(e) {
     apiResponse.errorMessage = e.toString();
+    apiResponse.isSuccessful = false;
   }
 
   return apiResponse;

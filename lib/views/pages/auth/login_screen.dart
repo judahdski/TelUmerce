@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/services/auth/getuser_auth_services.dart';
+import 'package:telumerce/model/authentication.dart';
+import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
 
@@ -65,11 +66,12 @@ class _LoginScreenState extends State<LoginScreen> {
     sanitationCheck();
 
     if (await _login()) {
-      var response = await getUserService();
+      final response = await getUserService();
+      var user = (response.data) as User;
 
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MainWindow(0, response.user?.name)));
-      var snackBar = const SnackBar(content: Text("Login berhasil"));
+          MaterialPageRoute(builder: (context) => MainWindow(0, user.name)));
+      var snackBar = const SnackBar(content: Text("Login success"));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       var snackBar = SnackBar(content: Text(errorMessage));

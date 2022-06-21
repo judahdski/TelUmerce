@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/services/auth/getuser_auth_services.dart';
+import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/pages/fragment/main_window.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/password_textfields.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
 
 import '../../../const/color_scheme.dart';
+import '../../../model/authentication.dart';
 import '../../../services/auth/register_auth_services.dart';
 import 'login_screen.dart';
 
@@ -85,10 +86,11 @@ class _SignupScreenState extends State<SignupScreen> {
     sanitationCheck();
 
     if (await _register()) {
-      var response = await getUserService();
+      final response = await getUserService();
+      final user = (response.data) as User;
 
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MainWindow(0, response.user?.name)));
+          MaterialPageRoute(builder: (context) => MainWindow(0, user.name)));
     } else {
       var snackBar = SnackBar(content: Text(errorMessage));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);

@@ -8,11 +8,11 @@ const baseURL = "http://telyu-ecommerce.herokuapp.com/api";
 const loginURL = baseURL + '/login';
 const registerURL = baseURL + '/register';
 const logoutURL = baseURL + '/logout';
-const getUserURL = baseURL + '/user';
 
 // p r o f i l e
-const userURL = baseURL + '/user';
-const updateUserURL = baseURL + 'user/edit/';
+const getUserURL = baseURL + '/user';
+const updateUserURL = baseURL + 'user/edit';
+const updatePasswordUserURL = baseURL + 'user/edit_password';
 
 // p r o d u c t
 const getAllProductsURL = baseURL + '/products';
@@ -26,13 +26,13 @@ const getAllOrdersURL = baseURL + '/order';
 String orderPaymentURL(int id) {
   return '$baseURL/order/pembayaran/$id';
 }
-String cancelledOrder(int id) {
+String cancelledOrderURL(int id) {
   return '$baseURL/order/dibatalkan/$id';
 }
-String orderTimeOut(int id) {
+String orderTimeOutURL(int id) {
   return '$baseURL/order/waktu_abis/$id';
 }
-String getOrderDetail(int id) {
+String getOrderDetailURL(int id) {
   return '$baseURL/order/detail/$id';
 }
 
@@ -58,6 +58,10 @@ const getError = "Terjadi kesalahan saat mengambil data.";
 const postError = "Terjadi kesalahan saat mengirim data.";
 const unauthorized = "Data invalid";
 
+
+/*
+  h e a d e r s
+ */
 Map<String, String> getHeaderRequest(String? token) {
   return {
     'Authorization': 'Bearer $token',
@@ -72,3 +76,9 @@ Map<String, String> getHeaderWithCookie(String? token) {
     'Postman-Token': '<calculated when request is sent>',
   };
 }
+
+
+/*
+  shared preferences const
+ */
+const tokenConst = 'token';

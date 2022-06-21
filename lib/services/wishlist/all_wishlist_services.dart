@@ -5,13 +5,15 @@ import 'package:telumerce/const/url_endpoint.dart';
 
 Future getAllWishlist() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  
+
   try {
     final response = await http.get(
       Uri.parse(getAllWishlistURL),
-      headers: getHeaderWithCookie(pref.getString('token')),
+      headers: getHeaderWithCookie(
+        pref.getString(tokenConst),
+      ),
     );
-  } catch(e) {
+  } catch (e) {
     if (kDebugMode) {
       print(getError);
       print('e : $e');

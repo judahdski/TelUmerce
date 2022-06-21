@@ -1,33 +1,38 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
-import 'package:telumerce/model/payment_info.dart';
 
-Future<ApiResponse> addInfoPayment() async {
+Future<ApiResponse> updatePasswordService
+    (String oldPassword, String newPassword, String newPasswordConfirmation) async
+{
   SharedPreferences pref = await SharedPreferences.getInstance();
   ApiResponse apiResponse = ApiResponse();
-  http.Response response;
+  http.Response? response;
 
   try {
-    response = await http.post(
-      Uri.parse(paymentURL),
-      headers: getHeaderWithCookie(pref.getString(tokenConst)),
+    response = await http.put(
+      Uri.parse(updatePasswordUserURL),
+      headers: getHeaderRequest(pref.getString('token')),
+      body: {
+        'oldpassword': oldPassword,
+        'password': newPassword,
+        'password_confimation': newPasswordConfirmation,
+      },
     );
-  } catch(e) {
-    apiResponse.errorMessage = e.toString();
+  } catch (e) {
+    apiResponse.errorMessage = '$postError $e';
     apiResponse.isSuccessful = false;
     return apiResponse;
   }
 
   var code = response.statusCode;
   if (code == 200) {
-    apiResponse.data = PaymentInfo.fromJson(jsonDecode(response.body)['data']);
+    apiResponse.data = jsonDecode(response.body)['message'];
     apiResponse.isSuccessful = true;
-  } else if (code == 401) {
+  } else if (code == 400) {
     apiResponse.errorMessage = jsonDecode(response.body)['message'];
     apiResponse.isSuccessful = false;
   } else {

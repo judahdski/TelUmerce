@@ -70,4 +70,10 @@ class User {
     "updated_at": updatedAt.toIso8601String(),
     "user_type_id": userTypeId,
   };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return super.toString();
+  }
 }

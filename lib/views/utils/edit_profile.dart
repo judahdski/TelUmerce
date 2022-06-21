@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/services/auth/logout_auth_services.dart';
+import 'package:telumerce/services/user/get_user_services.dart';
+import 'package:telumerce/services/user/update_profile_user_services.dart';
 import 'package:telumerce/views/pages/auth/login_screen.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
+import '../../model/authentication.dart';
 import '../widgets/regular_textfields.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -14,7 +17,8 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  // variable
+  User? user;
+
   final TextEditingController _namaController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
@@ -26,9 +30,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   logout() async {
     var message = await logoutService();
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
     var snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  getUserInfo() async {
+    final response = await getUserService();
+    user = (response.data) as User;
+
+    _namaController.text = user!.name;
+    _emailController.text = user!.email;
+    _phoneNumController.text = user!.noTelp;
+    _addressController.text = user!.alamat;
+  }
+
+  updateProfile() async {
+    final response = await updateProfileServices(
+      _namaController.text,
+      _emailController.text,
+      _phoneNumController.text,
+      _addressController.text,
+    );
+
+    if (response.isSuccessful) {
+      var successMsg = (response.data) as String;
+      final snackbar = SnackBar(content: Text(successMsg));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    } else {
+      var failedMsg = response.errorMessage;
+      final snackbar = SnackBar(content: Text(failedMsg!));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getUserInfo();
   }
 
   // UI
@@ -101,6 +142,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: _emailController,
                 inputType: TextInputType.emailAddress),
             const SizedBox(height: 16.0),
+
+            // u p d a t e   p a s s w o r d
+            TextField(
+              onTap: () {
+                // TODO = navigate to update password screen
+                var alertDialog = const AlertDialog(
+                  title: Text("hiii"),
+                );
+                showDialog(context: context, builder: (_) => alertDialog);
+              },
+              decoration: InputDecoration(
+                label: const Text("Password"),
+                labelStyle: const TextStyle(fontSize: 13.0),
+                contentPadding: const EdgeInsets.all(12.0),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Color(0xffcdcdcd)),
+                    borderRadius: BorderRadius.circular(6.0)),
+              ),
+            ),
+            const SizedBox(height: 16.0),
             RegularTextfields(
                 label: 'Nomor HP',
                 hint: 'Masukan nomor hp',
@@ -115,7 +176,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: _addressController,
                 inputType: TextInputType.streetAddress),
             const SizedBox(height: 32.0),
-            ElevatedButton(onPressed: () {}, child: const Text('Simpan')),
+            ElevatedButton(
+                onPressed: () {
+                  updateProfile();
+                },
+                child: const Text('Simpan')),
             OutlinedButton(
                 onPressed: () {
                   logout();
@@ -196,7 +261,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: _addressController,
                 inputType: TextInputType.streetAddress),
             const SizedBox(height: 32.0),
-            ElevatedButton(onPressed: () {}, child: const Text('Simpan')),
+            ElevatedButton(
+                onPressed: () {
+                  updateProfile();
+                },
+                child: const Text('Simpan')),
             const SizedBox(height: 8.0),
             OutlinedButton(
                 onPressed: () {

@@ -1,6 +1,7 @@
 import 'package:telumerce/model/authentication.dart';
 
 class ApiResponse {
-  User? user;
+  Object? data;
   String? errorMessage;
+  bool isSuccessful = false;
 }

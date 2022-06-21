@@ -29,14 +29,16 @@ Future<ApiResponse> register(
         Authentication.fromJson(jsonDecode(response.body));
 
     String token = responseConverted.token;
-    pref.setString('token', token);
+    pref.setString(tokenConst, token);
     if (kDebugMode) {
       print('token $token');
     }
 
-    apiResponse.user = responseConverted.user;
+    apiResponse.data = responseConverted.user;
+    apiResponse.isSuccessful = true;
   } catch (e) {
     apiResponse.errorMessage = 'Terjadi kesalahan! $e';
+    apiResponse.isSuccessful = false;
   }
 
   return apiResponse;

@@ -9,7 +9,7 @@ Future addCart(int productAmount, int id) async {
   try {
     final response = await http.post(
       Uri.parse(addCartURL),
-      headers: getHeaderWithCookie(pref.getString('token')),
+      headers: getHeaderWithCookie(pref.getString(tokenConst)),
       body: {
         'jumlah_barang' : productAmount,
         'id_produk' : id,

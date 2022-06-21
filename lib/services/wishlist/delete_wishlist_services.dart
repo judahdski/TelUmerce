@@ -9,7 +9,7 @@ Future deleteWishlist(int id) async {
   try {
     final response = await http.post(
       Uri.parse(deleteWishlistURL(id)),
-      headers: getHeaderWithCookie(pref.getString('token')),
+      headers: getHeaderWithCookie(pref.getString(tokenConst)),
     );
   } catch(e) {
     if(kDebugMode) {
