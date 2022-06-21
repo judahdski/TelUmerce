@@ -7,7 +7,7 @@ import 'package:telumerce/views/widgets/password_textfields.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
 
 import '../../../const/color_scheme.dart';
-import '../../../model/authentication.dart';
+import '../../../model/user.dart';
 import '../../../services/auth/register_auth_services.dart';
 import 'login_screen.dart';
 
@@ -36,7 +36,6 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void sanitationCheck() {
-    print('isValid : $isValid');
     if (_namaController.text == '') {
       errorMessage = 'Nama tidak boleh kosong';
       isValid = false;

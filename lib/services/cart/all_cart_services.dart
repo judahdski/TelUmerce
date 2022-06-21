@@ -5,9 +5,10 @@ import 'package:telumerce/const/url_endpoint.dart';
 
 Future getAllCart() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
+  http.Response response;
 
   try {
-    final response = await http.get(
+    response = await http.get(
       Uri.parse(getAllUserCartURL),
       headers: getHeaderWithCookie(pref.getString(tokenConst)),
     );

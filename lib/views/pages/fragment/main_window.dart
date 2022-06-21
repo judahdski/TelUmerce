@@ -77,7 +77,7 @@ class _MainWindowState extends State<MainWindow> {
                 : _pageIndex == 1
                     ? const CartFragment()
                     : _pageIndex == 2
-                        ? WishlistFragment()
+                        ? const WishlistFragment()
                         : const ProfileFragment(),
           ),
         ),

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'authentication.dart';
+import 'user.dart';
 import 'product.dart';
 
 List<Wishlist> listWishlistFromJson(List list) => List<Wishlist>.from(list.map((e) => Wishlist.fromJson(e)));

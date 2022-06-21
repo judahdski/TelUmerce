@@ -8,10 +8,16 @@ import 'package:telumerce/views/widgets/top_bar.dart';
 import '../../widgets/category_card.dart';
 import '../../widgets/home_search_bar.dart';
 
-class HomeFragment extends StatelessWidget {
+class HomeFragment extends StatefulWidget {
   final String userName;
 
-  HomeFragment({Key? key, required this.userName}) : super(key: key);
+  const HomeFragment({Key? key, required this.userName}) : super(key: key);
+
+  @override
+  State<HomeFragment> createState() => _HomeFragmentState();
+}
+
+class _HomeFragmentState extends State<HomeFragment> {
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   @override
@@ -36,7 +42,7 @@ class HomeFragment extends StatelessWidget {
                       style: const TextStyle(height: 1.3),
                       children: [
                         const TextSpan(text: 'Hai, ', style: bodyMedium),
-                        TextSpan(text: '$userName\n', style: titleMedium),
+                        TextSpan(text: '${widget.userName}\n', style: titleMedium),
                         const TextSpan(
                             text: 'Ayo cari barang kesukaanmu.',
                             style: bodySmall),
@@ -53,8 +59,8 @@ class HomeFragment extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: 10,
                     itemBuilder: (_, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
+                      return const Padding(
+                        padding: EdgeInsets.only(right: 16.0),
                         child: Text('dummy'),
                       );
                     },
@@ -102,7 +108,7 @@ class HomeFragment extends StatelessWidget {
                         style: const TextStyle(height: 1.5),
                         children: [
                           const TextSpan(text: 'Hai, ', style: bodyLarge),
-                          TextSpan(text: '$userName\n', style: titleLarge),
+                          TextSpan(text: '${widget.userName}\n', style: titleLarge),
                           const TextSpan(
                               text: 'Ayo cari barang kesukaanmu.',
                               style: bodyMedium),

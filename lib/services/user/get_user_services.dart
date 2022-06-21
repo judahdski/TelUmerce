@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
-import 'package:telumerce/model/authentication.dart';
+import 'package:telumerce/model/user.dart';
 
 Future<ApiResponse> getUserService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();

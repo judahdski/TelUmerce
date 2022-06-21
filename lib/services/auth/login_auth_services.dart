@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
-import 'package:telumerce/model/authentication.dart';
+import 'package:telumerce/model/user.dart';
 
 Future<ApiResponse> login(String email, String password) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -24,12 +24,10 @@ Future<ApiResponse> login(String email, String password) async {
       },
     );
 
-    final responseConverted = Authentication.fromJson(jsonDecode(response.body));
-
-    String token = responseConverted.token;
+    String token = jsonDecode(response.body)['token'];
     pref.setString(tokenConst, token);
 
-    apiResponse.data = responseConverted.user;
+    apiResponse.data = User.fromJson(jsonDecode(response.body)['user']);
     apiResponse.isSuccessful = true;
   } catch(e) {
     apiResponse.errorMessage = e.toString();

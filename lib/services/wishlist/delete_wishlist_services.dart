@@ -5,9 +5,10 @@ import 'package:telumerce/const/url_endpoint.dart';
 
 Future deleteWishlist(int id) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
+  http.Response response;
 
   try {
-    final response = await http.post(
+    response = await http.post(
       Uri.parse(deleteWishlistURL(id)),
       headers: getHeaderWithCookie(pref.getString(tokenConst)),
     );

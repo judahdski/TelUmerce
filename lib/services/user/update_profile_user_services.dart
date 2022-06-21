@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 
-Future<ApiResponse> updateProfileServices
-    (String name, String email, String phoneNum, String address) async
-{
+Future<ApiResponse> updateProfileServices(
+    String name, String email, String phoneNum, String address) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ApiResponse apiResponse = ApiResponse();
   http.Response? response;

@@ -88,7 +88,6 @@ class GetStartedMedium extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('object getstartedmedium() dipanggil!');
     return Column(
       children: [
         Expanded(

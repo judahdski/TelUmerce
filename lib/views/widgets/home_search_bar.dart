@@ -13,7 +13,7 @@ class HomeSearchBar extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SearchScreen()));
+            context, MaterialPageRoute(builder: (context) => const SearchScreen()));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 14.0),

@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:telumerce/model/authentication.dart';
+import 'package:telumerce/model/user.dart';
 
 PaymentInfo paymentInfoFromJson(String str) => PaymentInfo.fromJson(json.decode(str));
 

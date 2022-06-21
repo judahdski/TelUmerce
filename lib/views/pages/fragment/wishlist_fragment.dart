@@ -4,11 +4,15 @@ import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../../data/categories_datasource.dart';
 import '../../../model/dummy/category.dart';
-import '../../widgets/product_card.dart';
 
-class WishlistFragment extends StatelessWidget {
-  WishlistFragment({Key? key}) : super(key: key);
+class WishlistFragment extends StatefulWidget {
+  const WishlistFragment({Key? key}) : super(key: key);
 
+  @override
+  State<WishlistFragment> createState() => _WishlistFragmentState();
+}
+
+class _WishlistFragmentState extends State<WishlistFragment> {
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   @override
@@ -22,7 +26,8 @@ class WishlistFragment extends StatelessWidget {
           bottom: 0,
           child: ResponsiveLayout(
             smallMobile: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
               itemCount: 10,
               itemBuilder: (_, int index) {
                 return const Padding(
@@ -32,7 +37,8 @@ class WishlistFragment extends StatelessWidget {
               },
             ),
             mediumMobile: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
               itemCount: 10,
               itemBuilder: (_, int index) {
                 return const Padding(

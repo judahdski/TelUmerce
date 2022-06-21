@@ -7,16 +7,21 @@ import '../../const/color_scheme.dart';
 import '../../data/categories_datasource.dart';
 import '../../model/dummy/category.dart';
 
-class CategorizedScreen extends StatelessWidget {
-  CategorizedScreen({Key? key, required this.idCategory}) : super(key: key);
+class CategorizedScreen extends StatefulWidget {
+  const CategorizedScreen({Key? key, required this.idCategory}) : super(key: key);
 
   final int idCategory;
 
+  @override
+  State<CategorizedScreen> createState() => _CategorizedScreenState();
+}
+
+class _CategorizedScreenState extends State<CategorizedScreen> {
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   String getCategoryName() {
     for (var category in categoryList) {
-      if (category.id == idCategory) {
+      if (category.id == widget.idCategory) {
         return category.name;
       }
     }

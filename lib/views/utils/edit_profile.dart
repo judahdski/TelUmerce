@@ -6,11 +6,11 @@ import 'package:telumerce/services/user/update_profile_user_services.dart';
 import 'package:telumerce/views/pages/auth/login_screen.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
-import '../../model/authentication.dart';
+import '../../model/user.dart';
 import '../widgets/regular_textfields.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  EditProfileScreen({Key? key}) : super(key: key);
+  const EditProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();

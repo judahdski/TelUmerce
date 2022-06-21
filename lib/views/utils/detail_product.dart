@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/model/authentication.dart';
+import 'package:telumerce/model/user.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 

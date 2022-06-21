@@ -3,22 +3,27 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/text_theme.dart';
 
-class TopBar extends StatelessWidget {
+class TopBar extends StatefulWidget {
   TopBar({Key? key, this.text, this.topBarWidget}) : super(key: key);
 
   String? text;
   Widget? topBarWidget;
 
   @override
+  State<TopBar> createState() => _TopBarState();
+}
+
+class _TopBarState extends State<TopBar> {
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50.0,
       child: Center(
-        child: (text == null)
-            ? topBarWidget
+        child: (widget.text == null)
+            ? widget.topBarWidget
             : ResponsiveLayout(
-                smallMobile: Text(text!, style: titleSmall),
-                mediumMobile: Text(text!, style: titleMedium)),
+                smallMobile: Text(widget.text!, style: titleSmall),
+                mediumMobile: Text(widget.text!, style: titleMedium)),
       ),
     );
   }

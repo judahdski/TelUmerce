@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
@@ -17,7 +16,7 @@ Future<ApiResponse> addInfoPayment() async {
       Uri.parse(paymentURL),
       headers: getHeaderWithCookie(pref.getString(tokenConst)),
     );
-  } catch(e) {
+  } catch (e) {
     apiResponse.errorMessage = e.toString();
     apiResponse.isSuccessful = false;
     return apiResponse;

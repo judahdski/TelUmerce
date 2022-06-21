@@ -5,9 +5,10 @@ import 'package:telumerce/const/url_endpoint.dart';
 
 Future getOrderDetail(int id) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
+  http.Response response;
 
   try {
-    final response = await http.get(
+    response = await http.get(
       Uri.parse(getOrderDetailURL(id)),
       headers: getHeaderRequest(
         pref.getString(tokenConst),

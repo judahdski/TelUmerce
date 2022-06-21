@@ -12,9 +12,14 @@ import '../../model/dummy/category.dart';
 import '../../model/product.dart';
 import '../widgets/category_card.dart';
 
-class SearchScreen extends StatelessWidget {
-  SearchScreen({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
 
   @override

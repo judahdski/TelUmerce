@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/model/authentication.dart';
+import 'package:telumerce/model/user.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';

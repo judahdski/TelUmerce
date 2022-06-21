@@ -66,7 +66,7 @@ class ProfileCard extends StatelessWidget {
       child: ListTile(
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EditProfileScreen()));
+              MaterialPageRoute(builder: (context) => const EditProfileScreen()));
         },
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
