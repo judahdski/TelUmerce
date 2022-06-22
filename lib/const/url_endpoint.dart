@@ -53,9 +53,11 @@ const deleteCartURL = baseURL + '/cart/delete/';
 // p a y m e n t
 const paymentURL = baseURL + '/payment';
 
-// ERROR
+// e r r o r  m e s s a g e
 const getError = "Terjadi kesalahan saat mengambil data.";
 const postError = "Terjadi kesalahan saat mengirim data.";
+const putError = "Terjadi kesalahan saat mengubah data.";
+const deleteError = "Terjadi kesalahan saat menghapus data.";
 const unauthorized = "Data invalid";
 
 

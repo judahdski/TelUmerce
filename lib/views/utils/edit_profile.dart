@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/auth/logout_auth_services.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/services/user/update_profile_user_services.dart';
@@ -28,11 +29,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _addressController = TextEditingController();
 
   logout() async {
-    var message = await logoutService();
+    var response = await logoutService();
 
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const LoginScreen()));
-    var snackBar = SnackBar(content: Text(message));
+    var snackBar = SnackBar(content: Text(response.data as String));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 

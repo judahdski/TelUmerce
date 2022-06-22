@@ -1,41 +1,48 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
+import 'package:telumerce/model/api_response.dart';
 
 import '../../model/product.dart';
 
-Future<List<Product>?> getProductsService() async {
+Future<ApiResponse> getProductsService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  List<Product>? products;
+  ApiResponse apiResponse = ApiResponse();
+  http.Response response;
 
   try {
-    final response = await http.get(
+    response = await http.get(
       Uri.parse(getAllProductsURL),
       headers: getHeaderRequest(
         pref.getString(tokenConst),
       ),
     );
-
-    /*
-      convert to String
-     */
-    String productsString = json.encode(jsonDecode(response.body)['products']);
-
-    products = productFromJson(productsString);
   } catch (e) {
-    if (kDebugMode) {
-      print(getError);
-      print("Berikut exceptionnya : $e");
-    }
+    apiResponse.errorMessage = e.toString();
+    apiResponse.isSuccessful = false;
+    return apiResponse;
   }
 
-  return products;
-}
+  final code = response.statusCode;
+  switch (code) {
+    case 200:
+      var listProduct = jsonDecode(response.body)['products'];
+      apiResponse.data = productIntoList(listProduct);
+      apiResponse.isSuccessful = true;
+      break;
 
-/*
-  return value dari getProductsService() itu sifatnya nullable
-  jadi jgn lupa buat tangkep exceptionnya
- */
+    case 401:
+      apiResponse.errorMessage = unauthorized;
+      apiResponse.isSuccessful = false;
+      break;
+
+    default:
+      apiResponse.errorMessage = getError;
+      apiResponse.isSuccessful = false;
+      break;
+  }
+
+  return apiResponse;
+}

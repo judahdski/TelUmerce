@@ -147,7 +147,8 @@ class _SearchScreenState extends State<SearchScreen> {
     List<Product>? products;
 
     try {
-      products = await getProductsService();
+      var response = await getProductsService();
+      products = response.data as List<Product>;
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -167,7 +168,9 @@ class _SearchScreenState extends State<SearchScreen> {
     Product? product;
 
     try {
-      product = await getProductDetailService(4);
+      var response = await getProductDetailService(4);
+      product = response.data as Product;
+
     } catch (e) {
       if (kDebugMode) {
         print(e);

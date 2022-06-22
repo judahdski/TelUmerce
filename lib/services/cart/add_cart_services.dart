@@ -23,10 +23,22 @@ Future<ApiResponse> addCart(int productAmount, int id) async {
     return apiResponse;
   }
 
-  var code = response.statusCode;
-  if (code == 200) {
-    apiResponse.data = jsonDecode(response.body);
-    apiResponse.isSuccessful = true;
+  final code = response.statusCode;
+  switch (code) {
+    case 200:
+      apiResponse.data = jsonDecode(response.body)['message'];
+      apiResponse.isSuccessful = true;
+      break;
+
+    case 401:
+      apiResponse.errorMessage = unauthorized;
+      apiResponse.isSuccessful = false;
+      break;
+
+    default:
+      apiResponse.errorMessage = getError;
+      apiResponse.isSuccessful = false;
+      break;
   }
 
   return apiResponse;

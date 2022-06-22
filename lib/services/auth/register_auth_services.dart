@@ -10,31 +10,45 @@ Future<ApiResponse> register(
     String name, String email, String password, String confirmationPass) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ApiResponse apiResponse = ApiResponse();
+  http.Response response;
 
   Map<String, String> header = {
     'Postman-Token': '<calculated when request is sent>',
   };
 
   try {
-    final response =
+    response =
         await http.post(Uri.parse(registerURL), headers: header, body: {
       'name': name,
       'email': email,
       'password': password,
       'password_confirmation': confirmationPass
     });
-
-    String token = jsonDecode(response.body)['token'];
-    pref.setString(tokenConst, token);
-    if (kDebugMode) {
-      print('token $token');
-    }
-
-    apiResponse.data = jsonDecode(response.body)['user'];
-    apiResponse.isSuccessful = true;
   } catch (e) {
     apiResponse.errorMessage = 'Terjadi kesalahan! $e';
     apiResponse.isSuccessful = false;
+    return apiResponse;
+  }
+
+  String token = jsonDecode(response.body)['token'];
+  pref.setString(tokenConst, token);
+
+  final code = response.statusCode;
+  switch (code) {
+    case 200:
+      apiResponse.data = jsonDecode(response.body)['user'];
+      apiResponse.isSuccessful = true;
+      break;
+
+    case 401:
+      apiResponse.errorMessage = unauthorized;
+      apiResponse.isSuccessful = false;
+      break;
+
+    default:
+      apiResponse.errorMessage = getError;
+      apiResponse.isSuccessful = false;
+      break;
   }
 
   return apiResponse;
