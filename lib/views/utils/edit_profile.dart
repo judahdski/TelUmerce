@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/auth/logout_auth_services.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/services/user/update_profile_user_services.dart';

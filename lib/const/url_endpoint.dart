@@ -48,7 +48,9 @@ String deleteWishlistURL(int id) {
 // c a r t
 const getAllUserCartURL = baseURL + '/cart';
 const addCartURL = baseURL + '/cart/store';
-const deleteCartURL = baseURL + '/cart/delete/';
+String deleteCartURL(int id) {
+  return '$baseURL/cart/delete/$id';
+}
 
 // p a y m e n t
 const paymentURL = baseURL + '/payment';
@@ -59,6 +61,7 @@ const postError = "Terjadi kesalahan saat mengirim data.";
 const putError = "Terjadi kesalahan saat mengubah data.";
 const deleteError = "Terjadi kesalahan saat menghapus data.";
 const unauthorized = "Data invalid";
+const notFound = "404 tidak ketemu";
 
 
 /*

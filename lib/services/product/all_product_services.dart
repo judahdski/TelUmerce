@@ -5,11 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 
-import '../../model/product.dart';
+import '../utils/helper_method.dart';
 
 Future<ApiResponse> getProductsService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ApiResponse apiResponse = ApiResponse();
   http.Response response;
 
   try {
@@ -20,27 +19,18 @@ Future<ApiResponse> getProductsService() async {
       ),
     );
   } catch (e) {
-    apiResponse.errorMessage = e.toString();
-    apiResponse.isSuccessful = false;
-    return apiResponse;
+    return catchTheException(e.toString());
   }
 
+  ApiResponse apiResponse;
   final code = response.statusCode;
   switch (code) {
     case 200:
       var listProduct = jsonDecode(response.body)['products'];
-      apiResponse.data = productIntoList(listProduct);
-      apiResponse.isSuccessful = true;
+      apiResponse = processingSuccessResponse(listProduct);
       break;
-
-    case 401:
-      apiResponse.errorMessage = unauthorized;
-      apiResponse.isSuccessful = false;
-      break;
-
     default:
-      apiResponse.errorMessage = getError;
-      apiResponse.isSuccessful = false;
+      apiResponse = processingFailedResponse('GET', code);
       break;
   }
 

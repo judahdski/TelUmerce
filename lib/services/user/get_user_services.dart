@@ -5,10 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/user.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 
 Future<ApiResponse> getUserService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ApiResponse apiResponse = ApiResponse();
   http.Response? response;
 
   try {
@@ -19,21 +19,19 @@ Future<ApiResponse> getUserService() async {
       ),
     );
   } catch (e) {
-    apiResponse.errorMessage = '$postError $e';
-    apiResponse.isSuccessful = false;
-    return apiResponse;
+    return catchTheException(e.toString());
   }
 
-  var code = response.statusCode;
-  if (code == 200) {
-    apiResponse.data = User.fromJson(jsonDecode(response.body)['data']);
-    apiResponse.isSuccessful = true;
-  } else if (code == 401) {
-    apiResponse.errorMessage = jsonDecode(response.body)['message'];
-    apiResponse.isSuccessful = false;
-  } else {
-    apiResponse.errorMessage = 'Terjadi kesalahan';
-    apiResponse.isSuccessful = false;
+  ApiResponse apiResponse;
+  final code = response.statusCode;
+  switch(code) {
+    case 200:
+      final user = User.fromJson(jsonDecode(response.body)['data']);
+      apiResponse = processingSuccessResponse(user);
+      break;
+    default:
+      apiResponse = processingFailedResponse('GET', code);
+      break;
   }
 
   return apiResponse;

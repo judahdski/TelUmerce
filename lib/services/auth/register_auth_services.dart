@@ -1,15 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
+
+import '../../model/user.dart';
 
 Future<ApiResponse> register(
     String name, String email, String password, String confirmationPass) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ApiResponse apiResponse = ApiResponse();
   http.Response response;
 
   Map<String, String> header = {
@@ -17,37 +18,28 @@ Future<ApiResponse> register(
   };
 
   try {
-    response =
-        await http.post(Uri.parse(registerURL), headers: header, body: {
+    response = await http.post(Uri.parse(registerURL), headers: header, body: {
       'name': name,
       'email': email,
       'password': password,
       'password_confirmation': confirmationPass
     });
   } catch (e) {
-    apiResponse.errorMessage = 'Terjadi kesalahan! $e';
-    apiResponse.isSuccessful = false;
-    return apiResponse;
+    return catchTheException(e.toString());
   }
 
   String token = jsonDecode(response.body)['token'];
   pref.setString(tokenConst, token);
 
+  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch (code) {
+  switch(code) {
     case 200:
-      apiResponse.data = jsonDecode(response.body)['user'];
-      apiResponse.isSuccessful = true;
+      final user = User.fromJson(jsonDecode(response.body)['user']);
+      apiResponse = processingSuccessResponse(user);
       break;
-
-    case 401:
-      apiResponse.errorMessage = unauthorized;
-      apiResponse.isSuccessful = false;
-      break;
-
     default:
-      apiResponse.errorMessage = getError;
-      apiResponse.isSuccessful = false;
+      apiResponse = processingFailedResponse('GET', code);
       break;
   }
 

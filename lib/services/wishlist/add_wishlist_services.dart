@@ -6,9 +6,10 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/wishlist.dart';
 
+import '../utils/helper_method.dart';
+
 Future<ApiResponse> addWishlist(int id) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ApiResponse apiResponse = ApiResponse();
   http.Response response;
 
   try {
@@ -17,21 +18,19 @@ Future<ApiResponse> addWishlist(int id) async {
       headers: getHeaderWithCookie(pref.getString(tokenConst)),
     );
   } catch (e) {
-    apiResponse.errorMessage = e.toString();
-    apiResponse.isSuccessful = false;
-    return apiResponse;
+    return catchTheException(e.toString());
   }
 
+  ApiResponse apiResponse;
   final code = response.statusCode;
-  if (code == 200) {
-    apiResponse.data = listWishlistFromJson(jsonDecode(response.body)['data']);
-    apiResponse.isSuccessful = true;
-  } else if (code == 401) {
-    apiResponse.errorMessage = jsonDecode(response.body)['message'];
-    apiResponse.isSuccessful = false;
-  } else {
-    apiResponse.errorMessage = jsonDecode(response.body)['message'];
-    apiResponse.isSuccessful = false;
+  switch (code) {
+    case 200:
+      apiResponse = processingSuccessResponse(
+          listWishlistFromJson(jsonDecode(response.body)['data']));
+      break;
+    default:
+      apiResponse = processingFailedResponse('GET', code);
+      break;
   }
 
   return apiResponse;

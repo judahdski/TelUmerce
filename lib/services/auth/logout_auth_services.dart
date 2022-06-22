@@ -5,9 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 
+import '../utils/helper_method.dart';
+
 Future<ApiResponse> logoutService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ApiResponse apiResponse = ApiResponse();
   http.Response response;
 
   try {
@@ -16,26 +17,17 @@ Future<ApiResponse> logoutService() async {
       headers: getHeaderWithCookie(pref.getString(tokenConst)),
     );
   } catch(e) {
-    apiResponse.errorMessage = e.toString();
-    apiResponse.isSuccessful = false;
-    return apiResponse;
+    return catchTheException(e.toString());
   }
 
+  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch (code) {
+  switch(code) {
     case 200:
-      apiResponse.data = jsonDecode(response.body)['message'];
-      apiResponse.isSuccessful = true;
+      apiResponse = processingSuccessResponse(jsonDecode(response.body)['message']);
       break;
-
-    case 401:
-      apiResponse.errorMessage = unauthorized;
-      apiResponse.isSuccessful = false;
-      break;
-
     default:
-      apiResponse.errorMessage = getError;
-      apiResponse.isSuccessful = false;
+      apiResponse = processingFailedResponse('GET', code);
       break;
   }
 

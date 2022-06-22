@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 
 Future<ApiResponse> updatePasswordService
     (String oldPassword, String newPassword, String newPasswordConfirmation) async
@@ -23,9 +24,7 @@ Future<ApiResponse> updatePasswordService
       },
     );
   } catch (e) {
-    apiResponse.errorMessage = '$postError $e';
-    apiResponse.isSuccessful = false;
-    return apiResponse;
+    return catchTheException(e.toString());
   }
 
   var code = response.statusCode;

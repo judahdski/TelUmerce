@@ -1,9 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
+import 'package:telumerce/model/api_response.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 
-Future getOrderDetail(int id) async {
+Future<ApiResponse> getOrderDetail(int id) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
 
@@ -15,9 +18,21 @@ Future getOrderDetail(int id) async {
       ),
     );
   } catch (e) {
-    if (kDebugMode) {
-      print(getError);
-      print(e);
-    }
+    return catchTheException(e.toString());
   }
+
+
+  ApiResponse apiResponse;
+  final code = response.statusCode;
+  switch(code) {
+    case 200:
+      final data = jsonDecode(response.body)['data'][0];
+      apiResponse = processingSuccessResponse(data);
+      break;
+    default:
+      apiResponse = processingFailedResponse('GET', code);
+      break;
+  }
+
+  return apiResponse;
 }
