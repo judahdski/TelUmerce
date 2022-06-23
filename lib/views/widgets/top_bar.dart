@@ -4,10 +4,10 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 import '../../const/text_theme.dart';
 
 class TopBar extends StatefulWidget {
-  TopBar({Key? key, this.text, this.topBarWidget}) : super(key: key);
+  const TopBar({Key? key, this.text, this.topBarWidget}) : super(key: key);
 
-  String? text;
-  Widget? topBarWidget;
+  final String? text;
+  final Widget? topBarWidget;
 
   @override
   State<TopBar> createState() => _TopBarState();

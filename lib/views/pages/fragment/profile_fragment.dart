@@ -45,7 +45,7 @@ class ProfileFragment extends StatelessWidget {
         ),
 
         // Top-bar
-        Positioned(
+        const Positioned(
           top: 0,
           left: 0,
           right: 0,

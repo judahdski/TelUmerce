@@ -22,17 +22,10 @@ Future<ApiResponse> getUserService() async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
+  final user = User.fromJson(jsonDecode(response.body)['data']);
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-      final user = User.fromJson(jsonDecode(response.body)['data']);
-      apiResponse = processingSuccessResponse(user);
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
-  }
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+        ? processingSuccessResponse(user)
+        : processingFailedResponse('GET', code);
 }

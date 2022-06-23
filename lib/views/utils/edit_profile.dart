@@ -5,6 +5,7 @@ import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/services/user/update_profile_user_services.dart';
 import 'package:telumerce/views/pages/auth/login_screen.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
+import 'package:telumerce/views/widgets/password_textfields.dart';
 
 import '../../model/user.dart';
 import '../widgets/regular_textfields.dart';
@@ -22,6 +23,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _namaController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
 
   final TextEditingController _phoneNumController = TextEditingController();
 
@@ -46,7 +49,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController.text = user!.alamat;
   }
 
-  updateProfile() async {
+  Future<bool> updateProfile() async {
     final response = await updateProfileServices(
       _namaController.text,
       _emailController.text,
@@ -58,10 +61,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       var successMsg = (response.data) as String;
       final snackbar = SnackBar(content: Text(successMsg));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+      return true;
     } else {
       var failedMsg = response.errorMessage;
       final snackbar = SnackBar(content: Text(failedMsg!));
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+      return false;
     }
   }
 
@@ -144,23 +151,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             const SizedBox(height: 16.0),
 
             // u p d a t e   p a s s w o r d
-            TextField(
-              onTap: () {
-                // TODO = navigate to update password screen
-                var alertDialog = const AlertDialog(
-                  title: Text("hiii"),
-                );
-                showDialog(context: context, builder: (_) => alertDialog);
-              },
-              decoration: InputDecoration(
-                label: const Text("Password"),
-                labelStyle: const TextStyle(fontSize: 13.0),
-                contentPadding: const EdgeInsets.all(12.0),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Color(0xffcdcdcd)),
-                    borderRadius: BorderRadius.circular(6.0)),
-              ),
-            ),
+            UpdatePasswordTextfield(
+                passController: _passwordController, label: 'Password'),
+
             const SizedBox(height: 16.0),
             RegularTextfields(
                 label: 'Nomor HP',
@@ -177,8 +170,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 inputType: TextInputType.streetAddress),
             const SizedBox(height: 32.0),
             ElevatedButton(
-                onPressed: () {
-                  updateProfile();
+                onPressed: () async {
+                  await updateProfile();
                 },
                 child: const Text('Simpan')),
             OutlinedButton(
@@ -247,6 +240,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 controller: _emailController,
                 inputType: TextInputType.emailAddress),
             const SizedBox(height: 16.0),
+
+            // u p d a t e   p a s s w o r d
+            UpdatePasswordTextfield(
+                passController: _passwordController, label: 'Password'),
+
+            const SizedBox(height: 16.0),
+
             RegularTextfields(
                 label: 'Nomor HP',
                 hint: 'Masukan nomor hp',
@@ -262,8 +262,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 inputType: TextInputType.streetAddress),
             const SizedBox(height: 32.0),
             ElevatedButton(
-                onPressed: () {
-                  updateProfile();
+                onPressed: () async {
+                  await updateProfile();
                 },
                 child: const Text('Simpan')),
             const SizedBox(height: 8.0),

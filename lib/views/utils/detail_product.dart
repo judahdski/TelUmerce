@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/model/user.dart';
-import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
@@ -36,13 +34,10 @@ class DetailProduct extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () async {
-                final response = await getUserService();
-                final user = (response.data) as User;
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MainWindow(1, user.name),
+                    builder: (context) => const MainWindow(1),
                   ),
                 );
               },

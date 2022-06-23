@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:telumerce/services/auth/get_token.dart';
 import 'package:telumerce/views/pages/auth/get_started_screen.dart';
+import 'package:telumerce/views/pages/fragment/main_window.dart';
 
 import 'const/color_scheme.dart';
 
@@ -44,7 +46,32 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const GetStartedScreen(),
+      home: const EntryPoint(),
     );
   }
 }
+
+class EntryPoint extends StatefulWidget {
+  const EntryPoint({Key? key}) : super(key: key);
+
+  @override
+  State<EntryPoint> createState() => _EntryPointState();
+}
+
+class _EntryPointState extends State<EntryPoint> {
+  bool isAuthenticated = false;
+
+  getToken() async {
+    String? token = await getTheToken();
+
+    if (token != null) {
+      isAuthenticated = true;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return (isAuthenticated) ? const MainWindow(0) : const GetStartedScreen();
+  }
+}
+

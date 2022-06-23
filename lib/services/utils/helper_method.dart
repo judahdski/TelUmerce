@@ -11,46 +11,6 @@ ApiResponse catchTheException(String e) {
   return apiResponse;
 }
 
-ApiResponse processingResponse(String httpMethod, int statusCode, Object data) {
-  ApiResponse apiResponse = ApiResponse();
-
-  var errorMsg = '';
-
-  switch(httpMethod) {
-    case 'GET':
-      errorMsg = getError;
-      break;
-    case 'PUT':
-      errorMsg = putError;
-      break;
-    case 'POST':
-      errorMsg = postError;
-      break;
-    case 'DELETE':
-      errorMsg = deleteError;
-      break;
-  }
-
-  switch (statusCode) {
-    case 200:
-      apiResponse.data = data;
-      apiResponse.isSuccessful = true;
-      break;
-
-    case 401:
-      apiResponse.errorMessage = unauthorized;
-      apiResponse.isSuccessful = false;
-      break;
-
-    default:
-      apiResponse.errorMessage = errorMsg;
-      apiResponse.isSuccessful = false;
-      break;
-  }
-
-  return apiResponse;
-}
-
 ApiResponse processingSuccessResponse(Object data) {
   ApiResponse apiResponse = ApiResponse();
 
@@ -65,7 +25,7 @@ ApiResponse processingFailedResponse(String httpMethod, int statusCode) {
 
   var errorMsg = '';
 
-  switch(httpMethod) {
+  switch (httpMethod) {
     case 'GET':
       errorMsg = getError;
       break;

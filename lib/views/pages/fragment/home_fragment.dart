@@ -166,12 +166,12 @@ class _HomeFragmentState extends State<HomeFragment> {
         ),
 
         // Top-bar
-        Positioned(
+        const Positioned(
           top: 0,
           left: 0,
           right: 0,
           child: TopBar(
-            topBarWidget: const HomeSearchBar(),
+            topBarWidget: HomeSearchBar(),
           ),
         )
       ],

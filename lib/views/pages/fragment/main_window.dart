@@ -4,6 +4,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:telumerce/const/text_theme.dart';
 
 import '../../../const/color_scheme.dart';
+import '../../../model/user.dart';
+import '../../../services/user/get_user_services.dart';
 import 'cart_fragment.dart';
 import 'home_fragment.dart';
 import 'profile_fragment.dart';
@@ -11,9 +13,8 @@ import 'wishlist_fragment.dart';
 
 class MainWindow extends StatefulWidget {
   final int pageIndex;
-  final String? userName;
 
-  const MainWindow(this.pageIndex, this.userName, {Key? key}) : super(key: key);
+  const MainWindow(this.pageIndex, {Key? key}) : super(key: key);
 
   @override
   State<MainWindow> createState() => _MainWindowState();
@@ -21,10 +22,18 @@ class MainWindow extends StatefulWidget {
 
 class _MainWindowState extends State<MainWindow> {
   int _pageIndex = 0;
+  String username = 'null';
+
+  getUserInfo() async {
+    final response = await getUserService();
+    var user = (response.data) as User;
+    username = user.name;
+  }
 
   @override
   void initState() {
     _pageIndex = widget.pageIndex;
+    getUserInfo();
     super.initState();
   }
 
@@ -73,7 +82,7 @@ class _MainWindowState extends State<MainWindow> {
         child: SafeArea(
           child: Center(
             child: _pageIndex == 0
-                ? HomeFragment(userName: widget.userName!)
+                ? HomeFragment(userName: username)
                 : _pageIndex == 1
                     ? const CartFragment()
                     : _pageIndex == 2

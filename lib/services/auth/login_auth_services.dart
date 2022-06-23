@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
-import 'package:telumerce/model/user.dart';
 
 import '../utils/helper_method.dart';
 
@@ -13,7 +12,7 @@ Future<ApiResponse> login(String email, String password) async {
   http.Response response;
 
   Map<String, String> header = {
-    'Postman-Token': '<calculated when request is sent>',
+    'Accept': 'application/json',
   };
 
   try {
@@ -29,20 +28,26 @@ Future<ApiResponse> login(String email, String password) async {
     return catchTheException(e.toString());
   }
 
-  String token = jsonDecode(response.body)['token'];
-  pref.setString(tokenConst, token);
+  Map user;
+  try {
+    user = jsonDecode(response.body)['user'];
+    String token = jsonDecode(response.body)['token'];
+    pref.setString(tokenConst, token);
+  } catch (e) {
+    String errorMsg = '';
 
-  ApiResponse apiResponse;
-  final code = response.statusCode;
-  switch(code) {
-    case 200:
-      final user = User.fromJson(jsonDecode(response.body)['user']);
-      apiResponse = processingSuccessResponse(user);
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
+    String? errorEmail = jsonDecode(response.body)['message']['emails'].toString();
+    if (errorEmail == 'null') {
+      errorMsg = jsonDecode(response.body)['message']['password'].toString();
+    } else {
+      errorMsg = jsonDecode(response.body)['message']['email'].toString();
+    }
+
+    return catchTheException(errorMsg);
   }
 
-  return apiResponse;
+  final code = response.statusCode;
+  return (code >= 200 && code <= 299)
+      ? processingSuccessResponse(user)
+      : processingFailedResponse('POST', code);
 }
