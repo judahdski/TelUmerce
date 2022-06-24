@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
+import 'package:telumerce/model/user.dart';
 
 import '../utils/helper_method.dart';
 
@@ -28,19 +29,19 @@ Future<ApiResponse> login(String email, String password) async {
     return catchTheException(e.toString());
   }
 
-  Map user;
+  User user;
   try {
-    user = jsonDecode(response.body)['user'];
+    user = User.fromJson(jsonDecode(response.body)['user']);
     String token = jsonDecode(response.body)['token'];
     pref.setString(tokenConst, token);
   } catch (e) {
     String errorMsg = '';
 
-    String? errorEmail = jsonDecode(response.body)['message']['emails'].toString();
+    String? errorEmail = jsonDecode(response.body)['errors']['email'].toString();
     if (errorEmail == 'null') {
-      errorMsg = jsonDecode(response.body)['message']['password'].toString();
+      errorMsg = jsonDecode(response.body)['errors']['password'].toString();
     } else {
-      errorMsg = jsonDecode(response.body)['message']['email'].toString();
+      errorMsg = jsonDecode(response.body)['errors']['email'].toString();
     }
 
     return catchTheException(errorMsg);

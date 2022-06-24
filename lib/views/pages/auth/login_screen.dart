@@ -65,11 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
     sanitationCheck();
 
     if (await _login()) {
-      /*
-        navigate to main window then remove login screen
-       */
-      // Navigator.of(context).pushNamedAndRemoveUntil(
-      //     '/main_window', (Route<dynamic> route) => false);
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const MainWindow(0)),
         (Route<dynamic> route) => false,

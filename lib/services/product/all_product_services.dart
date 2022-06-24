@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
+import 'package:telumerce/model/product.dart';
 
 import '../utils/helper_method.dart';
 
@@ -22,17 +23,9 @@ Future<ApiResponse> getProductsService() async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch (code) {
-    case 200:
-      var listProduct = jsonDecode(response.body)['products'];
-      apiResponse = processingSuccessResponse(listProduct);
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
-  }
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(productIntoList(jsonDecode(response.body)['products']))
+          : processingFailedResponse('GET', code);
 }

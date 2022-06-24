@@ -20,8 +20,8 @@ Future<ApiResponse> updateProfileServices(
       body: {
         'name': name,
         'email': email,
-        'phoneNum': phoneNum,
-        'address': address,
+        'alamat': address,
+        'no_telp': phoneNum,
       },
     );
   } catch (e) {
@@ -29,7 +29,7 @@ Future<ApiResponse> updateProfileServices(
   }
 
   var code = response.statusCode;
-  return (code == 200)
+  return (code >= 200 && code <= 299)
       ? processingSuccessResponse(jsonDecode(response.body)['message'])
       : processingFailedResponse('PUT', code);
 }

@@ -82,7 +82,7 @@ class _MainWindowState extends State<MainWindow> {
         child: SafeArea(
           child: Center(
             child: _pageIndex == 0
-                ? HomeFragment(userName: username)
+                ? const HomeFragment()
                 : _pageIndex == 1
                     ? const CartFragment()
                     : _pageIndex == 2

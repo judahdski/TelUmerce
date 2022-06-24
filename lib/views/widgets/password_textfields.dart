@@ -134,7 +134,7 @@ class _UpdatePasswordTextfieldState extends State<UpdatePasswordTextfield> {
 
   navigateToUpdatePassScreen() {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => UpdatePasswordScreen()));
+        MaterialPageRoute(builder: (context) => const UpdatePasswordScreen()));
   }
 
   @override

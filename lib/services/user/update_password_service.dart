@@ -10,7 +10,6 @@ Future<ApiResponse> updatePasswordService
     (String oldPassword, String newPassword, String newPasswordConfirmation) async
 {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ApiResponse apiResponse = ApiResponse();
   http.Response? response;
 
   try {
@@ -28,16 +27,7 @@ Future<ApiResponse> updatePasswordService
   }
 
   var code = response.statusCode;
-  if (code == 200) {
-    apiResponse.data = jsonDecode(response.body)['message'];
-    apiResponse.isSuccessful = true;
-  } else if (code == 400) {
-    apiResponse.errorMessage = jsonDecode(response.body)['message'];
-    apiResponse.isSuccessful = false;
-  } else {
-    apiResponse.errorMessage = 'Terjadi kesalahan';
-    apiResponse.isSuccessful = false;
-  }
-
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(jsonDecode(response.body)['message'])
+          : processingFailedResponse('PUT', code);
 }
