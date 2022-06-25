@@ -1,31 +1,55 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/model/product.dart';
+import 'package:telumerce/services/product/all_product_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
+import 'package:telumerce/views/widgets/product_card.dart';
 
 import '../../const/color_scheme.dart';
-import '../../data/categories_datasource.dart';
-import '../../model/dummy/category.dart';
 
 class CategorizedScreen extends StatefulWidget {
-  const CategorizedScreen({Key? key, required this.idCategory}) : super(key: key);
+  const CategorizedScreen(
+      {Key? key, required this.categoryName, required this.categoryId})
+      : super(key: key);
 
-  final int idCategory;
+  final String categoryName;
+  final int categoryId;
 
   @override
   State<CategorizedScreen> createState() => _CategorizedScreenState();
 }
 
 class _CategorizedScreenState extends State<CategorizedScreen> {
-  List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
+  final List _products = [];
 
-  String getCategoryName() {
-    for (var category in categoryList) {
-      if (category.id == widget.idCategory) {
-        return category.name;
+  bool isLoading = false;
+
+  Future _getProducts() async {
+    setState(() => isLoading = true);
+    final response = await getProductsService();
+    List<Product> products = response.data as List<Product>;
+
+    if (response.isSuccessful) {
+      for (var product in products) {
+        if (product.idCategory == widget.categoryId) {
+          _products.add(product);
+        }
+      }
+
+      setState(() => isLoading = false);
+    } else {
+      if (kDebugMode) {
+        print(response.errorMessage);
       }
     }
-    return '';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getProducts();
   }
 
   @override
@@ -41,29 +65,37 @@ class _CategorizedScreenState extends State<CategorizedScreen> {
               Navigator.pop(context);
             },
             icon: const FaIcon(FontAwesomeIcons.chevronLeft, size: 14.0)),
-        title: Text(getCategoryName(), style: titleMedium),
+        title: Text(widget.categoryName, style: titleMedium),
         centerTitle: true,
       ),
-      body: ResponsiveLayout(
-        smallMobile: ListView.builder(
-          padding: const EdgeInsets.only(top: 8.0, left: 14.0, right: 14.0),
-          itemCount: 10,
-          itemBuilder: (_, int index) {
-            return const Padding(
-              padding: EdgeInsets.only(bottom: 14.0),
-              child: Text('dummy'),
-            );
-          },
-        ),
-        mediumMobile: ListView.builder(
-          padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
-          itemCount: 10,
-          itemBuilder: (_, int index) {
-            return const Padding(
-              padding: EdgeInsets.only(bottom: 16.0),
-              child: Text('dummy'),
-            );
-          },
+      body: Visibility(
+        visible: isLoading,
+        child: Text('lagi loading'),
+        replacement: ResponsiveLayout(
+          smallMobile: ListView.builder(
+            padding: const EdgeInsets.only(top: 8.0, left: 14.0, right: 14.0),
+            itemCount: _products.length,
+            itemBuilder: (_, int index) {
+              var product = _products[index];
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 14.0),
+                child: ProductCard(product: product),
+              );
+            },
+          ),
+          mediumMobile: ListView.builder(
+            padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
+            itemCount: _products.length,
+            itemBuilder: (_, int index) {
+              var product = _products[index];
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 14.0),
+                child: ProductCard(product: product),
+              );
+            },
+          ),
         ),
       ),
     );

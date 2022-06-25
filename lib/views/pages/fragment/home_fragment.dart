@@ -8,9 +8,11 @@ import 'package:telumerce/services/product/all_category_service.dart';
 import 'package:telumerce/services/product/all_product_services.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
+import 'package:telumerce/views/widgets/category_card.dart';
 import 'package:telumerce/views/widgets/product_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
+import '../../../model/categori.dart';
 import '../../../model/user.dart';
 import '../../widgets/home_search_bar.dart';
 
@@ -41,7 +43,7 @@ class _HomeFragmentState extends State<HomeFragment> {
     final response = await getCategoriesService();
 
     if (response.isSuccessful) {
-      _categories.addAll(response.data as List);
+      _categories.addAll(response.data as List<Categori>);
     } else {
       //TODO: failed to get data
     }
@@ -152,9 +154,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                     padding: const EdgeInsets.only(left: 14.0, right: 24.0),
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: _categories.map((category) {
-                        return Text(category.toString());
-                        // return CategoryCard(category: category);
+                      children: _categories.map((categori) {
+                        return CategoryCard(category: categori);
                       }).toList(),
                     ),
                   ),
@@ -169,7 +170,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                     padding: const EdgeInsets.symmetric(horizontal: 14.0),
                     child: Column(
                       children: _products.map((product) {
-                        return ProductCard(product: product);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 14.0),
+                          child: ProductCard(product: product),
+                        );
                       }).toList(),
                     ),
                   ),
@@ -221,9 +225,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                     padding: const EdgeInsets.only(left: 16.0, right: 24.0),
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: _categories.map((category) {
-                        return Text(category.toString());
-                        // return CategoryCard(category: category);
+                      children: _categories.map((categori) {
+                        return CategoryCard(category: categori);
                       }).toList(),
                     ),
                   ),

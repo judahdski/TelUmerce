@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:telumerce/model/wishlist.dart';
+import 'package:telumerce/services/wishlist/all_wishlist_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
+import 'package:telumerce/views/widgets/product_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
-
-import '../../../data/categories_datasource.dart';
-import '../../../model/dummy/category.dart';
 
 class WishlistFragment extends StatefulWidget {
   const WishlistFragment({Key? key}) : super(key: key);
@@ -13,7 +13,37 @@ class WishlistFragment extends StatefulWidget {
 }
 
 class _WishlistFragmentState extends State<WishlistFragment> {
-  List<Categories> categoryList = CategoriesDatasource.getAllCategoriesDummy();
+  bool isLoading = false;
+  bool isEmpty = false;
+
+  final List _wishlistProducts = [];
+
+  Future _getWishlistProducts() async {
+    setState(() => isLoading = true);
+    final response = await getAllWishlistService();
+
+    if (response.isSuccessful) {
+      setState(() => isLoading = false);
+
+      var wishlistList = response.data as List<Wishlist>;
+      _wishlistProducts.addAll(wishlistList);
+    } else {
+      // TODO: failed to get data
+    }
+  }
+
+  _checkEmptyList() {
+    if (_wishlistProducts.isEmpty) {
+      setState(() => isEmpty = true);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getWishlistProducts();
+    _checkEmptyList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,28 +54,42 @@ class _WishlistFragmentState extends State<WishlistFragment> {
           left: 0,
           right: 0,
           bottom: 0,
-          child: ResponsiveLayout(
-            smallMobile: ListView.builder(
-              padding:
+          child: Visibility(
+            visible: isLoading,
+            child: const Center(child: Text('lagi loading\nbentar yee')),
+            replacement: Visibility(
+              visible: isEmpty,
+              child: const Center(child: Text('gaada yang lu suka')),
+              replacement: ResponsiveLayout(
+                smallMobile: ListView.builder(
+                  padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
-              itemCount: 10,
-              itemBuilder: (_, int index) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 6.0),
-                  child: Text('dummy'),
-                );
-              },
-            ),
-            mediumMobile: ListView.builder(
-              padding:
+                  itemCount: _wishlistProducts.length,
+                  itemBuilder: (_, int index) {
+                    var wishlistProduct = _wishlistProducts[index] as Wishlist;
+                    var product = wishlistProduct.product;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ProductCard(product: product),
+                    );
+                  },
+                ),
+                mediumMobile: ListView.builder(
+                  padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-              itemCount: 10,
-              itemBuilder: (_, int index) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text('dummy'),
-                );
-              },
+                  itemCount: _wishlistProducts.length,
+                  itemBuilder: (_, int index) {
+                    var wishlistProduct = _wishlistProducts[index] as Wishlist;
+                    var product = wishlistProduct.product;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ProductCard(product: product),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
         ),

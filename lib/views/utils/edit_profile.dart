@@ -30,7 +30,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   final TextEditingController _addressController = TextEditingController();
 
-  logout() async {
+  Future _logout() async {
     var response = await logoutService();
 
     Navigator.push(
@@ -39,7 +39,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  getUserInfo() async {
+  Future _getUserInfo() async {
     final response = await getUserService();
     user = (response.data) as User;
 
@@ -49,7 +49,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _addressController.text = user!.alamat;
   }
 
-  Future<bool> updateProfile() async {
+  Future<bool> _updateProfile() async {
     final response = await updateProfileServices(
       _namaController.text,
       _emailController.text,
@@ -76,7 +76,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
 
-    getUserInfo();
+    _getUserInfo();
   }
 
   // UI
@@ -138,7 +138,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             RegularTextfields(
                 label: 'Nama',
                 hint: 'Masukan nama',
-                autoFocus: true,
+                autoFocus: false,
                 controller: _namaController,
                 inputType: TextInputType.name),
             const SizedBox(height: 16.0),
@@ -171,12 +171,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             const SizedBox(height: 32.0),
             ElevatedButton(
                 onPressed: () async {
-                  await updateProfile();
+                  await _updateProfile();
                 },
                 child: const Text('Simpan')),
             OutlinedButton(
                 onPressed: () {
-                  logout();
+                  _logout();
                 },
                 child: const Text(
                   'Log Out',
@@ -263,13 +263,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             const SizedBox(height: 32.0),
             ElevatedButton(
                 onPressed: () async {
-                  await updateProfile();
+                  await _updateProfile();
                 },
                 child: const Text('Simpan')),
             const SizedBox(height: 8.0),
             OutlinedButton(
                 onPressed: () {
-                  logout();
+                  _logout();
                 },
                 child: const Text(
                   'Log Out',
@@ -279,5 +279,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _namaController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _phoneNumController.dispose();
+    _addressController.dispose();
   }
 }

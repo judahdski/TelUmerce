@@ -21,17 +21,10 @@ Future<ApiResponse> addWishlist(int id) async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch (code) {
-    case 200:
-      apiResponse = processingSuccessResponse(
-          listWishlistFromJson(jsonDecode(response.body)['data']));
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
-  }
+  final listWishlist = jsonDecode(response.body)['data'];
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(listWishlistFromJson(listWishlist))
+          : processingFailedResponse('POST', code);
 }

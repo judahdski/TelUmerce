@@ -1,17 +1,13 @@
-// To parse this JSON data, do
-//
-//     final category = categoryFromJson(jsonString);
-
 import 'dart:convert';
 
-List<Category> categoriesFromJson(String str) => List<Category>.from(json.decode(str).map((x) => Category.fromJson(x)));
+List<Categori> categoriesFromJson(String str) => List<Categori>.from(json.decode(str).map((x) => Categori.fromJson(x)));
 
-Category categoryFromJson(String str) => Category.fromJson(json.decode(str));
+Categori categoriFromJson(String str) => Categori.fromJson(json.decode(str));
 
-String categoryToJson(Category data) => json.encode(data.toJson());
+String categoriToJson(Categori data) => json.encode(data.toJson());
 
-class Category {
-  Category({
+class Categori {
+  Categori({
     required this.id,
     required this.nameCategory,
     required this.createdAt,
@@ -23,7 +19,7 @@ class Category {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory Categori.fromJson(Map<String, dynamic> json) => Categori(
     id: json["id"],
     nameCategory: json["name_category"],
     createdAt: DateTime.parse(json["created_at"]),

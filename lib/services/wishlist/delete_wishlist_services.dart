@@ -12,7 +12,7 @@ Future<ApiResponse> deleteWishlist(int id) async {
   http.Response response;
 
   try {
-    response = await http.post(
+    response = await http.delete(
       Uri.parse(deleteWishlistURL(id)),
       headers: getHeaderWithCookie(pref.getString(tokenConst)),
     );

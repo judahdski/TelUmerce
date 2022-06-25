@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/model/dummy/category.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
+import '../../model/categori.dart';
 import '../utils/categorized_screen.dart';
 
 class CategoryCard extends StatefulWidget {
   const CategoryCard({Key? key, required this.category}) : super(key: key);
 
-  final Categories category;
+  final Categori category;
 
   @override
   State<CategoryCard> createState() => _CategoryCardState();
@@ -19,8 +19,15 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => CategorizedScreen(idCategory: widget.category.id)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategorizedScreen(
+              categoryName: widget.category.nameCategory,
+              categoryId: widget.category.id,
+            ),
+          ),
+        );
       },
       child: ResponsiveLayout(
           smallMobile: Container(
@@ -31,7 +38,7 @@ class _CategoryCardState extends State<CategoryCard> {
                 color: Colors.white,
                 border: Border.all(color: const Color(0xffcdcdcd)),
                 borderRadius: BorderRadius.circular(6.0)),
-            child: Text(widget.category.name, style: bodySmall),
+            child: Text(widget.category.nameCategory, style: bodySmall),
           ),
           mediumMobile: Container(
             margin: const EdgeInsets.only(right: 14.0),
@@ -41,7 +48,7 @@ class _CategoryCardState extends State<CategoryCard> {
                 color: Colors.white,
                 border: Border.all(color: const Color(0xffcdcdcd)),
                 borderRadius: BorderRadius.circular(8.0)),
-            child: Text(widget.category.name, style: bodyMedium),
+            child: Text(widget.category.nameCategory, style: bodyMedium),
           )),
     );
   }

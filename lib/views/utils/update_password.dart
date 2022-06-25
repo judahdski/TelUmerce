@@ -49,7 +49,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     return true;
   }
 
-  updatePassword(BuildContext ctx) async {
+  Future _updatePassword(BuildContext ctx) async {
     var oldPassword = _oldPassController.text;
     var newPassword = _passController.text;
     var newPassConfirmation = _passConfirmationController.text;
@@ -105,7 +105,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
             const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () {
-                updatePassword(context);
+                _updatePassword(context);
               },
               child: const Text('Ganti password'),
             )

@@ -1,14 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/model/user.dart';
+import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../utils/edit_profile.dart';
 import '../../widgets/order_card.dart';
 import '../../widgets/order_verification_button.dart';
 
-class ProfileFragment extends StatelessWidget {
+class ProfileFragment extends StatefulWidget {
   const ProfileFragment({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileFragment> createState() => _ProfileFragmentState();
+}
+
+class _ProfileFragmentState extends State<ProfileFragment> {
+  bool isLoading = false;
+  String userName = '';
+
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
+
+  Future _getUserInfo() async {
+    final response = await getUserService();
+
+    if (response.isSuccessful) {
+      var user = response.data as User;
+      setState(() {
+        userName = user.name;
+      });
+    }
+  }
+
+  Future _loadProfileLoad() async {
+    setStateIfMounted(() => isLoading = true);
+
+    _getUserInfo();
+
+    await Future.delayed(const Duration(seconds: 2));
+    setStateIfMounted(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadProfileLoad();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,25 +62,25 @@ class ProfileFragment extends StatelessWidget {
           right: 0,
           bottom: 0,
           child: ListView(
-            children: const [
-              ProfileCard(),
-              Divider(thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
-              OrderConfirmationButton(
+            children: [
+              ProfileCard(username: userName),
+              const Divider(thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
+              const OrderConfirmationButton(
                 icon: FontAwesomeIcons.creditCard,
                 text: "Menunggu pembayaran",
                 status: StatusBtnIndicator.waitingPayment,
               ),
-              OrderConfirmationButton(
+              const OrderConfirmationButton(
                 icon: FontAwesomeIcons.solidCircleCheck,
                 text: "Menunggu verifikasi",
                 status: StatusBtnIndicator.waitingVerification,
               ),
-              OrderConfirmationButton(
+              const OrderConfirmationButton(
                 icon: FontAwesomeIcons.ban,
                 text: "Pesanan dibatalkan",
                 status: StatusBtnIndicator.cancelled,
               ),
-              SuccessOrderList(),
+              const SuccessOrderList(),
             ],
           ),
         ),
@@ -54,10 +95,19 @@ class ProfileFragment extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    print('dispose dijalankan');
+  }
 }
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({Key? key}) : super(key: key);
+  const ProfileCard({Key? key, required this.username}) : super(key: key);
+
+  final String username;
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +115,10 @@ class ProfileCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 14.0),
       child: ListTile(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const EditProfileScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const EditProfileScreen()));
         },
         contentPadding:
             const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
@@ -83,10 +135,10 @@ class ProfileCard extends StatelessWidget {
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text('Judah Joshua Martin Dasuki', style: titleSmall),
-            SizedBox(height: 4.0),
-            Text('Edit profile >', style: subNameText)
+          children: [
+            Text(username, style: titleSmall),
+            const SizedBox(height: 4.0),
+            const Text('Profile >', style: subNameText)
           ],
         ),
       ),

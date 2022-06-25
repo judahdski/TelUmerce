@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
-import 'package:telumerce/model/category.dart';
+import 'package:telumerce/model/categori.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
 import '../../model/api_response.dart';
