@@ -1,20 +1,48 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/model/payment_info.dart';
+import 'package:telumerce/services/payment/info_payment_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import 'checkout_screen.dart';
 
-class PaymentOptionsScreen extends StatelessWidget {
+class PaymentOptionsScreen extends StatefulWidget {
   const PaymentOptionsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PaymentOptionsScreen> createState() => _PaymentOptionsScreenState();
+}
+
+class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
+  dynamic paymentInfo;
+
+  Future _getPaymentInfo() async {
+    final response = await getInfoPaymentService();
+
+    if (response.isSuccessful) {
+      paymentInfo = response.data;
+    } else {
+      if (kDebugMode) {
+        print(response.errorMessage);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getPaymentInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: const SizedBox(),
         title: const Text('Checkout', style: titleMedium),
       ),
       body: ListView(

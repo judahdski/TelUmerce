@@ -41,7 +41,9 @@ class _SearchScreenState extends State<SearchScreen> {
         if (i == 10) return;
       }
     } else {
-      print(response.errorMessage);
+      if (kDebugMode) {
+        print(response.errorMessage);
+      }
     }
   }
 
@@ -57,7 +59,9 @@ class _SearchScreenState extends State<SearchScreen> {
         if (i == 10) return;
       }
     } else {
-      print(response.errorMessage);
+      if (kDebugMode) {
+        print(response.errorMessage);
+      }
     }
   }
 

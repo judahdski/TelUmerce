@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/model/user.dart';
-import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../utils/edit_profile.dart';
@@ -10,7 +8,9 @@ import '../../widgets/order_card.dart';
 import '../../widgets/order_verification_button.dart';
 
 class ProfileFragment extends StatefulWidget {
-  const ProfileFragment({Key? key}) : super(key: key);
+  const ProfileFragment({Key? key, required this.username}) : super(key: key);
+
+  final String username;
 
   @override
   State<ProfileFragment> createState() => _ProfileFragmentState();
@@ -18,38 +18,6 @@ class ProfileFragment extends StatefulWidget {
 
 class _ProfileFragmentState extends State<ProfileFragment> {
   bool isLoading = false;
-  String userName = '';
-
-  void setStateIfMounted(f) {
-    if (mounted) setState(f);
-  }
-
-  Future _getUserInfo() async {
-    final response = await getUserService();
-
-    if (response.isSuccessful) {
-      var user = response.data as User;
-      setState(() {
-        userName = user.name;
-      });
-    }
-  }
-
-  Future _loadProfileLoad() async {
-    setStateIfMounted(() => isLoading = true);
-
-    _getUserInfo();
-
-    await Future.delayed(const Duration(seconds: 2));
-    setStateIfMounted(() => isLoading = false);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _loadProfileLoad();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,27 +29,34 @@ class _ProfileFragmentState extends State<ProfileFragment> {
           left: 0,
           right: 0,
           bottom: 0,
-          child: ListView(
-            children: [
-              ProfileCard(username: userName),
-              const Divider(thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
-              const OrderConfirmationButton(
-                icon: FontAwesomeIcons.creditCard,
-                text: "Menunggu pembayaran",
-                status: StatusBtnIndicator.waitingPayment,
-              ),
-              const OrderConfirmationButton(
-                icon: FontAwesomeIcons.solidCircleCheck,
-                text: "Menunggu verifikasi",
-                status: StatusBtnIndicator.waitingVerification,
-              ),
-              const OrderConfirmationButton(
-                icon: FontAwesomeIcons.ban,
-                text: "Pesanan dibatalkan",
-                status: StatusBtnIndicator.cancelled,
-              ),
-              const SuccessOrderList(),
-            ],
+          child: Visibility(
+            visible: isLoading,
+            child: const Center(
+              child: Text('lagi loading'),
+            ),
+            replacement: ListView(
+              children: [
+                ProfileCard(username: widget.username),
+                const Divider(
+                    thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
+                const OrderConfirmationButton(
+                  icon: FontAwesomeIcons.creditCard,
+                  text: "Menunggu pembayaran",
+                  status: StatusBtnIndicator.waitingPayment,
+                ),
+                const OrderConfirmationButton(
+                  icon: FontAwesomeIcons.solidCircleCheck,
+                  text: "Menunggu verifikasi",
+                  status: StatusBtnIndicator.waitingVerification,
+                ),
+                const OrderConfirmationButton(
+                  icon: FontAwesomeIcons.ban,
+                  text: "Pesanan dibatalkan",
+                  status: StatusBtnIndicator.cancelled,
+                ),
+                const SuccessOrderList(),
+              ],
+            ),
           ),
         ),
 
@@ -94,13 +69,6 @@ class _ProfileFragmentState extends State<ProfileFragment> {
         ),
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    print('dispose dijalankan');
   }
 }
 

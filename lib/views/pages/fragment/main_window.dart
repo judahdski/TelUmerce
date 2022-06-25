@@ -22,19 +22,25 @@ class MainWindow extends StatefulWidget {
 
 class _MainWindowState extends State<MainWindow> {
   int _pageIndex = 0;
-  String username = 'null';
+  String username = '';
 
-  getUserInfo() async {
+  Future _getUserInfo() async {
     final response = await getUserService();
-    var user = (response.data) as User;
-    username = user.name;
+
+    if (response.isSuccessful) {
+      var user = response.data as User;
+      setState(() {
+        username = user.name;
+      });
+    }
   }
 
   @override
   void initState() {
-    _pageIndex = widget.pageIndex;
-    getUserInfo();
     super.initState();
+
+    _getUserInfo();
+    _pageIndex = widget.pageIndex;
   }
 
   @override
@@ -87,7 +93,7 @@ class _MainWindowState extends State<MainWindow> {
                     ? const CartFragment()
                     : _pageIndex == 2
                         ? const WishlistFragment()
-                        : const ProfileFragment(),
+                        : ProfileFragment(username: username),
           ),
         ),
       ),

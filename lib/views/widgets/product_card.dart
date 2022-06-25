@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -49,10 +50,8 @@ class _ProductCardState extends State<ProductCard> {
         if (wishlist.idProduk == widget.product.id) {
           setState(() {
             isFav = true;
-            print('wishlist id: ${wishlist.id}');
           });
           wishlistId = wishlist.id;
-          print('wishlist id: $wishlistId');
         }
       }
 
@@ -62,7 +61,9 @@ class _ProductCardState extends State<ProductCard> {
       await Future.delayed(const Duration(milliseconds: 2));
       setStateIfMounted(() => isLoading = false);
     } else {
-      print(response.errorMessage);
+      if (kDebugMode) {
+        print(response.errorMessage);
+      }
     }
   }
 
@@ -87,7 +88,9 @@ class _ProductCardState extends State<ProductCard> {
         wishlistId = newWishlist[0].id;
       }
     } else {
-      print(response.errorMessage);
+      if (kDebugMode) {
+        print(response.errorMessage);
+      }
     }
   }
 

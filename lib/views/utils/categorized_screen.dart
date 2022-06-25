@@ -70,7 +70,7 @@ class _CategorizedScreenState extends State<CategorizedScreen> {
       ),
       body: Visibility(
         visible: isLoading,
-        child: Text('lagi loading'),
+        child: const Text('lagi loading'),
         replacement: ResponsiveLayout(
           smallMobile: ListView.builder(
             padding: const EdgeInsets.only(top: 8.0, left: 14.0, right: 14.0),

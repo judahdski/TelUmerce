@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
@@ -8,7 +9,7 @@ import 'package:telumerce/model/payment_info.dart';
 
 import '../utils/helper_method.dart';
 
-Future<ApiResponse> addInfoPayment() async {
+Future<ApiResponse> getInfoPaymentService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
 
@@ -21,18 +22,18 @@ Future<ApiResponse> addInfoPayment() async {
     return catchTheException(e.toString());
   }
 
-
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-      var paymentInfo = PaymentInfo.fromJson(jsonDecode(response.body)['data']);
-      apiResponse = processingSuccessResponse(paymentInfo);
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
+  dynamic paymentInfo = 'biar ga NPE ajaa';
+
+  try {
+    paymentInfo = PaymentInfo.fromJson(jsonDecode(response.body)['data']);
+  } catch(e) {
+    if (kDebugMode) {
+      print(e.toString());
+    }
   }
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+      ? processingSuccessResponse(paymentInfo)
+      : processingFailedResponse('GET', code);
 }
