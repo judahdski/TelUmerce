@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -69,18 +67,17 @@ class _ProductCardState extends State<ProductCard> {
                   borderRadius: BorderRadius.circular(10.0)),
               child: Row(
                 children: [
-
                   // TODO: blum bisa nampilin gambar dari api
                   SizedBox(
                     width: 94.0,
-                    // child: Image.network(
-                    //   'https://s4.bukalapak.com/img/4954929533/large/TUMBLER_STARBUCKS_RARE_LIMITED_EDITION_2.jpg',
-                    //   fit: BoxFit.cover,
-                    // )),
                     child: Image.network(
-                      widget.product.gambarProduct,
+                      'https://s4.bukalapak.com/img/4954929533/large/TUMBLER_STARBUCKS_RARE_LIMITED_EDITION_2.jpg',
                       fit: BoxFit.cover,
                     ),
+                    // child: Image.network(
+                    //   widget.product.gambarProduct,
+                    //   fit: BoxFit.cover,
+                    // ),
                   ),
 
                   const SizedBox(width: 14.0),

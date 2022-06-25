@@ -16,6 +16,7 @@ const updatePasswordUserURL = baseURL + '/user/edit_password';
 
 // p r o d u c t
 const getAllProductsURL = baseURL + '/products';
+const getAllCategoriesURL = baseURL + '/products/category';
 String getProductDetailURL (int id) {
   return '$baseURL/products/$id';
 }
