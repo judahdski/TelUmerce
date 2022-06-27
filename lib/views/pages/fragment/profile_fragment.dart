@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/views/widgets/order_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
+import '../../../model/order.dart';
 import '../../../model/user.dart';
+import '../../../services/order/all_order_services.dart';
 import '../../../services/user/get_user_services.dart';
 import '../../utils/edit_profile.dart';
 import '../../widgets/order_verification_button.dart';
@@ -21,6 +24,9 @@ class _ProfileFragmentState extends State<ProfileFragment> {
   String username = '';
   User? user;
 
+  final List<Order> _orders = [];
+  final List<Order> _successfulOrders = [];
+
   Future _getUserInfo() async {
     final response = await getUserService();
 
@@ -33,10 +39,31 @@ class _ProfileFragmentState extends State<ProfileFragment> {
     }
   }
 
+  Future _getOrders() async {
+    final response = await getAllOrderService();
+
+    if (response.isSuccessful) {
+      _orders.addAll(response.data as List<Order>);
+    } else {
+      print(
+          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+    }
+  }
+
+  Future _getSuccessfulOrders() async {
+    for(var order in _orders) {
+      if (order.statusOrder.status == "Sukses") {
+        print(order);
+      }
+    }
+  }
+
   Future _loadProfileFragment() async {
     setState(() => isLoading = true);
+    await _getOrders();
+    await _getSuccessfulOrders();
     await _getUserInfo();
-    await Future.delayed(const Duration(milliseconds: 5));
+    await Future.delayed(const Duration(milliseconds: 3));
     setState(() => isLoading = false);
   }
 
@@ -89,7 +116,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                   text: "Pesanan dibatalkan",
                   status: StatusBtnIndicator.cancelled,
                 ),
-                const SuccessOrderList(),
+                SuccessOrderList(orders: _successfulOrders,),
               ],
             ),
           ),
@@ -150,14 +177,18 @@ class ProfileCard extends StatelessWidget {
 }
 
 class SuccessOrderList extends StatelessWidget {
-  const SuccessOrderList({Key? key}) : super(key: key);
+  const SuccessOrderList({Key? key, required this.orders}) : super(key: key);
+
+  final List<Order> orders;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 14.0),
       child: Column(
-        children: const [],
+        children: orders.map((e) {
+          return OrderCard();
+        }).toList(),
       ),
     );
   }

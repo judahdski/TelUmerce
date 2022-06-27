@@ -1,13 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
+import '../../model/order.dart';
+import '../../services/order/all_order_services.dart';
 import '../utils/detail_order_screen.dart';
 
-class OrderCard extends StatelessWidget {
+class OrderCard extends StatefulWidget {
   const OrderCard({Key? key}) : super(key: key);
+
+  final int orderId = 39;
+
+  @override
+  State<OrderCard> createState() => _OrderCardState();
+}
+
+class _OrderCardState extends State<OrderCard> {
+  final oCcy = NumberFormat("#,##0", "en_US");
+  String statusText = '';
+  String nomorResi = '';
+  String jumlahHarga = '0';
+  bool isLoading = false;
+
+  final List<Order> _orders = [];
+  Order? _order;
+
+  Future _getOrders() async {
+    final response = await getAllOrderService();
+
+    if (response.isSuccessful) {
+      _orders.addAll(response.data as List<Order>);
+    } else {
+      print(
+          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+    }
+  }
+
+  Future _getOrder() async {
+    await _getOrders();
+    for (var order in _orders) {
+      if (order.id == widget.orderId) {
+        _order = order;
+      }
+    }
+  }
+
+  _setUIState() {
+    statusText = _order!.statusOrder.status;
+    nomorResi = _order!.noResi;
+    jumlahHarga = _order!.jumlahHarga;
+  }
+
+  Future _loadOrderCard() async {
+    setState(() => isLoading = true);
+
+    await _getOrder();
+    print(_order.toString());
+    _setUIState();
+
+    await Future.delayed(const Duration(milliseconds: 3));
+    setState(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadOrderCard();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +121,10 @@ class OrderCard extends StatelessWidget {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      OrderStatus(),
-                      SizedBox(height: 4.0),
-                      Text('XaDS-1283-adSd', style: orderIdSmall),
+                    children: [
+                      OrderStatus(statusText: statusText,),
+                      const SizedBox(height: 4.0),
+                      Text(nomorResi, style: orderIdSmall),
                     ],
                   )
                 ],
@@ -70,10 +140,10 @@ class OrderCard extends StatelessWidget {
                   const Text('', style: linkTextSmall),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      Text('Total belanja', style: bodySmall),
-                      SizedBox(height: 4.0),
-                      Text('Rp63.720', style: labelLarge),
+                    children:  [
+                      const Text('Total belanja', style: bodySmall),
+                      const SizedBox(height: 4.0),
+                      Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
                     ],
                   )
                 ],
@@ -106,10 +176,10 @@ class OrderCard extends StatelessWidget {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      OrderStatus(),
-                      SizedBox(height: 6.0),
-                      Text('XaDS-1283-adSd', style: orderIdMedium),
+                    children: [
+                      OrderStatus(statusText: statusText,),
+                      const SizedBox(height: 6.0),
+                      Text(nomorResi, style: orderIdMedium),
                     ],
                   )
                 ],
@@ -125,10 +195,10 @@ class OrderCard extends StatelessWidget {
                   const Text('', style: linkTextMedium),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      Text('Total belanja', style: bodyMedium),
-                      SizedBox(height: 6.0),
-                      Text('Rp25.000', style: titleMedium),
+                    children:  [
+                      const Text('Total belanja', style: bodyMedium),
+                      const SizedBox(height: 4.0),
+                      Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
                     ],
                   )
                 ],
@@ -142,7 +212,9 @@ class OrderCard extends StatelessWidget {
 }
 
 class OrderStatus extends StatelessWidget {
-  const OrderStatus({Key? key}) : super(key: key);
+  const OrderStatus({Key? key, required this.statusText}) : super(key: key);
+
+  final String statusText;
 
   @override
   Widget build(BuildContext context) {
@@ -152,9 +224,9 @@ class OrderStatus extends StatelessWidget {
         borderRadius: BorderRadius.circular(4.0),
         color: const Color(0xffFFA500),
       ),
-      child: const ResponsiveLayout(
-          smallMobile: Text('Menunggu verifikasi', style: statusTextSmall),
-          mediumMobile: Text('Menunggu verifikasi', style: statusTextMedium)),
+      child: ResponsiveLayout(
+          smallMobile: Text(statusText, style: statusTextSmall),
+          mediumMobile: Text(statusText, style: statusTextMedium)),
     );
   }
 }

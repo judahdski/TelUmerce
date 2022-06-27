@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:telumerce/views/pages/fragment/main_window.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../../const/text_theme.dart';
+import '../../../services/order/payment_order_services.dart';
 
 class PaymentValidationScreen extends StatefulWidget {
-  const PaymentValidationScreen({Key? key}) : super(key: key);
+  const PaymentValidationScreen({Key? key, required this.orderId})
+      : super(key: key);
+
+  final int orderId;
 
   @override
   State<PaymentValidationScreen> createState() =>
@@ -19,9 +22,20 @@ class PaymentValidationScreen extends StatefulWidget {
 }
 
 class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
-  //Variable
   File? image;
+  String imageName = '';
   bool isUploaded = false;
+
+  void _retakeImage() {
+    setState(() => isUploaded = false);
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   // UI
   @override
@@ -29,14 +43,24 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: const Text(''),
+        leading: IconButton(
+          icon: const FaIcon(FontAwesomeIcons.chevronLeft),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: const Text('Validasi Pembayaran'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0),
         child: Visibility(
           visible: isUploaded,
-          child: ImageUploadedContainer(image: image),
+          child: ImageUploadedContainer(
+            imageName: imageName,
+            orderId: widget.orderId,
+            image: image,
+            retakeBtnFunction: _retakeImage,
+          ),
           replacement: ImagePickerContainer(
             buttonImage: imagePickerButton(
                 icon: FontAwesomeIcons.image,
@@ -53,17 +77,30 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
   }
 
   Future takeFromGallery() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
+      if (image == null) {
+        setState(() => isUploaded = false);
+        Navigator.of(context).pop();
+        return;
+      }
 
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
+      setState(() => imageName = image.name);
     } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print('Failed to pick image: $e');
-      }
+      String msg = 'Failed to pick image: $e';
+      var snackbar = SnackBar(content: Text(msg));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
+
+    Navigator.of(context).pop();
   }
 
   Future takeFromCamera() async {
@@ -75,14 +112,19 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
 
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (image == null) return;
+      if (image == null) {
+        setState(() => isUploaded = false);
+        Navigator.of(context).pop();
+        return;
+      }
 
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
+      setState(() => imageName = image.name);
     } on PlatformException catch (e) {
-      if (kDebugMode) {
-        print('Failed to pick image: $e');
-      }
+      String msg = 'Failed to pick image: $e';
+      var snackbar = SnackBar(content: Text(msg));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
 
     Navigator.of(context).pop();
@@ -106,63 +148,109 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
   }
 }
 
-class ImageUploadedContainer extends StatelessWidget {
-  const ImageUploadedContainer({Key? key, required this.image})
+class ImageUploadedContainer extends StatefulWidget {
+  const ImageUploadedContainer(
+      {Key? key,
+      required this.image,
+      required this.retakeBtnFunction,
+      required this.orderId,
+      required this.imageName})
       : super(key: key);
 
+  final int orderId;
   final File? image;
+  final String imageName;
+  final VoidCallback retakeBtnFunction;
+
+  @override
+  State<ImageUploadedContainer> createState() => _ImageUploadedContainerState();
+}
+
+class _ImageUploadedContainerState extends State<ImageUploadedContainer> {
+  bool isLoading = false;
+
+  Future _uploadTransferForm() async {
+    String msg = '';
+    var orderId = widget.orderId;
+    var imageFile = widget.imageName;
+
+    setState(() => isLoading = true);
+    print(orderId);
+    print(imageFile);
+    final response = await uploadPaymentOrderService(orderId, imageFile);
+    setState(() => isLoading = false);
+
+    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainWindow(0)), (Route<dynamic> route) => false);
+
+    if (response.isSuccessful) {
+      msg = 'Berhasil mengupload gambar';
+    } else {
+      msg = 'Gagal, karena ${response.errorMessage}';
+    }
+    print(msg);
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if ((image == null)) {
+    if ((widget.image == null)) {
       return const SizedBox();
     } else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32.0),
-                child: Container(
-                  width: 220.0,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: darkBlueShade300, width: 8.0)),
-                  child: AspectRatio(
-                      aspectRatio: 2 / 3,
-                      child: Image.file(image!,
-                          fit: BoxFit.cover, alignment: Alignment.center)),
+      return Visibility(
+        visible: isLoading,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        replacement: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32.0),
+                  child: Container(
+                    width: 220.0,
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: darkBlueShade300, width: 8.0)),
+                    child: AspectRatio(
+                        aspectRatio: 2 / 3,
+                        child: Image.file(widget.image!,
+                            fit: BoxFit.cover, alignment: Alignment.center)),
+                  ),
                 ),
-              ),
-              const Text(
-                  'Bukti transfer akan diverifikasi terlebih dahulu oleh admin kami, pastikan bukti transfer sudah benar',
-                  style: bodySmall,
-                  textAlign: TextAlign.center),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const PaymentValidationScreen()));
-                },
-                child: const Text('Ambil ulang gambar', style: labelLarge),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainWindow(0)), (Route<dynamic> route) => false);
-                },
-                child: const Text('Selesai'),
-              ),
-            ],
-          )
-        ],
+                const Text(
+                    'Bukti transfer akan diverifikasi terlebih dahulu oleh admin kami, pastikan bukti transfer sudah benar',
+                    style: bodySmall,
+                    textAlign: TextAlign.center),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    widget.retakeBtnFunction();
+                  },
+                  child: const Text('Ambil ulang gambar', style: labelLarge),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _uploadTransferForm();
+                  },
+                  child: const Text('Selesai'),
+                ),
+              ],
+            )
+          ],
+        ),
       );
     }
   }

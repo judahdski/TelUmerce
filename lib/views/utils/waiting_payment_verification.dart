@@ -2,10 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
+import '../../model/order.dart';
+import '../../services/order/all_order_services.dart';
 import '../widgets/order_card.dart';
 
-class WaitingPaymentVerificationScreen extends StatelessWidget {
+class WaitingPaymentVerificationScreen extends StatefulWidget {
   const WaitingPaymentVerificationScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WaitingPaymentVerificationScreen> createState() => _WaitingPaymentVerificationScreenState();
+}
+
+class _WaitingPaymentVerificationScreenState extends State<WaitingPaymentVerificationScreen> {
+  bool isLoading = false;
+  final List<Order> _orders = [];
+  final List<Order> _waitingPaymentVerificationOrders = [];
+
+  Future _getOrders() async {
+    final response = await getAllOrderService();
+
+    if (response.isSuccessful) {
+      _orders.addAll(response.data as List<Order>);
+    } else {
+      print(
+          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+    }
+  }
+
+  Future _getWaitingPaymentVerificationOrders() async {
+    for (var order in _orders) {
+      if (order.statusOrder.status == "Menunggu Verifikasi") {
+        print(order);
+      }
+    }
+  }
+
+  Future _loadWaitingPaymentVerificationFragment() async {
+    setState(() => isLoading = true);
+    await _getOrders();
+    await _getWaitingPaymentVerificationOrders();
+    await Future.delayed(const Duration(milliseconds: 3));
+    setState(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadWaitingPaymentVerificationFragment();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

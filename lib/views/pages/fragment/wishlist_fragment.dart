@@ -46,6 +46,13 @@ class _WishlistFragmentState extends State<WishlistFragment> {
   }
 
   @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [

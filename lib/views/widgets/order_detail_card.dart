@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/text_theme.dart';
@@ -15,6 +16,7 @@ class OrderDetail extends StatefulWidget {
 }
 
 class _OrderDetailState extends State<OrderDetail> {
+  final oCcy = NumberFormat("#,##0", "en_US");
   final List _orders = [];
   Order? _order;
 
@@ -24,20 +26,22 @@ class _OrderDetailState extends State<OrderDetail> {
   int jumlahHarga = 0;
   String alamat = 'Komplek Graha Santika Blok C1 No.15';
 
+  // -------------------- G E T  O R D E R S
+
   Future _getOrders() async {
     final response = await getAllOrderService();
 
     if (response.isSuccessful) {
       _orders.addAll(response.data as List<Order>);
     } else {
-      print('terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+      print(
+          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
     }
   }
 
   Future _getOrder() async {
     await _getOrders();
-
-    for(var order in _orders) {
+    for (var order in _orders) {
       if (order.id == widget.orderId) {
         _order = order;
       }
@@ -61,6 +65,13 @@ class _OrderDetailState extends State<OrderDetail> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _loadOrderDetailCard();
+  }
+
+  @override
   void setState(VoidCallback fn) {
     if (mounted) {
       super.setState(fn);
@@ -73,7 +84,7 @@ class _OrderDetailState extends State<OrderDetail> {
       color: Colors.white,
       child: Visibility(
         visible: isLoading,
-        child:  Container(
+        child: Container(
           height: 200,
           color: const Color(0xffe5e5e5),
         ),
@@ -94,11 +105,11 @@ class _OrderDetailState extends State<OrderDetail> {
                           //  bisa pake column klo barangnya lebih dari 1
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
                               //  Nama barang
-                              Text('Tumbler', style: titleSmall),
+                              const Text('id cart', style: titleSmall),
                               //Harga barang
-                              Text('Rp63.720', style: labelMedium),
+                              Text('$idCart', style: labelMedium),
                             ],
                           ),
 
@@ -109,11 +120,11 @@ class _OrderDetailState extends State<OrderDetail> {
                           //  Total harga barang
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
                               //  label
-                              Text('Harga produk', style: bodySmall),
+                              const Text('Harga produk', style: bodySmall),
                               //  Total harga
-                              Text('Rp63.720', style: labelMedium),
+                              Text('Rp${oCcy.format(jumlahHarga)}', style: labelMedium),
                             ],
                           ),
 
@@ -166,9 +177,7 @@ class _OrderDetailState extends State<OrderDetail> {
                           const Text('Alamat penerima', style: labelSmall),
                           const SizedBox(height: 8.0),
                           //  alamat user
-                          Text(
-                              alamat,
-                              style: alamatUser),
+                          Text(alamat, style: alamatUser),
                         ],
                       )
                     ],
@@ -194,9 +203,9 @@ class _OrderDetailState extends State<OrderDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               //  Nama barang
-                              const Text('Tumbler', style: titleMedium),
+                              const Text('id cart', style: titleMedium),
                               //Harga barang
-                              Text('Rp63.720', style: labelLarge),
+                              Text('$idCart', style: labelLarge),
                             ],
                           ),
 
@@ -209,9 +218,9 @@ class _OrderDetailState extends State<OrderDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               //  label
-                              Text('Harga produk', style: bodyMedium),
+                              const Text('Harga produk', style: bodyMedium),
                               //  Total harga
-                              Text('Rp63.720', style: labelLarge),
+                              Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
                             ],
                           ),
 
@@ -222,8 +231,7 @@ class _OrderDetailState extends State<OrderDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: const [
                               //  label
-                              Text('Ongkos kirim',
-                                  style: bodyMedium),
+                              Text('Ongkos kirim', style: bodyMedium),
                               //  Ongkos kirim
                               Text('Rp5.500', style: labelLarge),
                             ],
@@ -265,9 +273,7 @@ class _OrderDetailState extends State<OrderDetail> {
                           const Text('Alamat penerima', style: labelMedium),
                           const SizedBox(height: 10.0),
                           //  alamat user
-                          Text(
-                              alamat,
-                              style: alamatUser),
+                          Text(alamat, style: alamatUser),
                         ],
                       )
                     ],

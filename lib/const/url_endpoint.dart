@@ -68,6 +68,15 @@ const notFound = "404 tidak ketemu";
 /*
   h e a d e r s
  */
+Map<String, String> getHeaderFileUploadRequest(String? token) {
+  return {
+    'Authorization': 'Bearer $token',
+    'Postman-Token': '<calculated when request is sent>',
+    'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+    'Accept': 'application/json'
+  };
+}
+
 Map<String, String> getHeaderRequest(String? token) {
   return {
     'Authorization': 'Bearer $token',

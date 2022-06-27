@@ -23,8 +23,10 @@ Future<ApiResponse> getAllOrderService() async {
   }
 
   final code = response.statusCode;
+  List orderContainerList = jsonDecode(response.body)['data'];
+  List orderList = listOrderFromJson(orderContainerList);
 
   return (code >= 200 && code <= 299)
-          ? processingSuccessResponse(listOrderFromJson(jsonDecode(response.body)['data'][0]))
+          ? processingSuccessResponse(orderList)
           : processingFailedResponse('GET', code);
 }

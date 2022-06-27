@@ -29,12 +29,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final List<Order> _orders = [];
   Order? _order;
 
-
-  // -------------------- O R D E R  D E T A I L  S T A T E
-
-  // ------------------- D E T A I L  P E N G I R I M A N
-
-
   // -------------------- T I M E R  S T A T E
   int maxTime = 59;
   int minutes = 0;
@@ -44,10 +38,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   _setUITimer() {
     minutes = maxTime;
     seconds = maxTime;
-    print('maxtime : $maxTime');
   }
 
-   _startTime () {
+  _startTime() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (seconds > 0) {
         setState(() => seconds--);
@@ -84,24 +77,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
+
+  // -------------------- G E T  O R D E R S
+
   Future _getOrders() async {
     final response = await getAllOrderService();
 
     if (response.isSuccessful) {
       _orders.addAll(response.data as List<Order>);
     } else {
-      print('terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+      print(
+          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
     }
   }
 
   Future _getOrder() async {
     await _getOrders();
-    for(var order in _orders) {
+    for (var order in _orders) {
       if (order.id == widget.orderId) {
         _order = order;
       }
     }
   }
+
+
+  // --------------------------- C A N C E L  O R D E R
 
   Future _cancelOrder() async {
     String msg = '';
@@ -109,7 +109,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     if (response.isSuccessful) {
       msg = response.data as String;
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainWindow(0)), (Route<dynamic> route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainWindow(0)),
+          (Route<dynamic> route) => false);
     } else {
       msg = 'Gagal, karena ${response.errorMessage}';
     }
@@ -121,7 +124,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future _loadCheckoutScreen() async {
     setState(() => isLoading = true);
 
-    // await _getOrder();
+    await _getOrder();
     await _setUITimer();
     await _startTime();
 
@@ -143,6 +146,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
+  // ------------------------------------------------- U I  C O D E ----------------------------------------------------
+  // ------------------------------------------------- U I  C O D E ----------------------------------------------------
+  // ------------------------------------------------- U I  C O D E ----------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,26 +171,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           timeCounter(),
           const BankInfoCard(),
           Container(
-            margin:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
+            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              const PaymentValidationScreen()));
+                              PaymentValidationScreen(orderId: widget.orderId)));
                 },
                 child: const Text('Bayar')),
           ),
           Container(
-            margin:
-            const EdgeInsets.symmetric(horizontal: 14.0),
+            margin: const EdgeInsets.symmetric(horizontal: 14.0),
             child: OutlinedButton(
               onPressed: () {
                 _cancelOrder();
               },
-              child: const Text('Batal Pesan', style: TextStyle(color: Colors.red),),
+              child: const Text(
+                'Batal Pesan',
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           )
         ],
