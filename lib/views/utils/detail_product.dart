@@ -58,10 +58,8 @@ class _DetailProductState extends State<DetailProduct> {
     final response = await addCartService(productAmount, id);
 
     if (response.isSuccessful) {
-      // TODO: success add cart
       Navigator.push(context, MaterialPageRoute(builder: (context) => const MainWindow(1)));
     } else {
-      // TODO: failed add cart
       print(response.errorMessage);
     }
   }
@@ -210,7 +208,6 @@ class _DetailProductState extends State<DetailProduct> {
                       priceCounterWidget(),
                       ElevatedButton(
                         onPressed: () {
-                          //  TODO: Add to the cart list
                           _addCart(amount.toString(), idProduct);
                         },
                         child: const Text('Tambah'),
@@ -255,7 +252,6 @@ class _DetailProductState extends State<DetailProduct> {
                       priceCounterWidget(),
                       ElevatedButton(
                         onPressed: () {
-                          //  TODO: Add to the cart list
                           _addCart(amount.toString(), idProduct);
                         },
                         child: const Text('Tambah'),

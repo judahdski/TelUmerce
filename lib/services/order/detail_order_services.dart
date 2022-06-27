@@ -6,6 +6,8 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
+import '../../model/order_detail.dart';
+
 Future<ApiResponse> getOrderDetail(int id) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
@@ -21,18 +23,11 @@ Future<ApiResponse> getOrderDetail(int id) async {
     return catchTheException(e.toString());
   }
 
-
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-      final data = jsonDecode(response.body)['data'][0];
-      apiResponse = processingSuccessResponse(data);
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
-  }
+  final data = jsonDecode(response.body)['data'][0];
+  final orderDetail = OrderDetailModel.fromJson(data);
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(orderDetail)
+          : processingFailedResponse('GET', code);
 }

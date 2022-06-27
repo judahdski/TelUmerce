@@ -52,8 +52,8 @@ class _ProfileFragmentState extends State<ProfileFragment> {
 
   Future _getSuccessfulOrders() async {
     for(var order in _orders) {
-      if (order.statusOrder.status == "Sukses") {
-        print(order);
+      if (order.statusOrder.status == "Selesai") {
+        _successfulOrders.add(order);
       }
     }
   }
@@ -186,8 +186,8 @@ class SuccessOrderList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 14.0),
       child: Column(
-        children: orders.map((e) {
-          return OrderCard();
+        children: orders.map((order) {
+          return OrderCard(orderId: order.id,);
         }).toList(),
       ),
     );

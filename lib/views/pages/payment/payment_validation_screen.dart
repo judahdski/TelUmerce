@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../const/color_scheme.dart';
 import '../../../const/text_theme.dart';
 import '../../../services/order/payment_order_services.dart';
+import '../fragment/main_window.dart';
 
 class PaymentValidationScreen extends StatefulWidget {
   const PaymentValidationScreen({Key? key, required this.orderId})
@@ -93,7 +94,7 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
 
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
-      setState(() => imageName = image.name);
+      setState(() => imageName = image.path);
     } on PlatformException catch (e) {
       String msg = 'Failed to pick image: $e';
       var snackbar = SnackBar(content: Text(msg));
@@ -120,7 +121,7 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
 
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
-      setState(() => imageName = image.name);
+      setState(() => imageName = image.path);
     } on PlatformException catch (e) {
       String msg = 'Failed to pick image: $e';
       var snackbar = SnackBar(content: Text(msg));
@@ -180,7 +181,13 @@ class _ImageUploadedContainerState extends State<ImageUploadedContainer> {
     final response = await uploadPaymentOrderService(orderId, imageFile);
     setState(() => isLoading = false);
 
-    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainWindow(0)), (Route<dynamic> route) => false);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const MainWindow(0)),
+        (Route<dynamic> route) => false);
+
+    var snackbar = const SnackBar(content: Text('Terimakasih. Pembayaran anda sudah tersimpan.'));
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
     if (response.isSuccessful) {
       msg = 'Berhasil mengupload gambar';

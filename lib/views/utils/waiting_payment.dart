@@ -32,7 +32,7 @@ class _WaitingPaymentScreenState extends State<WaitingPaymentScreen> {
   Future _getWaitingPaymentOrders() async {
     for (var order in _orders) {
       if (order.statusOrder.status == "Menunggu Pembayaran") {
-        print(order);
+        _waitingPaymentOrders.add(order);
       }
     }
   }
@@ -72,29 +72,39 @@ class _WaitingPaymentScreenState extends State<WaitingPaymentScreen> {
         ),
         title: const Text('Menunggu pembayaran'),
       ),
-      body: ResponsiveLayout(
-          smallMobile: ListView.builder(
-            padding:
-                const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14.0),
-            itemCount: 0,
-            itemBuilder: (_, int index) {
-              return const Padding(
-                padding: EdgeInsets.only(bottom: 16.0),
-                child: OrderCard(),
-              );
-            },
-          ),
-          mediumMobile: ListView.builder(
-            padding:
-                const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
-            itemCount: 0,
-            itemBuilder: (_, int index) {
-              return const Padding(
-                padding: EdgeInsets.only(bottom: 16.0),
-                child: OrderCard(),
-              );
-            },
-          )),
+      body: Visibility(
+        visible: isLoading,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        replacement: ResponsiveLayout(
+            smallMobile: ListView.builder(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14.0),
+              itemCount: _waitingPaymentOrders.length,
+              itemBuilder: (_, int index) {
+                var order = _waitingPaymentOrders[index];
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: OrderCard(orderId: order.id),
+                );
+              },
+            ),
+            mediumMobile: ListView.builder(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
+              itemCount: _waitingPaymentOrders.length,
+              itemBuilder: (_, int index) {
+                var order = _waitingPaymentOrders[index];
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: OrderCard(orderId: order.id),
+                );
+              },
+            )),
+      ),
     );
   }
 }

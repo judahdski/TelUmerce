@@ -10,20 +10,22 @@ import '../../services/order/all_order_services.dart';
 import '../utils/detail_order_screen.dart';
 
 class OrderCard extends StatefulWidget {
-  const OrderCard({Key? key}) : super(key: key);
+  const OrderCard({Key? key, required this.orderId}) : super(key: key);
 
-  final int orderId = 39;
+  final int orderId;
 
   @override
   State<OrderCard> createState() => _OrderCardState();
 }
 
 class _OrderCardState extends State<OrderCard> {
-  final oCcy = NumberFormat("#,##0", "en_US");
+
   String statusText = '';
   String nomorResi = '';
-  String jumlahHarga = '0';
+  int jumlahHarga = 0;
   bool isLoading = false;
+
+  var oCcy = NumberFormat("#,##0", "en_US");
 
   final List<Order> _orders = [];
   Order? _order;
@@ -51,7 +53,7 @@ class _OrderCardState extends State<OrderCard> {
   _setUIState() {
     statusText = _order!.statusOrder.status;
     nomorResi = _order!.noResi;
-    jumlahHarga = _order!.jumlahHarga;
+    jumlahHarga = int.parse(_order!.jumlahHarga);
   }
 
   Future _loadOrderCard() async {
@@ -87,123 +89,130 @@ class _OrderCardState extends State<OrderCard> {
         // Navigator.push(context,
         //     MaterialPageRoute(builder: (context) => const DetailOrderScreen()));
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xffcdcdcd)),
-          borderRadius: BorderRadius.circular(6.0),
+      child: Visibility(
+        visible: isLoading,
+        child: Container(
+          height: 138,
+          color: const Color(0xffe5e5e5),
         ),
-        child: ResponsiveLayout(
-          smallMobile: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const FaIcon(
-                        FontAwesomeIcons.bagShopping,
-                        size: 12.0,
-                        color: darkBlue,
-                      ),
-                      const SizedBox(width: 12.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text('Pesanan', style: bodySmall),
-                          SizedBox(height: 4.0),
-                          Text('27 Juni 2022', style: orderIdSmall),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      OrderStatus(statusText: statusText,),
-                      const SizedBox(height: 4.0),
-                      Text(nomorResi, style: orderIdSmall),
-                    ],
-                  )
-                ],
-              ),
-              const Divider(
-                color: Color(0xffCDCDCD),
-                height: 16.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const Text('', style: linkTextSmall),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children:  [
-                      const Text('Total belanja', style: bodySmall),
-                      const SizedBox(height: 4.0),
-                      Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
-                    ],
-                  )
-                ],
-              ),
-            ],
+        replacement: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xffcdcdcd)),
+            borderRadius: BorderRadius.circular(6.0),
           ),
-          mediumMobile: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const FaIcon(
-                        FontAwesomeIcons.bagShopping,
-                        size: 14.0,
-                        color: darkBlue,
-                      ),
-                      const SizedBox(width: 14.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text('Pesanan', style: bodyMedium),
-                          SizedBox(height: 5.0),
-                          Text('27 Juni 2022', style: orderIdMedium),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      OrderStatus(statusText: statusText,),
-                      const SizedBox(height: 6.0),
-                      Text(nomorResi, style: orderIdMedium),
-                    ],
-                  )
-                ],
-              ),
-              const Divider(
-                color: Color(0xffCDCDCD),
-                height: 18.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const Text('', style: linkTextMedium),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children:  [
-                      const Text('Total belanja', style: bodyMedium),
-                      const SizedBox(height: 4.0),
-                      Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
-                    ],
-                  )
-                ],
-              ),
-            ],
+          child: ResponsiveLayout(
+            smallMobile: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const FaIcon(
+                          FontAwesomeIcons.bagShopping,
+                          size: 12.0,
+                          color: darkBlue,
+                        ),
+                        const SizedBox(width: 12.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text('Pesanan', style: bodySmall),
+                            SizedBox(height: 4.0),
+                            Text('27 Juni 2022', style: orderIdSmall),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        OrderStatus(statusText: statusText,),
+                        const SizedBox(height: 4.0),
+                        Text(nomorResi, style: orderIdSmall),
+                      ],
+                    )
+                  ],
+                ),
+                const Divider(
+                  color: Color(0xffCDCDCD),
+                  height: 16.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text('', style: linkTextSmall),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children:  [
+                        const Text('Total belanja', style: bodySmall),
+                        const SizedBox(height: 4.0),
+                        Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+            mediumMobile: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const FaIcon(
+                          FontAwesomeIcons.bagShopping,
+                          size: 14.0,
+                          color: darkBlue,
+                        ),
+                        const SizedBox(width: 14.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text('Pesanan', style: bodyMedium),
+                            SizedBox(height: 5.0),
+                            Text('27 Juni 2022', style: orderIdMedium),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        OrderStatus(statusText: statusText,),
+                        const SizedBox(height: 6.0),
+                        Text(nomorResi, style: orderIdMedium),
+                      ],
+                    )
+                  ],
+                ),
+                const Divider(
+                  color: Color(0xffCDCDCD),
+                  height: 18.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text('', style: linkTextMedium),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children:  [
+                        const Text('Total belanja', style: bodyMedium),
+                        const SizedBox(height: 4.0),
+                        Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -216,13 +225,23 @@ class OrderStatus extends StatelessWidget {
 
   final String statusText;
 
+  _getStatusBGColor() {
+    if (statusText == "Dibatalkan") {
+      return Colors.red;
+    } else if (statusText == "Menunggu Pembayaran" || statusText == "Menunggu Verifikasi") {
+      return const Color(0xffFFA500);
+    } else {
+      return Colors.green;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 6.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
-        color: const Color(0xffFFA500),
+        color: _getStatusBGColor(),
       ),
       child: ResponsiveLayout(
           smallMobile: Text(statusText, style: statusTextSmall),

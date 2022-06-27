@@ -32,7 +32,7 @@ class _WaitingPaymentVerificationScreenState extends State<WaitingPaymentVerific
   Future _getWaitingPaymentVerificationOrders() async {
     for (var order in _orders) {
       if (order.statusOrder.status == "Menunggu Verifikasi") {
-        print(order);
+        _waitingPaymentVerificationOrders.add(order);
       }
     }
   }
@@ -72,26 +72,34 @@ class _WaitingPaymentVerificationScreenState extends State<WaitingPaymentVerific
         ),
         title: const Text('Menunggu verifikasi'),
       ),
-      body: ResponsiveLayout(
-        smallMobile: ListView.builder(
-          padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14.0),
-          itemCount: 1,
-          itemBuilder: (_, int index) {
-            return const Padding(
-              padding: EdgeInsets.only(bottom: 14.0),
-              child: OrderCard(),
-            );
-          },
-        ),
-        mediumMobile: ListView.builder(
-          padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
-          itemCount: 1,
-          itemBuilder: (_, int index) {
-            return const Padding(
-              padding: EdgeInsets.only(bottom: 14.0),
-              child: OrderCard(),
-            );
-          },
+      body: Visibility(
+        visible: isLoading,
+        child: const Center(child: CircularProgressIndicator(),),
+        replacement: ResponsiveLayout(
+          smallMobile: ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14.0),
+            itemCount: _waitingPaymentVerificationOrders.length,
+            itemBuilder: (_, int index) {
+              var order = _waitingPaymentVerificationOrders[index];
+
+              return Padding(
+                padding: EdgeInsets.only(bottom: 14.0),
+                child: OrderCard(orderId: order.id),
+              );
+            },
+          ),
+          mediumMobile: ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
+            itemCount: _waitingPaymentVerificationOrders.length,
+            itemBuilder: (_, int index) {
+              var order = _waitingPaymentVerificationOrders[index];
+
+              return Padding(
+                padding: EdgeInsets.only(bottom: 14.0),
+                child: OrderCard(orderId: order.id),
+              );
+            },
+          ),
         ),
       ),
     );

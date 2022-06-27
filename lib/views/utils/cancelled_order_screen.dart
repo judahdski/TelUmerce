@@ -32,7 +32,7 @@ class _CancelledOrderScreenState extends State<CancelledOrderScreen> {
   Future _getCancelledOrders() async {
     for (var order in _orders) {
       if (order.statusOrder.status == "Dibatalkan") {
-        print(order);
+        _cancelledOrders.add(order);
       }
     }
   }
@@ -81,22 +81,26 @@ class _CancelledOrderScreenState extends State<CancelledOrderScreen> {
           smallMobile: ListView.builder(
             padding:
                 const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14.0),
-            itemCount: 10,
+            itemCount: _cancelledOrders.length,
             itemBuilder: (_, int index) {
-              return const Padding(
-                padding: EdgeInsets.only(bottom: 14.0),
-                child: OrderCard(),
+              var order = _cancelledOrders[index];
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 14.0),
+                child: OrderCard(orderId: order.id),
               );
             },
           ),
           mediumMobile: ListView.builder(
             padding:
                 const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
-            itemCount: 8,
+            itemCount: _cancelledOrders.length,
             itemBuilder: (_, int index) {
-              return const Padding(
-                padding: EdgeInsets.only(bottom: 14.0),
-                child: OrderCard(),
+              var order = _cancelledOrders[index];
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 14.0),
+                child: OrderCard(orderId: order.id),
               );
             },
           ),

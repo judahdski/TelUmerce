@@ -45,7 +45,7 @@ class BankInfoCard extends StatelessWidget {
                       Text('Total pembayaran', style: bodySmall),
                       SizedBox(height: 6.0),
                       Text(
-                        'Rp29.500',
+                        'Rp69,220',
                         style: totalBayarBankInfo,
                       ),
                     ],
@@ -90,11 +90,11 @@ class BankInfoCard extends StatelessWidget {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Total pembayaran', style: bodySmall),
-                      const SizedBox(height: 6.0),
+                    children: const [
+                      Text('Total pembayaran', style: bodySmall),
+                      SizedBox(height: 6.0),
                       Text(
-                        'Rp29.500',
+                        'Rp69,220',
                         style: totalBayar,
                       ),
                     ],

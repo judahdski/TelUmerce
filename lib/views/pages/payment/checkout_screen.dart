@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/model/product.dart';
+import 'package:telumerce/services/cart/all_cart_services.dart';
 import 'package:telumerce/services/order/all_order_services.dart';
 import 'package:telumerce/services/order/cancel_order_services.dart';
 import 'package:telumerce/views/pages/fragment/main_window.dart';
 
+import '../../../model/cart.dart';
 import '../../../model/order.dart';
 import '../../../services/order/timeout_order_services.dart';
 import '../../responsive/responsive_layout.dart';
@@ -221,7 +224,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Senin, 27 Juni 2022 13:30', style: labelMedium),
+                const Text('Senin, 27 Juni 2022 21:44', style: labelMedium),
                 Text(
                     '00 : ${(minutes < 10) ? '0$minutes' : minutes}:${(seconds < 10) ? '0$seconds' : seconds}',
                     style: timeLabel),
@@ -250,7 +253,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Senin, 27 Juni 2022 13:30', style: labelLarge),
+                const Text('Senin, 27 Juni 2022 21:44', style: labelLarge),
                 Text(
                     '00 : ${(minutes < 10) ? '0$minutes' : minutes} : ${(seconds < 10) ? '0$seconds' : seconds}',
                     style: timeLabel),
@@ -293,11 +296,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Total pembayaran', style: bodySmall),
-                      const SizedBox(height: 6.0),
+                    children: const [
+                      Text('Total pembayaran', style: bodySmall),
+                      SizedBox(height: 6.0),
                       Text(
-                        'Rp29.500',
+                        'Rp69,220',
                         style: totalBayar,
                       ),
                     ],
@@ -342,11 +345,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Total pembayaran', style: bodySmall),
-                      const SizedBox(height: 6.0),
+                    children: const [
+                      Text('Total pembayaran', style: bodySmall),
+                      SizedBox(height: 6.0),
                       Text(
-                        'Rp29.500',
+                        'RpRp69,220',
                         style: totalBayar,
                       ),
                     ],

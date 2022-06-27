@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:telumerce/services/order/detail_order_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/text_theme.dart';
 import '../../model/order.dart';
+import '../../model/order_detail.dart';
 import '../../services/order/all_order_services.dart';
 
 class OrderDetail extends StatefulWidget {
@@ -18,13 +20,15 @@ class OrderDetail extends StatefulWidget {
 class _OrderDetailState extends State<OrderDetail> {
   final oCcy = NumberFormat("#,##0", "en_US");
   final List _orders = [];
+  final List _cartItems = [];
   Order? _order;
+  OrderDetailModel? _orderDetail;
 
   bool isLoading = false;
-
   int idCart = 0;
   int jumlahHarga = 0;
   String alamat = 'Komplek Graha Santika Blok C1 No.15';
+  int totalHargaBayar = 0;
 
   // -------------------- G E T  O R D E R S
 
@@ -39,6 +43,19 @@ class _OrderDetailState extends State<OrderDetail> {
     }
   }
 
+  Future _getOrderDetail() async {
+    final response = await getOrderDetail(widget.orderId);
+
+    if (response.isSuccessful) {
+      var orderDetail = response.data as OrderDetailModel;
+      var cart = orderDetail.cart.cartItem;
+      _cartItems.addAll(cart);
+      _orderDetail = orderDetail;
+    } else {
+      var msg = response.errorMessage;
+    }
+  }
+
   Future _getOrder() async {
     await _getOrders();
     for (var order in _orders) {
@@ -48,15 +65,21 @@ class _OrderDetailState extends State<OrderDetail> {
     }
   }
 
+  int _getTotalHargaBayar() {
+    return jumlahHarga + 5500;
+  }
+
   _setUIState() {
-    idCart = _order!.idCart;
-    jumlahHarga = int.parse(_order!.jumlahHarga);
-    alamat = _order!.alamat;
+    idCart = _orderDetail!.idCart;
+    jumlahHarga = int.parse(_orderDetail!.jumlahHarga);
+    alamat = _orderDetail!.alamat;
+    totalHargaBayar = _getTotalHargaBayar();
   }
 
   Future _loadOrderDetailCard() async {
     setState(() => isLoading = true);
 
+    await _getOrderDetail();
     await _getOrder();
     _setUIState();
 
@@ -102,15 +125,22 @@ class _OrderDetailState extends State<OrderDetail> {
                       Column(
                         children: [
                           //  Nama barang + harganya
-                          //  bisa pake column klo barangnya lebih dari 1
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              //  Nama barang
-                              const Text('id cart', style: titleSmall),
-                              //Harga barang
-                              Text('$idCart', style: labelMedium),
-                            ],
+                          Column(
+                            children: _cartItems.map((cartItem) {
+                              var product = cartItem.produk;
+                              var totalHarga = cartItem.jumlahBarang * product.harga;
+
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  //  Nama barang
+                                  Text(product.productName, style: titleSmall),
+                                  //Harga barang
+                                  Text('Rp${oCcy.format(totalHarga)}', style: labelMedium),
+                                ],
+                              );
+                            }).toList(),
                           ),
 
                           // DIVIDER
@@ -124,7 +154,8 @@ class _OrderDetailState extends State<OrderDetail> {
                               //  label
                               const Text('Harga produk', style: bodySmall),
                               //  Total harga
-                              Text('Rp${oCcy.format(jumlahHarga)}', style: labelMedium),
+                              Text('Rp${oCcy.format(jumlahHarga)}',
+                                  style: labelMedium),
                             ],
                           ),
 
@@ -148,11 +179,11 @@ class _OrderDetailState extends State<OrderDetail> {
                           //  total bayar
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children:  [
                               //label
                               Text('Total harga', style: labelMedium),
                               // total keseluruhan harga
-                              Text('Rp.69.220', style: totalBayar)
+                              Text('Rp${oCcy.format(totalHargaBayar)}', style: totalBayar)
                             ],
                           )
                         ],
@@ -199,14 +230,23 @@ class _OrderDetailState extends State<OrderDetail> {
                         children: [
                           //  Nama barang + harganya
                           //  bisa pake column klo barangnya lebih dari 1
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              //  Nama barang
-                              const Text('id cart', style: titleMedium),
-                              //Harga barang
-                              Text('$idCart', style: labelLarge),
-                            ],
+                          Column(
+                            children: _cartItems.map((cartItem) {
+                              var product = cartItem.produk;
+                              var totalHarga =
+                                  cartItem.jumlahBarang * product.harga;
+
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  //  Nama barang
+                                  Text(product.productName, style: titleSmall),
+                                  //Harga barang
+                                  Text('Rp${oCcy.format(totalHarga)}', style: labelMedium),
+                                ],
+                              );
+                            }).toList(),
                           ),
 
                           // DIVIDER
@@ -220,7 +260,8 @@ class _OrderDetailState extends State<OrderDetail> {
                               //  label
                               const Text('Harga produk', style: bodyMedium),
                               //  Total harga
-                              Text('Rp${oCcy.format(jumlahHarga)}', style: labelLarge),
+                              Text('Rp${oCcy.format(jumlahHarga)}',
+                                  style: labelLarge),
                             ],
                           ),
 
@@ -244,11 +285,11 @@ class _OrderDetailState extends State<OrderDetail> {
                           //  total bayar
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
                               //label
                               Text('Total harga', style: labelLarge),
                               // total keseluruhan harga
-                              Text('Rp69.220', style: totalBayar),
+                              Text('Rp${oCcy.format(totalHargaBayar)}', style: totalBayar)
                             ],
                           )
                         ],
