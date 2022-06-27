@@ -26,7 +26,7 @@ class Product {
   String gambarProduct;
   String jumlahProduct;
   String deskripsiProduct;
-  String harga;
+  int harga;
   DateTime createdAt;
   DateTime updatedAt;
   int idCategory;

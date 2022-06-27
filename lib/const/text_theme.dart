@@ -36,11 +36,12 @@ const TextStyle confirmationText =
 const TextStyle confirmationButtonText =
     TextStyle(fontSize: 14.0, color: darkBlue);
 
-const TextStyle hintStyleSmall = TextStyle(fontSize: 12.0, color: Color(0xffaaaaaa));
-const TextStyle hintStyleMedium = TextStyle(fontSize: 14.0, color: Color(0xffaaaaaa));
+const TextStyle hintStyleSmall =
+    TextStyle(fontSize: 12.0, color: Color(0xffaaaaaa));
+const TextStyle hintStyleMedium =
+    TextStyle(fontSize: 14.0, color: Color(0xffaaaaaa));
 
-const TextStyle statusMessage =
-    TextStyle(fontSize: 12.0, color: darkBlue);
+const TextStyle statusMessage = TextStyle(fontSize: 12.0, color: darkBlue);
 
 const TextStyle totalBayar = TextStyle(
     fontSize: 15.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
@@ -80,9 +81,16 @@ const TextStyle plusText =
 const TextStyle subNameText =
     TextStyle(fontSize: 12.0, color: Color(0xffe83232));
 
-const TextStyle searchBarText = TextStyle(fontSize: 13.0, color: darkBlueShade300);
+const TextStyle searchBarText =
+    TextStyle(fontSize: 13.0, color: darkBlueShade300);
 
-const TextStyle statusTextSmall = TextStyle(
-    fontSize: 10.0, fontWeight: FontWeight.w600, color: Colors.white);
-const TextStyle statusTextMedium = TextStyle(
-    fontSize: 12.0, fontWeight: FontWeight.w600, color: Colors.white);
+const TextStyle statusTextSmall =
+    TextStyle(fontSize: 10.0, fontWeight: FontWeight.w600, color: Colors.white);
+const TextStyle statusTextMedium =
+    TextStyle(fontSize: 12.0, fontWeight: FontWeight.w600, color: Colors.white);
+
+const TextStyle timeLabel = TextStyle(
+    fontSize: 14.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
+
+const TextStyle totalBayarBankInfo = TextStyle(
+    fontSize: 15.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));

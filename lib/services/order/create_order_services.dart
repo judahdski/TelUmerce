@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
+import 'package:telumerce/model/create_order.dart';
+import 'package:telumerce/model/order.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
 Future<ApiResponse> createOrderService(String alamat, int opsiKirim, int metodePembayaran) async {
@@ -16,25 +18,17 @@ Future<ApiResponse> createOrderService(String alamat, int opsiKirim, int metodeP
       headers: getHeaderRequest(pref.getString(tokenConst)),
       body: {
         'alamat': alamat,
-        'opsikirim': opsiKirim,
-        'metode_pembayaran': metodePembayaran
+        'opsikirim': opsiKirim.toString(),
+        'metode_pembayaran': metodePembayaran.toString()
       }
     );
   } catch(e) {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-    // TODO: data response belum sesuai
-      apiResponse = processingSuccessResponse(jsonDecode(response.body));
-      break;
-    default:
-      apiResponse = processingFailedResponse('POST', code);
-      break;
-  }
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(CreateOrder.fromJson(jsonDecode(response.body)['data'][0]))
+          : processingFailedResponse('POST', code);
 }

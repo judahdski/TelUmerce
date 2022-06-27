@@ -23,8 +23,7 @@ Future<ApiResponse> cancelOrderService(int id) async {
   final code = response.statusCode;
   switch(code) {
     case 200:
-    // TODO: data response belum sesuai
-      apiResponse = processingSuccessResponse(jsonDecode(response.body)['data']);
+      apiResponse = processingSuccessResponse(jsonDecode(response.body)['message']);
       break;
     default:
       apiResponse = processingFailedResponse('POST', code);

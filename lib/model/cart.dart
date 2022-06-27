@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:telumerce/model/product.dart';
 import 'package:telumerce/model/user.dart';
 
-
 String cartToJson(Cart data) => json.encode(data.toJson());
 
 class Cart {
@@ -66,7 +65,7 @@ class CartItem {
   });
 
   int id;
-  String jumlahBarang;
+  int jumlahBarang;
   DateTime createdAt;
   DateTime updatedAt;
   int idProduk;

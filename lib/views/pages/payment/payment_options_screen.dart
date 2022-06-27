@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/model/create_order.dart';
 import 'package:telumerce/model/payment_info.dart';
+import 'package:telumerce/services/order/create_order_services.dart';
 import 'package:telumerce/services/payment/info_payment_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
@@ -17,13 +19,26 @@ class PaymentOptionsScreen extends StatefulWidget {
 }
 
 class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
-  dynamic paymentInfo;
+  bool isLoading = false;
+
+  // ------------------------ metode pengiriman state
+  bool isDeliver = true;
+
+  // ------------------------ metode pembayaran state
+  String paymentMethod = '';
+
+  // ------------------------ alamat state
+  String alamat = 'null';
+  final TextEditingController _textInputController = TextEditingController();
+  bool isSameAsProfile = false;
+
+  PaymentInfo? paymentInfo;
 
   Future _getPaymentInfo() async {
     final response = await getInfoPaymentService();
 
     if (response.isSuccessful) {
-      paymentInfo = response.data;
+      paymentInfo = response.data as PaymentInfo;
     } else {
       if (kDebugMode) {
         print(response.errorMessage);
@@ -31,11 +46,73 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
     }
   }
 
+  _setUIState() {
+    alamat = paymentInfo!.user;
+    _textInputController.text = alamat;
+  }
+
+  int _getDeliveryMethod() {
+    if (isDeliver) {
+      return 2;
+    }
+
+    return 1;
+  }
+
+  int _getPaymentMethod() {
+    return 1;
+  }
+
+  String _getAddress() {
+    if (isSameAsProfile) {
+      return alamat;
+    } else {
+      return _textInputController.text;
+    }
+  }
+
+  Future _createOrder() async {
+    String msg = '';
+    final response = await createOrderService(
+        _getAddress(), _getDeliveryMethod(), _getPaymentMethod());
+
+    if (response.isSuccessful) {
+      msg = 'Berhasil';
+      var order = response.data as CreateOrder;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CheckoutScreen(orderId: order.id)));
+    } else {
+      msg = 'Gagal, karena ${response.errorMessage}';
+    }
+
+    var snackbar = SnackBar(content: Text(msg));
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
+  Future _loadPaymentOptionsScreen() async {
+    setState(() => isLoading = true);
+
+    await _getPaymentInfo();
+    await _setUIState();
+
+    await Future.delayed(const Duration(milliseconds: 2));
+    setState(() => isLoading = false);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _getPaymentInfo();
+    _loadPaymentOptionsScreen();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
@@ -45,47 +122,34 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
         backgroundColor: Colors.white,
         title: const Text('Checkout', style: titleMedium),
       ),
-      body: ListView(
-        children: [
-          const DeliveryOptions(),
-          const Divider(height: 6.0, thickness: 6.0, color: Color(0xfff0f0f0)),
-          const PaymentOptions(),
-          const Divider(height: 6.0, thickness: 6.0, color: Color(0xfff0f0f0)),
-          const AddressInput(),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
-            child: ElevatedButton(
-                onPressed: () {
-                  //  TODO: update address if address changed
-                  //  TODO: navigate to checkout screen
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckoutScreen()));
-                },
-                child: const Text('Lanjutkan')),
-          )
-        ],
+      body: Visibility(
+        visible: isLoading,
+        child: const Center(child: CircularProgressIndicator()),
+        replacement: ListView(
+          children: [
+            deliveryOptionsWidget(),
+            const Divider(
+                height: 6.0, thickness: 6.0, color: Color(0xfff0f0f0)),
+            paymentOptionsWidget(),
+            const Divider(
+                height: 6.0, thickness: 6.0, color: Color(0xfff0f0f0)),
+            addressInputWidget(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    _createOrder();
+                  },
+                  child: const Text('Lanjutkan')),
+            )
+          ],
+        ),
       ),
     );
   }
-}
 
-// TODO: APUS SEMUA BG COLOR YANG WARNA PUTIH
-
-class DeliveryOptions extends StatefulWidget {
-  const DeliveryOptions({Key? key}) : super(key: key);
-
-  @override
-  State<DeliveryOptions> createState() => _DeliveryOptionsState();
-}
-
-class _DeliveryOptionsState extends State<DeliveryOptions> {
-  bool isDeliver = true;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget deliveryOptionsWidget() {
     return ResponsiveLayout(
       smallMobile: Container(
         padding: const EdgeInsets.all(14.0),
@@ -175,20 +239,8 @@ class _DeliveryOptionsState extends State<DeliveryOptions> {
       ),
     );
   }
-}
 
-class PaymentOptions extends StatefulWidget {
-  const PaymentOptions({Key? key}) : super(key: key);
-
-  @override
-  State<PaymentOptions> createState() => _PaymentOptionsState();
-}
-
-class _PaymentOptionsState extends State<PaymentOptions> {
-  String paymentMethod = '';
-
-  @override
-  Widget build(BuildContext context) {
+  Widget paymentOptionsWidget() {
     return ResponsiveLayout(
       smallMobile: Container(
         padding: const EdgeInsets.all(14.0),
@@ -196,7 +248,10 @@ class _PaymentOptionsState extends State<PaymentOptions> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Metode pengiriman', style: titleSmall),
+            const Text('Metode pembayaran', style: titleSmall),
+            const Text(
+                'Untuk sementara metode pembayaran hanya bisa dilakukan melalui transfer bank saja.',
+                style: bodySmall),
             paymentMethodOptions(
               value: 'transfer_bank',
               label: Row(
@@ -228,7 +283,10 @@ class _PaymentOptionsState extends State<PaymentOptions> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Metode pengiriman', style: titleSmall),
+            const Text('Metode pembayaran', style: titleSmall),
+            const Text(
+                'Untuk sementara metode pembayaran hanya bisa dilakukan melalui transfer bank saja.',
+                style: bodySmall),
             paymentMethodOptions(
               value: 'transfer_bank',
               label: Row(
@@ -261,40 +319,19 @@ class _PaymentOptionsState extends State<PaymentOptions> {
     return Row(
       children: [
         Radio(
-            value: value,
-            groupValue: paymentMethod,
-            onChanged: (value) {
-              setState(() {
-                paymentMethod = value.toString();
-              });
-            }),
+          value: value,
+          groupValue: paymentMethod,
+          onChanged: (value) {
+            setState(() => paymentMethod = value.toString());
+          },
+        ),
         const SizedBox(width: 8.0),
         label
       ],
     );
   }
-}
 
-class AddressInput extends StatefulWidget {
-  const AddressInput({Key? key}) : super(key: key);
-
-  @override
-  State<AddressInput> createState() => _AddressInputState();
-}
-
-class _AddressInputState extends State<AddressInput> {
-  final TextEditingController _controller = TextEditingController();
-  bool isSameAsProfile = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller.text = 'Helloo';
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget addressInputWidget() {
     return Container(
       padding: const EdgeInsets.all(14.0),
       color: Colors.white,
@@ -307,9 +344,7 @@ class _AddressInputState extends State<AddressInput> {
             visible: isSameAsProfile,
             child: TextField(
               enabled: false,
-              controller: _controller,
               keyboardType: TextInputType.multiline,
-              maxLines: null,
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(8.0),
                   disabledBorder: OutlineInputBorder(
@@ -317,7 +352,7 @@ class _AddressInputState extends State<AddressInput> {
                       borderRadius: BorderRadius.circular(6.0))),
             ),
             replacement: TextField(
-              controller: _controller,
+              controller: _textInputController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
               decoration: InputDecoration(
@@ -341,10 +376,7 @@ class _AddressInputState extends State<AddressInput> {
                 child: Switch(
                     value: isSameAsProfile,
                     onChanged: (bool value) {
-                      //  TODO: make the textfield disabled
-                      setState(() {
-                        isSameAsProfile = value;
-                      });
+                      setState(() => isSameAsProfile = value);
                     }),
               )
             ],
@@ -358,6 +390,6 @@ class _AddressInputState extends State<AddressInput> {
   void dispose() {
     super.dispose();
 
-    _controller.dispose();
+    _textInputController.dispose();
   }
 }

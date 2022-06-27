@@ -23,17 +23,10 @@ Future<ApiResponse> getProductDetailService(int id) async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-      var product = jsonDecode(response.body)['products'];
-      apiResponse = processingSuccessResponse(Product.fromJson(product));
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
-  }
+  var product = jsonDecode(response.body)['products'];
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+      ? processingSuccessResponse(Product.fromJson(product))
+      : processingFailedResponse('GET', code);
 }

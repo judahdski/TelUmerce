@@ -21,8 +21,10 @@ class MainWindow extends StatefulWidget {
 }
 
 class _MainWindowState extends State<MainWindow> {
+  bool isLoading = false;
   int _pageIndex = 0;
   String username = '';
+  User? user;
 
   Future _getUserInfo() async {
     final response = await getUserService();
@@ -31,16 +33,31 @@ class _MainWindowState extends State<MainWindow> {
       var user = response.data as User;
       setState(() {
         username = user.name;
+        this.user = user;
       });
     }
+  }
+
+  Future _loadMainWindow() async {
+    setState(() => isLoading = true);
+    await _getUserInfo();
+    await Future.delayed(const Duration(milliseconds: 2));
+    setState(() => isLoading = false);
+    _pageIndex = widget.pageIndex;
   }
 
   @override
   void initState() {
     super.initState();
 
-    _getUserInfo();
-    _pageIndex = widget.pageIndex;
+    _loadMainWindow();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
@@ -84,16 +101,22 @@ class _MainWindowState extends State<MainWindow> {
           ],
         ),
       ),
-      body: SafeArea(
-        child: SafeArea(
-          child: Center(
-            child: _pageIndex == 0
-                ? const HomeFragment()
-                : _pageIndex == 1
-                    ? const CartFragment()
-                    : _pageIndex == 2
-                        ? const WishlistFragment()
-                        : ProfileFragment(username: username),
+      body: Visibility(
+        visible: isLoading,
+        child: const Center(
+          child: Center(child: CircularProgressIndicator(color: Colors.redAccent),),
+        ),
+        replacement: SafeArea(
+          child: SafeArea(
+            child: Center(
+              child: _pageIndex == 0
+                  ? const HomeFragment()
+                  : _pageIndex == 1
+                      ? CartFragment(user: user!)
+                      : _pageIndex == 2
+                          ? const WishlistFragment()
+                          : const ProfileFragment(),
+            ),
           ),
         ),
       ),

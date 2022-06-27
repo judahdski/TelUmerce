@@ -133,8 +133,7 @@ class _UpdatePasswordTextfieldState extends State<UpdatePasswordTextfield> {
   }
 
   navigateToUpdatePassScreen() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const UpdatePasswordScreen()));
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const UpdatePasswordScreen()), (Route<dynamic> route) => false);
   }
 
   @override

@@ -27,26 +27,16 @@ class _HomeFragmentState extends State<HomeFragment> {
   final List _categories = [];
   final List _recommendedProducts = [];
   final List _products = [];
-  String username = 'null';
+  String username = '';
 
   bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _getAllCategories();
-    _getUserInfo();
-    _getAllProducts();
-  }
 
   Future _getAllCategories() async {
     final response = await getCategoriesService();
 
     if (response.isSuccessful) {
       _categories.addAll(response.data as List<Categori>);
-    } else {
-      //TODO: failed to get data
-    }
+    } else {}
   }
 
   Future _getUserInfo() async {
@@ -59,16 +49,16 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 
   Future _getAllProducts() async {
-    setState(() => isLoading = true);
     final response = await getProductsService();
 
     if (response.isSuccessful) {
       _products.addAll(response.data as List<Product>);
       _recommendedProducts
           .addAll(randomiseProducts(response.data as List<Product>));
-      setState(() => isLoading = false);
     } else {
-      // TODO: failed get data
+      if (kDebugMode) {
+        print('response error msg : ${response.errorMessage}');
+      }
     }
   }
 
@@ -88,16 +78,42 @@ class _HomeFragmentState extends State<HomeFragment> {
 
     for (int i = 0; i <= size; i++) {
       newData.add(data[i]);
+
+      if (i==7) return newData;
     }
 
     return newData;
   }
 
+  Future _loadHomeFragment() async {
+    setState(() => isLoading = true);
+
+    await _getAllCategories();
+    await _getUserInfo();
+    await _getAllProducts();
+
+    await Future.delayed(const Duration(milliseconds: 2));
+    setState(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadHomeFragment();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Visibility(
       visible: isLoading,
-      child: const Center(child: Text('lagi loading')),
+      child: const Center(child: CircularProgressIndicator()),
       replacement: Stack(
         children: [
           // Main-content

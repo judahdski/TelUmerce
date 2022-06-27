@@ -25,6 +25,7 @@ class _CategorizedScreenState extends State<CategorizedScreen> {
   final List _products = [];
 
   bool isLoading = false;
+  bool isEmpty = false;
 
   Future _getProducts() async {
     setState(() => isLoading = true);
@@ -38,11 +39,21 @@ class _CategorizedScreenState extends State<CategorizedScreen> {
         }
       }
 
+      _checkListIsEmpty();
+
       setState(() => isLoading = false);
     } else {
       if (kDebugMode) {
         print(response.errorMessage);
       }
+    }
+  }
+
+  void _checkListIsEmpty() {
+    if (_products.isEmpty) {
+      setState(() {
+        isEmpty = true;
+      });
     }
   }
 
@@ -70,31 +81,43 @@ class _CategorizedScreenState extends State<CategorizedScreen> {
       ),
       body: Visibility(
         visible: isLoading,
-        child: const Text('lagi loading'),
-        replacement: ResponsiveLayout(
-          smallMobile: ListView.builder(
-            padding: const EdgeInsets.only(top: 8.0, left: 14.0, right: 14.0),
-            itemCount: _products.length,
-            itemBuilder: (_, int index) {
-              var product = _products[index];
-
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 14.0),
-                child: ProductCard(product: product),
-              );
-            },
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        replacement: Visibility(
+          visible: isEmpty,
+          child: const Center(
+            child: Text(
+              'Tidak ada barang dalam kategori ini.',
+              textAlign: TextAlign.center,
+            ),
           ),
-          mediumMobile: ListView.builder(
-            padding: const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
-            itemCount: _products.length,
-            itemBuilder: (_, int index) {
-              var product = _products[index];
+          replacement: ResponsiveLayout(
+            smallMobile: ListView.builder(
+              padding: const EdgeInsets.only(top: 8.0, left: 14.0, right: 14.0),
+              itemCount: _products.length,
+              itemBuilder: (_, int index) {
+                var product = _products[index];
 
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 14.0),
-                child: ProductCard(product: product),
-              );
-            },
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 14.0),
+                  child: ProductCard(product: product),
+                );
+              },
+            ),
+            mediumMobile: ListView.builder(
+              padding:
+                  const EdgeInsets.only(top: 10.0, left: 16.0, right: 16.0),
+              itemCount: _products.length,
+              itemBuilder: (_, int index) {
+                var product = _products[index];
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 14.0),
+                  child: ProductCard(product: product),
+                );
+              },
+            ),
           ),
         ),
       ),

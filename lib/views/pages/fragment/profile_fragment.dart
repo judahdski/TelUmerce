@@ -3,14 +3,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
+import '../../../model/user.dart';
+import '../../../services/user/get_user_services.dart';
 import '../../utils/edit_profile.dart';
-import '../../widgets/order_card.dart';
 import '../../widgets/order_verification_button.dart';
 
 class ProfileFragment extends StatefulWidget {
-  const ProfileFragment({Key? key, required this.username}) : super(key: key);
-
-  final String username;
+  const ProfileFragment({Key? key}) : super(key: key);
 
   @override
   State<ProfileFragment> createState() => _ProfileFragmentState();
@@ -18,6 +17,42 @@ class ProfileFragment extends StatefulWidget {
 
 class _ProfileFragmentState extends State<ProfileFragment> {
   bool isLoading = false;
+
+  String username = '';
+  User? user;
+
+  Future _getUserInfo() async {
+    final response = await getUserService();
+
+    if (response.isSuccessful) {
+      var user = response.data as User;
+      setState(() {
+        username = user.name;
+        this.user = user;
+      });
+    }
+  }
+
+  Future _loadProfileFragment() async {
+    setState(() => isLoading = true);
+    await _getUserInfo();
+    await Future.delayed(const Duration(milliseconds: 5));
+    setState(() => isLoading = false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadProfileFragment();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +67,11 @@ class _ProfileFragmentState extends State<ProfileFragment> {
           child: Visibility(
             visible: isLoading,
             child: const Center(
-              child: Text('lagi loading'),
+              child: CircularProgressIndicator(),
             ),
             replacement: ListView(
               children: [
-                ProfileCard(username: widget.username),
+                ProfileCard(username: username),
                 const Divider(
                     thickness: 6.0, height: 6.0, color: Color(0xfff2f2f2)),
                 const OrderConfirmationButton(
@@ -122,7 +157,7 @@ class SuccessOrderList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 14.0),
       child: Column(
-        children: const [OrderCard()],
+        children: const [],
       ),
     );
   }

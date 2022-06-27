@@ -30,7 +30,8 @@ class DetailOrderScreen extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: OrderDetail(),
+            child: Text('bentar yak'),
+            // child: OrderDetail(),
           ),
         ],
       ),

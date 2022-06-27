@@ -20,17 +20,9 @@ Future<ApiResponse> timeoutOrderService(int id) async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-    // TODO: Balikin data yang bener dari response.body
-      apiResponse = processingSuccessResponse(jsonDecode(response.body));
-      break;
-    default:
-      apiResponse = processingFailedResponse('POST', code);
-      break;
-  }
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(jsonDecode(response.body)['message'])
+          : processingFailedResponse('POST', code);
 }

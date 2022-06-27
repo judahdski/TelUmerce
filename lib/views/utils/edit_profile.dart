@@ -33,8 +33,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future _logout() async {
     var response = await logoutService();
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+    Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);
     var snackBar = SnackBar(content: Text(response.data as String));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -45,8 +45,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     _namaController.text = user!.name;
     _emailController.text = user!.email;
-    _phoneNumController.text = user!.noTelp;
-    _addressController.text = user!.alamat;
+    _phoneNumController.text = (user?.noTelp == null) ? '' : user?.noTelp;
+    _addressController.text = (user?.alamat == null) ? '' : user?.alamat;
   }
 
   Future<bool> _updateProfile() async {
@@ -229,7 +229,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             RegularTextfields(
                 label: 'Nama',
                 hint: 'Masukan nama',
-                autoFocus: true,
+                autoFocus: false,
                 controller: _namaController,
                 inputType: TextInputType.name),
             const SizedBox(height: 16.0),

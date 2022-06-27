@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/services/user/update_password_service.dart';
+import 'package:telumerce/views/utils/edit_profile.dart';
 import 'package:telumerce/views/widgets/password_textfields.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
@@ -49,14 +50,14 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
     return true;
   }
 
-  Future _updatePassword(BuildContext ctx) async {
+  Future _updatePassword() async {
     var oldPassword = _oldPassController.text;
     var newPassword = _passController.text;
     var newPassConfirmation = _passConfirmationController.text;
 
     if(!sanitationCheck())  {
       final snackbar = SnackBar(content: Text(msg));
-      ScaffoldMessenger.of(ctx).showSnackBar(snackbar);
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
       return;
     }
 
@@ -64,12 +65,13 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
 
     if (response.isSuccessful) {
       msg = 'Berhasil';
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()), (Route<dynamic> route) => false);
     } else {
       msg = response.errorMessage!;
     }
 
     final snackbar = SnackBar(content: Text(msg));
-    ScaffoldMessenger.of(ctx).showSnackBar(snackbar);
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   @override
@@ -105,7 +107,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
             const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () {
-                _updatePassword(context);
+                _updatePassword();
               },
               child: const Text('Ganti password'),
             )

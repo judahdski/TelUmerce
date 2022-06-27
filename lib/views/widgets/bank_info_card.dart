@@ -9,10 +9,6 @@ import '../../const/text_theme.dart';
 class BankInfoCard extends StatelessWidget {
   const BankInfoCard({Key? key}) : super(key: key);
 
-  //style
-  final TextStyle totalBayar = const TextStyle(
-      fontSize: 15.0, fontWeight: FontWeight.w600, color: Color(0xffe83232));
-
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
@@ -45,12 +41,12 @@ class BankInfoCard extends StatelessWidget {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Total pembayaran', style: bodySmall),
-                      const SizedBox(height: 6.0),
+                    children: const [
+                      Text('Total pembayaran', style: bodySmall),
+                      SizedBox(height: 6.0),
                       Text(
                         'Rp29.500',
-                        style: totalBayar,
+                        style: totalBayarBankInfo,
                       ),
                     ],
                   ),

@@ -23,6 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passConfirmController = TextEditingController();
 
   double leftNRightScreenPadding = 18.0;
+  bool isLoading = false;
   bool isScrollable = false;
   bool isValid = false;
   String errorMessage = '';
@@ -67,6 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     if (!isValid) return isSuccess;
 
+    setState(() => isLoading = true);
     final response = await register(_namaController.text, _emailController.text,
         _passController.text, _passConfirmController.text);
 
@@ -82,6 +84,8 @@ class _SignupScreenState extends State<SignupScreen> {
   _setRegisterButton() async {
     sanitationCheck();
 
+    setState(() => isLoading = false);
+
     if (await _register()) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const MainWindow(0)));
@@ -92,67 +96,78 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: ResponsiveLayout(
           smallMobile: Visibility(
             visible: isScrollable,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text('Buat akun', style: headlineSmall),
-                  const SizedBox(height: 24.0),
-                  RegularTextfields(
-                      label: 'Nama',
-                      hint: 'Masukan nama',
-                      autoFocus: true,
-                      controller: _namaController,
-                      inputType: TextInputType.name),
-                  const SizedBox(height: 16.0),
-                  RegularTextfields(
-                      label: 'E-mail',
-                      hint: 'Masukan e-mail',
-                      autoFocus: false,
-                      controller: _emailController,
-                      inputType: TextInputType.emailAddress),
-                  const SizedBox(height: 16.0),
-                  PasswordTextfield(
-                      label: 'Password', passController: _passController),
-                  const SizedBox(height: 16.0),
-                  PasswordTextfield(
-                      label: 'Konfirmasi Password',
-                      passController: _passConfirmController),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),
-                    child: Row(
-                      children: [
-                        const Text('Sudah punya akun?',
-                            style: confirmationText),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()));
-                            },
-                            child: const Text('Masuk',
-                                style: confirmationButtonText))
-                      ],
+            child: Visibility(
+              visible: isLoading,
+              child: const Center(child: CircularProgressIndicator()),
+              replacement: SingleChildScrollView(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text('Buat akun', style: headlineSmall),
+                    const SizedBox(height: 24.0),
+                    RegularTextfields(
+                        label: 'Nama',
+                        hint: 'Masukan nama',
+                        autoFocus: true,
+                        controller: _namaController,
+                        inputType: TextInputType.name),
+                    const SizedBox(height: 16.0),
+                    RegularTextfields(
+                        label: 'E-mail',
+                        hint: 'Masukan e-mail',
+                        autoFocus: false,
+                        controller: _emailController,
+                        inputType: TextInputType.emailAddress),
+                    const SizedBox(height: 16.0),
+                    PasswordTextfield(
+                        label: 'Password', passController: _passController),
+                    const SizedBox(height: 16.0),
+                    PasswordTextfield(
+                        label: 'Konfirmasi Password',
+                        passController: _passConfirmController),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),
+                      child: Row(
+                        children: [
+                          const Text('Sudah punya akun?',
+                              style: confirmationText),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const LoginScreen()));
+                              },
+                              child: const Text('Masuk',
+                                  style: confirmationButtonText))
+                        ],
+                      ),
                     ),
-                  ),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(darkBlue)),
-                      onPressed: () {
-                        _setRegisterButton();
-                      },
-                      child: const Text('Daftar'))
-                ],
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(darkBlue)),
+                        onPressed: () {
+                          _setRegisterButton();
+                        },
+                        child: const Text('Daftar'))
+                  ],
+                ),
               ),
             ),
             replacement: Padding(
@@ -221,62 +236,66 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           mediumMobile: Visibility(
             visible: isScrollable,
-            child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text('Buat akun', style: headlineSmall),
-                  const SizedBox(height: 28.0),
-                  RegularTextfields(
-                      label: 'Nama',
-                      hint: 'Masukan nama',
-                      autoFocus: true,
-                      controller: _namaController,
-                      inputType: TextInputType.name),
-                  const SizedBox(height: 18.0),
-                  RegularTextfields(
-                      label: 'E-mail',
-                      hint: 'Masukan e-mail',
-                      autoFocus: false,
-                      controller: _emailController,
-                      inputType: TextInputType.emailAddress),
-                  const SizedBox(height: 18.0),
-                  PasswordTextfield(
-                      label: 'Password', passController: _passController),
-                  const SizedBox(height: 18.0),
-                  PasswordTextfield(
-                      label: 'Konfirmasi Password',
-                      passController: _passConfirmController),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),
-                    child: Row(
-                      children: [
-                        const Text('Sudah punya akun?',
-                            style: confirmationText),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()));
-                            },
-                            child: const Text('Masuk',
-                                style: confirmationButtonText))
-                      ],
+            child: Visibility(
+              visible: isLoading,
+              child: const Center(child: CircularProgressIndicator()),
+              replacement: SingleChildScrollView(
+                padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text('Buat akun', style: headlineSmall),
+                    const SizedBox(height: 28.0),
+                    RegularTextfields(
+                        label: 'Nama',
+                        hint: 'Masukan nama',
+                        autoFocus: true,
+                        controller: _namaController,
+                        inputType: TextInputType.name),
+                    const SizedBox(height: 18.0),
+                    RegularTextfields(
+                        label: 'E-mail',
+                        hint: 'Masukan e-mail',
+                        autoFocus: false,
+                        controller: _emailController,
+                        inputType: TextInputType.emailAddress),
+                    const SizedBox(height: 18.0),
+                    PasswordTextfield(
+                        label: 'Password', passController: _passController),
+                    const SizedBox(height: 18.0),
+                    PasswordTextfield(
+                        label: 'Konfirmasi Password',
+                        passController: _passConfirmController),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 14.0, bottom: 16.0),
+                      child: Row(
+                        children: [
+                          const Text('Sudah punya akun?',
+                              style: confirmationText),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const LoginScreen()));
+                              },
+                              child: const Text('Masuk',
+                                  style: confirmationButtonText))
+                        ],
+                      ),
                     ),
-                  ),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(darkBlue)),
-                      onPressed: () {
-                        _setRegisterButton();
-                      },
-                      child: const Text('Daftar'))
-                ],
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(darkBlue)),
+                        onPressed: () {
+                          _setRegisterButton();
+                        },
+                        child: const Text('Daftar'))
+                  ],
+                ),
               ),
             ),
             replacement: Padding(

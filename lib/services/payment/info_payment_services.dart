@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
@@ -23,15 +22,8 @@ Future<ApiResponse> getInfoPaymentService() async {
   }
 
   final code = response.statusCode;
-  dynamic paymentInfo = 'biar ga NPE ajaa';
-
-  try {
-    paymentInfo = PaymentInfo.fromJson(jsonDecode(response.body)['data']);
-  } catch(e) {
-    if (kDebugMode) {
-      print(e.toString());
-    }
-  }
+  PaymentInfo paymentInfo =
+      PaymentInfo.fromJson(jsonDecode(response.body)['data']);
 
   return (code >= 200 && code <= 299)
       ? processingSuccessResponse(paymentInfo)

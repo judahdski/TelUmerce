@@ -52,12 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
     List<Categori> categories = response.data as List<Categori>;
 
     if (response.isSuccessful) {
-      for (int i = 0; i < categories.length; i++) {
-        var categori = categories[i];
-        _categories.add(categori);
-
-        if (i == 10) return;
-      }
+      _categories.addAll(categories);
     } else {
       if (kDebugMode) {
         print(response.errorMessage);
@@ -92,6 +87,13 @@ class _SearchScreenState extends State<SearchScreen> {
     super.initState();
     _getCategories();
     _getProducts();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
@@ -130,7 +132,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: Visibility(
         visible: isLoading,
-        child: const Text('lagi loading'),
+        child: const Center(child: CircularProgressIndicator(),),
         replacement: ResponsiveLayout(
           smallMobile: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

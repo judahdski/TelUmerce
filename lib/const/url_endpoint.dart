@@ -22,7 +22,7 @@ String getProductDetailURL (int id) {
 }
 
 // o r d e r
-const createOrderURL = baseURL + '/order';
+const createOrderURL = baseURL + '/order/create';
 const getAllOrdersURL = baseURL + '/order';
 String orderPaymentURL(int id) {
   return '$baseURL/order/pembayaran/$id';

@@ -14,8 +14,8 @@ class OrderCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         // TODO: if (order.status != succeed) return;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DetailOrderScreen()));
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => const DetailOrderScreen()));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
@@ -44,7 +44,7 @@ class OrderCard extends StatelessWidget {
                         children: const [
                           Text('Pesanan', style: bodySmall),
                           SizedBox(height: 4.0),
-                          Text('14 Mei 2022', style: orderIdSmall),
+                          Text('27 Juni 2022', style: orderIdSmall),
                         ],
                       ),
                     ],
@@ -67,13 +67,13 @@ class OrderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text('Lihat detail pesanan', style: linkTextSmall),
+                  const Text('', style: linkTextSmall),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: const [
                       Text('Total belanja', style: bodySmall),
                       SizedBox(height: 4.0),
-                      Text('Rp25.000', style: labelLarge),
+                      Text('Rp63.720', style: labelLarge),
                     ],
                   )
                 ],
@@ -99,7 +99,7 @@ class OrderCard extends StatelessWidget {
                         children: const [
                           Text('Pesanan', style: bodyMedium),
                           SizedBox(height: 5.0),
-                          Text('14 Mei 2022', style: orderIdMedium),
+                          Text('27 Juni 2022', style: orderIdMedium),
                         ],
                       ),
                     ],
@@ -122,7 +122,7 @@ class OrderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text('Lihat detail pesanan', style: linkTextMedium),
+                  const Text('', style: linkTextMedium),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: const [
@@ -150,11 +150,11 @@ class OrderStatus extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 6.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
-        color: const Color(0xffd11a2a),
+        color: const Color(0xffFFA500),
       ),
       child: const ResponsiveLayout(
-          smallMobile: Text('Gagal verifikasi', style: statusTextSmall),
-          mediumMobile: Text('Gagal verifikasi', style: statusTextMedium)),
+          smallMobile: Text('Menunggu verifikasi', style: statusTextSmall),
+          mediumMobile: Text('Menunggu verifikasi', style: statusTextMedium)),
     );
   }
 }

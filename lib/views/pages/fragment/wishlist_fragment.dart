@@ -27,6 +27,7 @@ class _WishlistFragmentState extends State<WishlistFragment> {
 
       var wishlistList = response.data as List<Wishlist>;
       _wishlistProducts.addAll(wishlistList);
+      _checkEmptyList();
     } else {
       // TODO: failed to get data
     }
@@ -42,7 +43,6 @@ class _WishlistFragmentState extends State<WishlistFragment> {
   void initState() {
     super.initState();
     _getWishlistProducts();
-    _checkEmptyList();
   }
 
   @override
@@ -56,10 +56,10 @@ class _WishlistFragmentState extends State<WishlistFragment> {
           bottom: 0,
           child: Visibility(
             visible: isLoading,
-            child: const Center(child: Text('lagi loading\nbentar yee')),
+            child: const Center(child: CircularProgressIndicator()),
             replacement: Visibility(
               visible: isEmpty,
-              child: const Center(child: Text('gaada yang lu suka')),
+              child: const Center(child: Text('Belum ada barang yang disukai.')),
               replacement: ResponsiveLayout(
                 smallMobile: ListView.builder(
                   padding:

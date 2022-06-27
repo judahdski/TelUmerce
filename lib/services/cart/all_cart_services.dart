@@ -8,7 +8,7 @@ import 'package:telumerce/model/api_response.dart';
 import '../../model/cart.dart';
 import '../utils/helper_method.dart';
 
-Future<ApiResponse> getAllCart() async {
+Future<ApiResponse> getCartService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
 
@@ -21,19 +21,10 @@ Future<ApiResponse> getAllCart() async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-      var cartList = jsonDecode(response.body)['data'];
-      var cartObject = Cart.fromJson(cartList[0]);
 
-      apiResponse = processingSuccessResponse(cartObject.cartItem);
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
-  }
-
-  return apiResponse;
+  var cart = jsonDecode(response.body)['data'][0];
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(Cart.fromJson(cart))
+          : processingFailedResponse('GET', code);
 }

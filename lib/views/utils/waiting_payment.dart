@@ -24,7 +24,7 @@ class WaitingPaymentScreen extends StatelessWidget {
           smallMobile: ListView.builder(
             padding:
                 const EdgeInsets.symmetric(vertical: 18.0, horizontal: 14.0),
-            itemCount: 10,
+            itemCount: 0,
             itemBuilder: (_, int index) {
               return const Padding(
                 padding: EdgeInsets.only(bottom: 16.0),
@@ -35,7 +35,7 @@ class WaitingPaymentScreen extends StatelessWidget {
           mediumMobile: ListView.builder(
             padding:
                 const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
-            itemCount: 10,
+            itemCount: 0,
             itemBuilder: (_, int index) {
               return const Padding(
                 padding: EdgeInsets.only(bottom: 16.0),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:telumerce/views/pages/fragment/main_window.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../../const/text_theme.dart';
@@ -154,7 +155,9 @@ class ImageUploadedContainer extends StatelessWidget {
                 child: const Text('Ambil ulang gambar', style: labelLarge),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainWindow(0)), (Route<dynamic> route) => false);
+                },
                 child: const Text('Selesai'),
               ),
             ],
