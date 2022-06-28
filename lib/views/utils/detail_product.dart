@@ -5,6 +5,8 @@ import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/services/cart/add_cart_services.dart';
 import 'package:telumerce/services/product/detail_product_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 import '../../const/color_scheme.dart';
 import '../../model/product.dart';
@@ -144,8 +146,8 @@ class _DetailProductState extends State<DetailProduct> {
                     color: const Color(0xffe5e5e5),
                     borderRadius: BorderRadius.circular(8.0)),
               ),
-              replacement: Image.network(
-                'https://telyu-ecommerce.herokuapp.com/img_produk/$image',
+              replacement: CachedNetworkImage(
+                imageUrl:'https://telyu-ecommerce.herokuapp.com/img_produk/$image',
                 fit: BoxFit.contain,
               ),
             ),
