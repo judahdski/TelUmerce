@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
@@ -156,8 +157,8 @@ class ProfileCard extends StatelessWidget {
           aspectRatio: 1 / 1,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
-            child: Image.network(
-              'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+            child: CachedNetworkImage(
+              imageUrl: 'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
               fit: BoxFit.cover,
               alignment: Alignment.center,
             ),

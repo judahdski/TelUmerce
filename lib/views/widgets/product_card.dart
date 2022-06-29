@@ -151,7 +151,6 @@ class _ProductCardState extends State<ProductCard> {
                     borderRadius: BorderRadius.circular(10.0)),
                 child: Row(
                   children: [
-                    // TODO: blum bisa nampilin gambar dari api
                     SizedBox(
                       width: 94.0,
                       child: CachedNetworkImage(
@@ -169,7 +168,6 @@ class _ProductCardState extends State<ProductCard> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              //  Category card
                               Container(
                                 child: Text(categoryName, style: categoryText),
                                 padding: const EdgeInsets.symmetric(
@@ -178,8 +176,6 @@ class _ProductCardState extends State<ProductCard> {
                                     color: darkBlue,
                                     borderRadius: BorderRadius.circular(4.0)),
                               ),
-
-                              // Like button
                               SizedBox(
                                   width: 28.0,
                                   height: 28.0,

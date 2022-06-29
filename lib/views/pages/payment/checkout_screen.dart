@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
@@ -302,8 +303,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   SizedBox(
                     height: 16.0,
-                    child: Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
                     ),
                   )
                 ],
@@ -351,8 +353,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   SizedBox(
                     height: 16.0,
-                    child: Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
                     ),
                   )
                 ],

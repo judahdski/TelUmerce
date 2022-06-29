@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -128,8 +129,8 @@ class _CartProductCardState extends State<CartProductCard> {
           children: [
             SizedBox(
                 width: 94.0,
-                child: Image.network(
-                  '$baseImageURL$gambar',
+                child: CachedNetworkImage(
+                  imageUrl: '$baseImageURL$gambar',
                   fit: BoxFit.cover,
                 )),
             const SizedBox(width: 14.0),
