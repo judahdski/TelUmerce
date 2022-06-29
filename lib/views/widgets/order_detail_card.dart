@@ -22,7 +22,6 @@ class _OrderDetailState extends State<OrderDetail> {
   final oCcy = NumberFormat("#,##0", "en_US");
   final List _orders = [];
   final List _cartItems = [];
-  Order? _order;
   OrderDetailModel? _orderDetail;
 
   bool isLoading = false;
@@ -60,7 +59,6 @@ class _OrderDetailState extends State<OrderDetail> {
     await _getOrders();
     for (var order in _orders) {
       if (order.id == widget.orderId) {
-        _order = order;
       }
     }
   }

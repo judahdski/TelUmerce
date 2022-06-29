@@ -6,6 +6,7 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/cart_product_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
+import '../../../model/cart_item.dart';
 import '../../../model/user.dart';
 import '../../widgets/checkout_bar.dart';
 

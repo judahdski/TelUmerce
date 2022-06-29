@@ -8,6 +8,7 @@ import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
+import '../../const/url_endpoint.dart';
 import '../../model/product.dart';
 import '../pages/fragment/main_window.dart';
 
@@ -146,7 +147,7 @@ class _DetailProductState extends State<DetailProduct> {
                     borderRadius: BorderRadius.circular(8.0)),
               ),
               replacement: Image.network(
-                'https://telyu-ecommerce.herokuapp.com/img_produk/$image',
+                '$baseImageURL$image',
                 fit: BoxFit.contain,
               ),
             ),

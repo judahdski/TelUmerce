@@ -27,6 +27,7 @@ Future<ApiResponse> updatePasswordService
   }
 
   var code = response.statusCode;
+
   return (code >= 200 && code <= 299)
           ? processingSuccessResponse(jsonDecode(response.body)['message'])
           : processingFailedResponse('PUT', code);

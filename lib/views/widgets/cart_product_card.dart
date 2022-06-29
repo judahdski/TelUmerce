@@ -9,7 +9,9 @@ import 'package:telumerce/services/cart/delete_cart_service.dart';
 
 import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
+import '../../const/url_endpoint.dart';
 import '../../model/cart.dart';
+import '../../model/cart_item.dart';
 
 class CartProductCard extends StatefulWidget {
   const CartProductCard({Key? key, required this.cartItemId}) : super(key: key);
@@ -127,7 +129,7 @@ class _CartProductCardState extends State<CartProductCard> {
             SizedBox(
                 width: 94.0,
                 child: Image.network(
-                  'https://telyu-ecommerce.herokuapp.com/img_produk/$gambar',
+                  '$baseImageURL$gambar',
                   fit: BoxFit.cover,
                 )),
             const SizedBox(width: 14.0),

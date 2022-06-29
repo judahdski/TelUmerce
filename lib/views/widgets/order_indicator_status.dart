@@ -4,7 +4,7 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
-import '../../model/status_order.dart';
+import '../../model/status_order_enum.dart';
 
 class OrderStatusIndicatorContainer extends StatelessWidget {
   const OrderStatusIndicatorContainer({Key? key}) : super(key: key);

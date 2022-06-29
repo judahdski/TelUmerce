@@ -24,6 +24,7 @@ Future<ApiResponse> getCategoriesService() async {
   final code = response.statusCode;
   List data = jsonDecode(response.body)['data'];
   List categoryList = categoriesFromJson(jsonEncode(data));
+
   return (code >= 200 && code <= 299)
           ? processingSuccessResponse(categoryList)
           : processingFailedResponse('GET', code);

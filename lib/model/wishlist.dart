@@ -1,13 +1,10 @@
-// To parse this JSON data, do
-//
-//     final wishlist = wishlistFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'user.dart';
 import 'product.dart';
+import 'user.dart';
 
-List<Wishlist> listWishlistFromJson(List list) => List<Wishlist>.from(list.map((e) => Wishlist.fromJson(e)));
+List<Wishlist> listWishlistFromJson(List list) =>
+    List<Wishlist>.from(list.map((e) => Wishlist.fromJson(e)));
 
 Wishlist wishlistFromJson(String str) => Wishlist.fromJson(json.decode(str));
 

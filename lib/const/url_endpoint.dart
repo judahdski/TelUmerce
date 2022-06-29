@@ -99,3 +99,8 @@ Map<String, String> getHeaderWithCookie(String? token) {
   shared preferences const
  */
 const tokenConst = 'token';
+
+/*
+  base image url
+ */
+const baseImageURL = 'https://telyu-ecommerce.herokuapp.com/img_produk/';
