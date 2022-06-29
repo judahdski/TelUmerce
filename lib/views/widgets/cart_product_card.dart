@@ -6,6 +6,7 @@ import 'package:telumerce/controller/get_category_controller.dart';
 import 'package:telumerce/model/product.dart';
 import 'package:telumerce/services/cart/all_cart_services.dart';
 import 'package:telumerce/services/cart/delete_cart_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
@@ -126,8 +127,8 @@ class _CartProductCardState extends State<CartProductCard> {
           children: [
             SizedBox(
                 width: 94.0,
-                child: Image.network(
-                  'https://telyu-ecommerce.herokuapp.com/img_produk/$gambar',
+                child: CachedNetworkImage(
+                  imageUrl:'https://telyu-ecommerce.herokuapp.com/img_produk/$gambar',
                   fit: BoxFit.cover,
                 )),
             const SizedBox(width: 14.0),
