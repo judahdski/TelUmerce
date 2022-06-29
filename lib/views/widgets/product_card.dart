@@ -10,6 +10,7 @@ import 'package:telumerce/model/wishlist.dart';
 import 'package:telumerce/services/wishlist/add_wishlist_services.dart';
 import 'package:telumerce/services/wishlist/all_wishlist_services.dart';
 import 'package:telumerce/services/wishlist/delete_wishlist_services.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../const/color_scheme.dart';
 import '../../model/product.dart';
@@ -153,8 +154,8 @@ class _ProductCardState extends State<ProductCard> {
                     // TODO: blum bisa nampilin gambar dari api
                     SizedBox(
                       width: 94.0,
-                      child: Image.network(
-                        '$baseImageURL${widget.product.gambarProduct}',
+                      child: CachedNetworkImage(
+                        imageUrl:'$baseImageURL${widget.product.gambarProduct}',
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -224,8 +225,8 @@ class _ProductCardState extends State<ProductCard> {
                   children: [
                     SizedBox(
                       width: 94.0,
-                      child: Image.network(
-                        '$baseImageURL${widget.product.gambarProduct}',
+                      child: CachedNetworkImage(
+                        imageUrl:'$baseImageURL${widget.product.gambarProduct}',
                         fit: BoxFit.cover,
                       ),
                     ),

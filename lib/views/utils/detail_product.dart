@@ -6,6 +6,8 @@ import 'package:telumerce/services/cart/add_cart_services.dart';
 import 'package:telumerce/services/product/detail_product_services.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 import '../../const/color_scheme.dart';
 import '../../const/url_endpoint.dart';
@@ -146,8 +148,8 @@ class _DetailProductState extends State<DetailProduct> {
                     color: const Color(0xffe5e5e5),
                     borderRadius: BorderRadius.circular(8.0)),
               ),
-              replacement: Image.network(
-                '$baseImageURL$image',
+              replacement: CachedNetworkImage(
+                imageUrl:'$baseImageURL$image',
                 fit: BoxFit.contain,
               ),
             ),
