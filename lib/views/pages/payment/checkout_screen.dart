@@ -1,15 +1,14 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/model/product.dart';
-import 'package:telumerce/services/cart/all_cart_services.dart';
 import 'package:telumerce/services/order/all_order_services.dart';
 import 'package:telumerce/services/order/cancel_order_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/pages/fragment/main_window.dart';
 
-import '../../../model/cart.dart';
 import '../../../model/order.dart';
 import '../../../services/order/timeout_order_services.dart';
 import '../../responsive/responsive_layout.dart';
@@ -80,7 +79,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
-
   // -------------------- G E T  O R D E R S
 
   Future _getOrders() async {
@@ -89,8 +87,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     if (response.isSuccessful) {
       _orders.addAll(response.data as List<Order>);
     } else {
-      print(
-          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+      createErrorSnackbar(context, response);
     }
   }
 
@@ -102,7 +99,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       }
     }
   }
-
 
   // --------------------------- C A N C E L  O R D E R
 
@@ -180,8 +176,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              PaymentValidationScreen(orderId: widget.orderId)));
+                          builder: (context) => PaymentValidationScreen(
+                              orderId: widget.orderId)));
                 },
                 child: const Text('Bayar')),
           ),
@@ -307,8 +303,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   SizedBox(
                     height: 16.0,
-                    child: Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
                     ),
                   )
                 ],
@@ -356,8 +353,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   SizedBox(
                     height: 16.0,
-                    child: Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png',
                     ),
                   )
                 ],

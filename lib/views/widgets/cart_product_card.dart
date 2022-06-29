@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,11 +7,12 @@ import 'package:telumerce/controller/get_category_controller.dart';
 import 'package:telumerce/model/product.dart';
 import 'package:telumerce/services/cart/all_cart_services.dart';
 import 'package:telumerce/services/cart/delete_cart_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
+import '../../const/url_endpoint.dart';
 import '../../model/cart.dart';
+import '../../model/cart_item.dart';
 
 class CartProductCard extends StatefulWidget {
   const CartProductCard({Key? key, required this.cartItemId}) : super(key: key);
@@ -128,7 +130,7 @@ class _CartProductCardState extends State<CartProductCard> {
             SizedBox(
                 width: 94.0,
                 child: CachedNetworkImage(
-                  imageUrl:'https://telyu-ecommerce.herokuapp.com/img_produk/$gambar',
+                  imageUrl: '$baseImageURL$gambar',
                   fit: BoxFit.cover,
                 )),
             const SizedBox(width: 14.0),

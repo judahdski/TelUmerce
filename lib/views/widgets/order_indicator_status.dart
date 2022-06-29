@@ -4,7 +4,7 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
-import '../../model/dummy/status_order.dart';
+import '../../model/status_order_enum.dart';
 
 class OrderStatusIndicatorContainer extends StatelessWidget {
   const OrderStatusIndicatorContainer({Key? key}) : super(key: key);
@@ -73,19 +73,19 @@ class StatusIndicatorCard extends StatelessWidget {
           StatusIndicator(
               icon: FontAwesomeIcons.scroll,
               text: 'Berhasil diverifikasi',
-              status: StatusOrder.verified),
+              status: StatusOrderEnum.verified),
           StatusIndicator(
               icon: FontAwesomeIcons.box,
               text: 'Sedang dikirim',
-              status: StatusOrder.packaging),
+              status: StatusOrderEnum.packaging),
           StatusIndicator(
               icon: FontAwesomeIcons.truck,
               text: 'Sedang dikirim',
-              status: StatusOrder.delivered),
+              status: StatusOrderEnum.delivered),
           StatusIndicator(
               icon: FontAwesomeIcons.house,
               text: 'Produk telah sampai',
-              status: StatusOrder.completed),
+              status: StatusOrderEnum.completed),
         ],
       ),
     );
@@ -99,7 +99,7 @@ class StatusIndicator extends StatelessWidget {
 
   final IconData icon;
   final String text;
-  final StatusOrder status;
+  final StatusOrderEnum status;
 
   @override
   Widget build(BuildContext context) {

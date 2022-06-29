@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../../const/text_theme.dart';
@@ -176,8 +176,6 @@ class _ImageUploadedContainerState extends State<ImageUploadedContainer> {
     var imageFile = widget.imageName;
 
     setState(() => isLoading = true);
-    print(orderId);
-    print(imageFile);
     final response = await uploadPaymentOrderService(orderId, imageFile);
     setState(() => isLoading = false);
 
@@ -192,9 +190,8 @@ class _ImageUploadedContainerState extends State<ImageUploadedContainer> {
     if (response.isSuccessful) {
       msg = 'Berhasil mengupload gambar';
     } else {
-      msg = 'Gagal, karena ${response.errorMessage}';
+      createErrorSnackbar(context, response);
     }
-    print(msg);
   }
 
   @override

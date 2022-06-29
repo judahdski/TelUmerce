@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/widgets/order_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
@@ -45,8 +47,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
     if (response.isSuccessful) {
       _orders.addAll(response.data as List<Order>);
     } else {
-      print(
-          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+      createErrorSnackbar(context, response);
     }
   }
 
@@ -156,8 +157,8 @@ class ProfileCard extends StatelessWidget {
           aspectRatio: 1 / 1,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
-            child: Image.network(
-              'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+            child: CachedNetworkImage(
+              imageUrl: 'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
               fit: BoxFit.cover,
               alignment: Alignment.center,
             ),

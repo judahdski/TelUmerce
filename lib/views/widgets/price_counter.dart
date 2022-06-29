@@ -37,8 +37,6 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
   }
 
   _decreaseAmount() {
-    // TODO : Check if isCartCard is true or false
-    // TODO : if true then update the amount of product and the price
     if (amount <= 1) return;
 
     setState(() {
@@ -98,7 +96,6 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
                   ),
                 ),
               ),
-              // Amount of the product's
               Expanded(
                 child: Text(
                   amount.toString(),

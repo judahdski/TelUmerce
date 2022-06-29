@@ -20,17 +20,9 @@ Future<ApiResponse> deleteWishlist(int id) async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-      // TODO: data response belum sesuai
-      apiResponse = processingSuccessResponse(jsonDecode(response.body));
-      break;
-    default:
-      apiResponse = processingFailedResponse('GET', code);
-      break;
-  }
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(jsonDecode(response.body)['message'])
+          : processingFailedResponse('DELETE', code);
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/controller/get_category_controller.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/wishlist.dart';
@@ -138,7 +139,6 @@ class _ProductCardState extends State<ProductCard> {
         ),
         replacement: LayoutBuilder(
           builder: (_, BoxConstraints constraints) {
-            //regular card
             if (constraints.maxWidth < 900) {
               return Container(
                 height: 120.0,
@@ -151,11 +151,10 @@ class _ProductCardState extends State<ProductCard> {
                     borderRadius: BorderRadius.circular(10.0)),
                 child: Row(
                   children: [
-                    // TODO: blum bisa nampilin gambar dari api
                     SizedBox(
                       width: 94.0,
                       child: CachedNetworkImage(
-                        imageUrl:'https://telyu-ecommerce.herokuapp.com/img_produk/${widget.product.gambarProduct}',
+                        imageUrl:'$baseImageURL${widget.product.gambarProduct}',
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -169,7 +168,6 @@ class _ProductCardState extends State<ProductCard> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              //  Category card
                               Container(
                                 child: Text(categoryName, style: categoryText),
                                 padding: const EdgeInsets.symmetric(
@@ -178,8 +176,6 @@ class _ProductCardState extends State<ProductCard> {
                                     color: darkBlue,
                                     borderRadius: BorderRadius.circular(4.0)),
                               ),
-
-                              // Like button
                               SizedBox(
                                   width: 28.0,
                                   height: 28.0,
@@ -197,14 +193,10 @@ class _ProductCardState extends State<ProductCard> {
                                               FontAwesomeIcons.heart)))
                             ],
                           ),
-
-                          // Product name
                           Text(widget.product.productName,
                               style: bodyLarge,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis),
-
-                          //Product price
                           Text('Rp. ${oCcy.format(widget.product.harga)}',
                               style: labelLarge)
                         ],
@@ -230,7 +222,7 @@ class _ProductCardState extends State<ProductCard> {
                     SizedBox(
                       width: 94.0,
                       child: CachedNetworkImage(
-                        imageUrl:'https://telyu-ecommerce.herokuapp.com/img_produk/${widget.product.gambarProduct}',
+                        imageUrl:'$baseImageURL${widget.product.gambarProduct}',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -248,14 +240,10 @@ class _ProductCardState extends State<ProductCard> {
                                 color: darkBlue,
                                 borderRadius: BorderRadius.circular(4.0)),
                           ),
-
-                          // Product name
                           Text(widget.product.productName,
                               style: bodyLarge,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis),
-
-                          // Product price
                           Text('Rp. ${oCcy.format(widget.product.harga)}',
                               style: labelLarge),
                         ],

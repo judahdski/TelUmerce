@@ -3,10 +3,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../model/order.dart';
 import '../../services/order/all_order_services.dart';
+import '../pages/payment/checkout_screen.dart';
 import '../utils/detail_order_screen.dart';
 
 class OrderCard extends StatefulWidget {
@@ -36,8 +38,7 @@ class _OrderCardState extends State<OrderCard> {
     if (response.isSuccessful) {
       _orders.addAll(response.data as List<Order>);
     } else {
-      print(
-          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+      createErrorSnackbar(context, response);
     }
   }
 
@@ -60,7 +61,6 @@ class _OrderCardState extends State<OrderCard> {
     setState(() => isLoading = true);
 
     await _getOrder();
-    print(_order.toString());
     _setUIState();
 
     await Future.delayed(const Duration(milliseconds: 3));
@@ -85,9 +85,13 @@ class _OrderCardState extends State<OrderCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: if (order.status != succeed) return;
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => const DetailOrderScreen()));
+        if (statusText == "Selesai" || statusText == "Menunggu Verifikasi") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DetailOrderScreen(orderId: widget.orderId)));
+        } else if (statusText == "Menunggu Pembayaran") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CheckoutScreen(orderId: widget.orderId)));
+        }
       },
       child: Visibility(
         visible: isLoading,

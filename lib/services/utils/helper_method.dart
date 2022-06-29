@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:telumerce/model/api_response.dart';
 
 import '../../const/url_endpoint.dart';
@@ -60,4 +61,8 @@ ApiResponse processingFailedResponse(String httpMethod, int statusCode) {
   return apiResponse;
 }
 
-
+void createErrorSnackbar(BuildContext ctx, ApiResponse response) {
+  var msg = response.errorMessage;
+  var snackbar = SnackBar(content: Text(msg!));
+  ScaffoldMessenger.of(ctx).showSnackBar(snackbar);
+}

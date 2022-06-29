@@ -19,16 +19,9 @@ Future<ApiResponse> cancelOrderService(int id) async {
     return catchTheException(e.toString());
   }
 
-  ApiResponse apiResponse;
   final code = response.statusCode;
-  switch(code) {
-    case 200:
-      apiResponse = processingSuccessResponse(jsonDecode(response.body)['message']);
-      break;
-    default:
-      apiResponse = processingFailedResponse('POST', code);
-      break;
-  }
 
-  return apiResponse;
+  return (code >= 200 && code <= 299)
+          ? processingSuccessResponse(jsonDecode(response.body)['message'])
+          : processingFailedResponse('POST', code);
 }

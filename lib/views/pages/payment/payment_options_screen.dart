@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -270,8 +271,8 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
               value: 'linkaja',
               label: SizedBox(
                 height: 32.0,
-                child: Image.network(
-                    'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
+                child: CachedNetworkImage(
+                    imageUrl: 'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
               ),
             )
           ],
@@ -305,8 +306,8 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
               value: 'linkaja',
               label: SizedBox(
                 height: 36.0,
-                child: Image.network(
-                    'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
+                child: CachedNetworkImage(
+                    imageUrl: 'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
               ),
             )
           ],
