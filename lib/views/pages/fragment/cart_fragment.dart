@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/model/cart.dart';
 import 'package:telumerce/services/cart/all_cart_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/cart_product_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
@@ -27,9 +28,7 @@ class _CartFragmentState extends State<CartFragment> {
   final List _cartItems = [];
 
   //function
-  void _setTotalPrice() {
-
-  }
+  void _setTotalPrice() {}
 
   Future _getCartItems() async {
     final response = await getCartService();
@@ -41,7 +40,7 @@ class _CartFragmentState extends State<CartFragment> {
 
       _checkIfListIsEmpty();
     } else {
-      print(response.errorMessage);
+      createErrorSnackbar(context, response);
     }
   }
 
@@ -118,9 +117,6 @@ class _CartFragmentState extends State<CartFragment> {
                   itemCount: _cartItems.length,
                   itemBuilder: (BuildContext context, int index) {
                     var cartItem = _cartItems[index];
-
-                    print(cartItem.id.toString());
-
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
                       child: CartProductCard(cartItemId: cartItem.id),
@@ -153,8 +149,11 @@ class _CartFragmentState extends State<CartFragment> {
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
-            replacement:
-                CheckoutBar(amountItem: amountItem, totalPrice: priceCartItem, isListEmpty: isListEmpty,),
+            replacement: CheckoutBar(
+              amountItem: amountItem,
+              totalPrice: priceCartItem,
+              isListEmpty: isListEmpty,
+            ),
           ),
         ),
       ],

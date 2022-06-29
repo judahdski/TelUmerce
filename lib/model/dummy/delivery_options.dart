@@ -1,3 +1,0 @@
-enum DeliveryOptions {
-  pickup, courier
-}

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/services/cart/add_cart_services.dart';
 import 'package:telumerce/services/product/detail_product_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import '../../const/color_scheme.dart';
@@ -60,7 +61,7 @@ class _DetailProductState extends State<DetailProduct> {
     if (response.isSuccessful) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const MainWindow(1)));
     } else {
-      print(response.errorMessage);
+      createErrorSnackbar(context, response);
     }
   }
 

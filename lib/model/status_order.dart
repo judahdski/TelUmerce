@@ -1,4 +1,4 @@
-enum StatusOrder {
+enum StatusOrderEnum {
   waitingPayment,
   waitingVerification,
   failedVerification,

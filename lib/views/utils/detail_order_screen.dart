@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/order_detail_card.dart';
-import '../widgets/order_indicator_status.dart';
 
-class DetailOrderScreen extends StatelessWidget {
-  const DetailOrderScreen({Key? key}) : super(key: key);
+class DetailOrderScreen extends StatefulWidget {
+  const DetailOrderScreen({Key? key, required this.orderId}) : super(key: key);
 
+  final int orderId;
+
+  @override
+  State<DetailOrderScreen> createState() => _DetailOrderScreenState();
+}
+
+class _DetailOrderScreenState extends State<DetailOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,16 +27,16 @@ class DetailOrderScreen extends StatelessWidget {
         title: const Text('Detail Pesanan'),
       ),
       body: ListView(
-        children: const [
-          OrderStatusIndicatorContainer(),
-          Divider(
-            thickness: 6.0,
-            height: 6.0,
-            color: Color(0xfff2f2f2),
-          ),
+        children: [
+          // OrderStatusIndicatorContainer(),
+          // Divider(
+          //   thickness: 6.0,
+          //   height: 6.0,
+          //   color: Color(0xfff2f2f2),
+          // ),
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('bentar yak'),
+            padding: const EdgeInsets.all(8.0),
+            child: OrderDetail(orderId: widget.orderId),
             // child: OrderDetail(),
           ),
         ],

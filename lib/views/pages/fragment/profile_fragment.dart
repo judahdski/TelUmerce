@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/widgets/order_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
@@ -45,8 +46,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
     if (response.isSuccessful) {
       _orders.addAll(response.data as List<Order>);
     } else {
-      print(
-          'terjadi kesalahan saat mengambil data order \ncheckout_screen.dart 28:49');
+      createErrorSnackbar(context, response);
     }
   }
 

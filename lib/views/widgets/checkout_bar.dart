@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/pages/payment/payment_options_screen.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/utils/edit_profile.dart';
@@ -40,7 +41,7 @@ class _CheckoutBarState extends State<CheckoutBar> {
         isUserInfoNull = false;
       }
     } else {
-      print(response.errorMessage);
+      createErrorSnackbar(context, response);
     }
   }
 
