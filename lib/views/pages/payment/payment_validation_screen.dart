@@ -185,8 +185,8 @@ class _ImageUploadedContainerState extends State<ImageUploadedContainer> {
         MaterialPageRoute(builder: (context) => const MainWindow(0)),
         (Route<dynamic> route) => false);
 
-    var snackbar = const SnackBar(content: Text('Terimakasih. Pembayaran anda sudah tersimpan.'));
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    // var snackbar = const SnackBar(content: Text('Terimakasih. Pembayaran anda sudah tersimpan.'));
+    // ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
     if (response.isSuccessful) {
       msg = 'Berhasil mengupload gambar';

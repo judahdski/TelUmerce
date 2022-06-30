@@ -69,17 +69,15 @@ class _DetailProductState extends State<DetailProduct> {
   }
 
   Future _getProductDetail() async {
-    setState(() => isLoading = true);
     final response = await getProductDetailService(widget.idProduct);
 
     if (response.isSuccessful) {
       var product = response.data as Product;
       detailProduct = product;
       _setUIState();
-
-      await Future.delayed(const Duration(milliseconds: 10));
-      setState(() => isLoading = false);
-    } else {}
+    } else {
+      createErrorSnackbar(context, response);
+    }
   }
 
   void _setUIState() {
@@ -92,11 +90,20 @@ class _DetailProductState extends State<DetailProduct> {
     currentPrice = basePrice;
   }
 
+  Future _loadDetailProduct() async {
+    setState(() => isLoading = true);
+
+    await _getProductDetail();
+
+    await Future.delayed(const Duration(milliseconds: 10));
+    setState(() => isLoading = false);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _getProductDetail();
+    _loadDetailProduct();
   }
 
   //       U I
