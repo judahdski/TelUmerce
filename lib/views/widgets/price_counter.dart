@@ -5,11 +5,11 @@ import 'package:telumerce/views/responsive/responsive_layout.dart';
 import '../../const/text_theme.dart';
 
 class PriceCountWidget extends StatefulWidget {
-  const PriceCountWidget(
-      {Key? key,
-      required this.amount,
-      required this.basePrice,})
-      : super(key: key);
+  const PriceCountWidget({
+    Key? key,
+    required this.amount,
+    required this.basePrice,
+  }) : super(key: key);
 
   final int amount;
   final int basePrice;
@@ -29,7 +29,10 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
   //function
   _increaseAmount() {
     setState(() {
-      if (amount >= 10) return;
+      if (amount >= 10) {
+
+        return;
+      }
 
       amount++;
       currentPrice *= amount;

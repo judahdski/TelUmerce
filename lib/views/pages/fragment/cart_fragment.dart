@@ -21,12 +21,22 @@ class _CartFragmentState extends State<CartFragment> {
   bool isListEmpty = false;
 
   int amountItem = 0;
-  int priceCartItem = 63720;
   int totalPrice = 0;
-  final List _cartItems = [];
+  final List<CartItem> _cartItems = [];
 
   //function
-  void _setTotalPrice() {}
+  int _setTotalPrice() {
+    int sum = 0;
+
+    for (var cartItem in _cartItems) {
+      int jumlahBarang = cartItem.jumlahBarang;
+      int hargaProduct = cartItem.produk.harga;
+      int totalHargaBarang = jumlahBarang * hargaProduct;
+      sum += totalHargaBarang;
+    }
+
+    return sum;
+  }
 
   Future _getCartItems() async {
     final response = await getCartService();
@@ -57,6 +67,7 @@ class _CartFragmentState extends State<CartFragment> {
 
     await _getCartItems();
     _setCheckoutbarContent();
+    totalPrice = _setTotalPrice();
 
     await Future.delayed(const Duration(milliseconds: 1));
     setState(() => isLoading = false);
@@ -148,7 +159,7 @@ class _CartFragmentState extends State<CartFragment> {
             ),
             replacement: CheckoutBar(
               amountItem: amountItem,
-              totalPrice: priceCartItem,
+              totalPrice: totalPrice,
               isListEmpty: isListEmpty,
             ),
           ),
