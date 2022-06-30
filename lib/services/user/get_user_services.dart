@@ -6,6 +6,7 @@ import 'package:telumerce/const/key.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/user.dart';
+import 'package:telumerce/services/auth/get_token.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
 import '../../const/http_header.dart';
@@ -13,12 +14,13 @@ import '../../const/http_header.dart';
 Future<ApiResponse> getUserService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response? response;
+  String? token = await getTheToken();
 
   try {
     response = await http.get(
       Uri.parse(getUserURL),
       headers: getHeaderWithCookie(
-        pref.getString(tokenKey),
+        token,
       ),
     );
   } catch (e) {

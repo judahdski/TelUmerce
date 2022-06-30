@@ -5,6 +5,7 @@ import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
+import 'package:telumerce/services/auth/create_storage.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../../const/key.dart';
@@ -65,8 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future _sendUserName(String username) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString(usernameKey, username);
+    await storage.write(key: usernameKey, value: username);
   }
 
   Future<bool> _login() async {
