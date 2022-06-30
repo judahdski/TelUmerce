@@ -35,6 +35,7 @@ Future<ApiResponse> login(String email, String password) async {
     String token = jsonDecode(response.body)['token'];
 
     await storage.write(key: tokenKey, value: token);
+
   } catch (e) {
     String errorMsg = '';
 

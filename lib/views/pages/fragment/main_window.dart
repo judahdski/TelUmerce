@@ -4,6 +4,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/key.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/auth/get_token.dart';
+import 'package:telumerce/services/auth/create_storage.dart';
 
 import '../../../const/color_scheme.dart';
 import 'cart_fragment.dart';
@@ -26,8 +28,8 @@ class _MainWindowState extends State<MainWindow> {
   String username = '';
 
   Future _getUserInfo() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString(usernameKey);
+    var value = await storage.read(key: usernameKey);
+    return value;
   }
 
   Future _setUserName() async {
