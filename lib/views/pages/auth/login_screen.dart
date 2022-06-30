@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/user/get_user_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
 
 import '../../../const/color_scheme.dart';
+import '../../../const/key.dart';
+import '../../../model/user.dart';
 import '../../../services/auth/login_auth_services.dart';
 import '../../widgets/password_textfields.dart';
 import '../fragment/main_window.dart';
@@ -17,7 +22,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //variable
   bool isLoading = false;
   bool isScrollable = false;
   bool isValid = false;
@@ -26,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
 
-  //function / logic
+
   void _changeToScrollView() {
     setState(() {
       isScrollable = true;
@@ -45,6 +49,24 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
     isValid = true;
+  }
+
+  Future _getUserData() async {
+    final response = await getUserService();
+    dynamic user;
+
+    if (response.isSuccessful) {
+      user = response.data as User;
+    } else {
+      createErrorSnackbar(context, response);
+    }
+
+    return user;
+  }
+
+  Future _sendUserName(String username) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(usernameKey, username);
   }
 
   Future<bool> _login() async {
@@ -67,8 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
   _setLoginButton() async {
     sanitationCheck();
 
-    setState(() => isLoading = false);
     if (await _login()) {
+      var user = await _getUserData() as User;
+      _sendUserName(user.name);
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const MainWindow(0)),
         (Route<dynamic> route) => false,
@@ -80,6 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
       var snackBar = SnackBar(content: Text(errorMessage));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+
+    setState(() => isLoading = false);
   }
 
   @override
@@ -101,7 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Center(child: CircularProgressIndicator()),
                 replacement: SingleChildScrollView(
                   padding: const EdgeInsets.all(18.0),
-                  // main widget
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [

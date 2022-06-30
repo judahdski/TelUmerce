@@ -6,6 +6,8 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/wishlist.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> addWishlist(int id) async {
@@ -15,7 +17,7 @@ Future<ApiResponse> addWishlist(int id) async {
   try {
     response = await http.post(
       Uri.parse(addWishlistURL(id)),
-      headers: getHeaderWithCookie(pref.getString(tokenConst)),
+      headers: getHeaderWithCookie(pref.getString(tokenKey)),
     );
   } catch (e) {
     return catchTheException(e.toString());

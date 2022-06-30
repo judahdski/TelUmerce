@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> logoutService() async {
@@ -14,7 +16,7 @@ Future<ApiResponse> logoutService() async {
   try {
     response = await http.post(
       Uri.parse(logoutURL),
-      headers: getHeaderWithCookie(pref.getString(tokenConst)),
+      headers: getHeaderWithCookie(pref.getString(tokenKey)),
     );
   } catch(e) {
     return catchTheException(e.toString());

@@ -30,7 +30,7 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
 
   // ------------------------ alamat state
   String alamat = 'null';
-  final TextEditingController _textInputController = TextEditingController();
+  final TextEditingController _addressTextInputContoller = TextEditingController();
   bool isSameAsProfile = false;
 
   PaymentInfo? paymentInfo;
@@ -47,9 +47,17 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
     }
   }
 
+  void setPaymentMethod(String value) {
+    setState(() => paymentMethod = value);
+  }
+
+  void setAddressState() {
+    setState(() => isSameAsProfile = !isSameAsProfile);
+  }
+
   _setUIState() {
     alamat = paymentInfo!.user;
-    _textInputController.text = alamat;
+    _addressTextInputContoller.text = alamat;
   }
 
   int _getDeliveryMethod() {
@@ -68,7 +76,7 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
     if (isSameAsProfile) {
       return alamat;
     } else {
-      return _textInputController.text;
+      return _addressTextInputContoller.text;
     }
   }
 
@@ -134,7 +142,12 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
             paymentOptionsWidget(),
             const Divider(
                 height: 6.0, thickness: 6.0, color: Color(0xfff0f0f0)),
-            addressInputWidget(),
+            AddressInputWidget(
+              setAddressState: () {
+                setAddressState();
+              },
+              textInputController: _addressTextInputContoller,
+            ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
@@ -253,8 +266,8 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
             const Text(
                 'Untuk sementara metode pembayaran hanya bisa dilakukan melalui transfer bank saja.',
                 style: bodySmall),
-            paymentMethodOptions(
-              value: 'transfer_bank',
+            PaymentMethodOptions(
+              initValue: 'transfer_bank',
               label: Row(
                 children: const [
                   FaIcon(FontAwesomeIcons.moneyBill,
@@ -266,14 +279,24 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
                   ),
                 ],
               ),
+              paymentMethod: paymentMethod,
+              setPaymentMethod: () {
+                var value = 'transfer_bank';
+                setPaymentMethod(value);
+              },
             ),
-            paymentMethodOptions(
-              value: 'linkaja',
+            PaymentMethodOptions(
+              initValue: 'linkaja',
               label: SizedBox(
                 height: 32.0,
                 child: CachedNetworkImage(
                     imageUrl: 'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
               ),
+              paymentMethod: paymentMethod,
+              setPaymentMethod: () {
+                var value = 'linkaja';
+                setPaymentMethod(value);
+              },
             )
           ],
         ),
@@ -288,8 +311,8 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
             const Text(
                 'Untuk sementara metode pembayaran hanya bisa dilakukan melalui transfer bank saja.',
                 style: bodySmall),
-            paymentMethodOptions(
-              value: 'transfer_bank',
+            PaymentMethodOptions(
+              initValue: 'transfer_bank',
               label: Row(
                 children: const [
                   FaIcon(FontAwesomeIcons.moneyBill,
@@ -301,14 +324,24 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
                   ),
                 ],
               ),
+              paymentMethod: paymentMethod,
+              setPaymentMethod: () {
+                var value = 'transfer_bank';
+                setPaymentMethod(value);
+              },
             ),
-            paymentMethodOptions(
-              value: 'linkaja',
+            PaymentMethodOptions(
+              initValue: 'linkaja',
               label: SizedBox(
                 height: 36.0,
                 child: CachedNetworkImage(
                     imageUrl: 'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
               ),
+              paymentMethod: paymentMethod,
+              setPaymentMethod: () {
+                var value = 'linkaja';
+                setPaymentMethod(value);
+              },
             )
           ],
         ),
@@ -316,14 +349,33 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
     );
   }
 
-  Row paymentMethodOptions({required String value, required Widget label}) {
+  @override
+  void dispose() {
+    super.dispose();
+
+    _addressTextInputContoller.dispose();
+  }
+}
+
+// TODO: ubah widget function jadi widget class
+
+class PaymentMethodOptions extends StatelessWidget {
+  const PaymentMethodOptions({Key? key, required this.setPaymentMethod, required this.initValue, required this.paymentMethod, required this.label}) : super(key: key);
+
+  final VoidCallback setPaymentMethod;
+  final String initValue;
+  final String paymentMethod;
+  final Widget label;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         Radio(
-          value: value,
+          value: initValue,
           groupValue: paymentMethod,
           onChanged: (value) {
-            setState(() => paymentMethod = value.toString());
+            setPaymentMethod();
           },
         ),
         const SizedBox(width: 8.0),
@@ -331,8 +383,23 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
       ],
     );
   }
+}
 
-  Widget addressInputWidget() {
+class AddressInputWidget extends StatefulWidget {
+  const AddressInputWidget({Key? key, required this.textInputController, required this.setAddressState}) : super(key: key);
+
+  final TextEditingController textInputController;
+  final VoidCallback setAddressState;
+
+  @override
+  State<AddressInputWidget> createState() => _AddressInputWidgetState();
+}
+
+class _AddressInputWidgetState extends State<AddressInputWidget> {
+  bool isSameAsProfile = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(14.0),
       color: Colors.white,
@@ -353,7 +420,7 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
                       borderRadius: BorderRadius.circular(6.0))),
             ),
             replacement: TextField(
-              controller: _textInputController,
+              controller: widget.textInputController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
               decoration: InputDecoration(
@@ -385,12 +452,5 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _textInputController.dispose();
   }
 }

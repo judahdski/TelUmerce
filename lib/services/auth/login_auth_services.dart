@@ -6,6 +6,7 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/user.dart';
 
+import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> login(String email, String password) async {
@@ -33,7 +34,7 @@ Future<ApiResponse> login(String email, String password) async {
   try {
     user = User.fromJson(jsonDecode(response.body)['user']);
     String token = jsonDecode(response.body)['token'];
-    pref.setString(tokenConst, token);
+    pref.setString(tokenKey, token);
   } catch (e) {
     String errorMsg = '';
 

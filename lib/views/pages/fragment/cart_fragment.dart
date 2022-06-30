@@ -7,13 +7,10 @@ import 'package:telumerce/views/widgets/cart_product_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../../model/cart_item.dart';
-import '../../../model/user.dart';
 import '../../widgets/checkout_bar.dart';
 
 class CartFragment extends StatefulWidget {
-  const CartFragment({Key? key, required this.user}) : super(key: key);
-
-  final User user;
+  const CartFragment({Key? key}) : super(key: key);
 
   @override
   State<CartFragment> createState() => _CartFragmentState();
@@ -45,13 +42,13 @@ class _CartFragmentState extends State<CartFragment> {
     }
   }
 
-  _checkIfListIsEmpty() {
+  void _checkIfListIsEmpty() {
     if (_cartItems.isEmpty) {
       setState(() => isListEmpty = true);
     }
   }
 
-  _setCheckoutbarContent() {
+  void _setCheckoutbarContent() {
     amountItem = _cartItems.length;
   }
 
@@ -59,7 +56,7 @@ class _CartFragmentState extends State<CartFragment> {
     setState(() => isLoading = true);
 
     await _getCartItems();
-    await _setCheckoutbarContent();
+    _setCheckoutbarContent();
 
     await Future.delayed(const Duration(milliseconds: 1));
     setState(() => isLoading = false);
@@ -79,7 +76,6 @@ class _CartFragmentState extends State<CartFragment> {
     }
   }
 
-  //UI
   @override
   Widget build(BuildContext context) {
     return Stack(

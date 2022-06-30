@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -189,6 +190,9 @@ class _ImageUploadedContainerState extends State<ImageUploadedContainer> {
 
     if (response.isSuccessful) {
       msg = 'Berhasil mengupload gambar';
+      if (kDebugMode) {
+        print(msg);
+      }
     } else {
       createErrorSnackbar(context, response);
     }

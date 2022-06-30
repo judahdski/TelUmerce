@@ -7,6 +7,9 @@ import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/create_order.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
+
 Future<ApiResponse> createOrderService(
     String alamat, int opsiKirim, int metodePembayaran) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -14,7 +17,7 @@ Future<ApiResponse> createOrderService(
 
   try {
     response = await http.post(Uri.parse(createOrderURL),
-        headers: getHeaderRequest(pref.getString(tokenConst)),
+        headers: getHeaderRequest(pref.getString(tokenKey)),
         body: {
           'alamat': alamat,
           'opsikirim': opsiKirim.toString(),

@@ -6,6 +6,8 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/product.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> getProductsService() async {
@@ -16,7 +18,7 @@ Future<ApiResponse> getProductsService() async {
     response = await http.get(
       Uri.parse(getAllProductsURL),
       headers: getHeaderRequest(
-        pref.getString(tokenConst),
+        pref.getString(tokenKey),
       ),
     );
   } catch (e) {

@@ -7,14 +7,14 @@ import 'package:telumerce/views/widgets/order_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../../model/order.dart';
-import '../../../model/user.dart';
 import '../../../services/order/all_order_services.dart';
-import '../../../services/user/get_user_services.dart';
 import '../../utils/edit_profile.dart';
 import '../../widgets/order_verification_button.dart';
 
 class ProfileFragment extends StatefulWidget {
-  const ProfileFragment({Key? key}) : super(key: key);
+  const ProfileFragment({Key? key, required this.username}) : super(key: key);
+
+  final String username;
 
   @override
   State<ProfileFragment> createState() => _ProfileFragmentState();
@@ -22,24 +22,10 @@ class ProfileFragment extends StatefulWidget {
 
 class _ProfileFragmentState extends State<ProfileFragment> {
   bool isLoading = false;
-
   String username = '';
-  User? user;
 
   final List<Order> _orders = [];
   final List<Order> _successfulOrders = [];
-
-  Future _getUserInfo() async {
-    final response = await getUserService();
-
-    if (response.isSuccessful) {
-      var user = response.data as User;
-      setState(() {
-        username = user.name;
-        this.user = user;
-      });
-    }
-  }
 
   Future _getOrders() async {
     final response = await getAllOrderService();
@@ -52,7 +38,9 @@ class _ProfileFragmentState extends State<ProfileFragment> {
   }
 
   Future _getSuccessfulOrders() async {
-    for(var order in _orders) {
+    await _getOrders();
+
+    for (var order in _orders) {
       if (order.statusOrder.status == "Selesai") {
         _successfulOrders.add(order);
       }
@@ -61,10 +49,11 @@ class _ProfileFragmentState extends State<ProfileFragment> {
 
   Future _loadProfileFragment() async {
     setState(() => isLoading = true);
-    await _getOrders();
+
+    username = widget.username;
     await _getSuccessfulOrders();
-    await _getUserInfo();
-    await Future.delayed(const Duration(milliseconds: 3));
+
+    await Future.delayed(const Duration(milliseconds: 1));
     setState(() => isLoading = false);
   }
 
@@ -95,7 +84,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
           child: Visibility(
             visible: isLoading,
             child: const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Colors.yellow),
             ),
             replacement: ListView(
               children: [
@@ -117,7 +106,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                   text: "Pesanan dibatalkan",
                   status: StatusBtnIndicator.cancelled,
                 ),
-                SuccessOrderList(orders: _successfulOrders,),
+                SuccessOrderList(orders: _successfulOrders),
               ],
             ),
           ),
@@ -158,7 +147,8 @@ class ProfileCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
             child: CachedNetworkImage(
-              imageUrl: 'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+              imageUrl:
+                  'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
               fit: BoxFit.cover,
               alignment: Alignment.center,
             ),
@@ -188,7 +178,9 @@ class SuccessOrderList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 14.0),
       child: Column(
         children: orders.map((order) {
-          return OrderCard(orderId: order.id,);
+          return OrderCard(
+            orderId: order.id,
+          );
         }).toList(),
       ),
     );

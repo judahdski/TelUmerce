@@ -61,11 +61,26 @@ class EntryPoint extends StatefulWidget {
 class _EntryPointState extends State<EntryPoint> {
   bool isAuthenticated = false;
 
-  getToken() async {
+  Future _getToken() async {
     String? token = await getTheToken();
+    int tokenLength = token!.length;
+    print(tokenLength);
+    if (tokenLength <= 0) {
+      setState(() => isAuthenticated = true);
+    }
+  }
 
-    if (token != null) {
-      isAuthenticated = true;
+  @override
+  void initState() {
+    super.initState();
+
+    _getToken();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
     }
   }
 

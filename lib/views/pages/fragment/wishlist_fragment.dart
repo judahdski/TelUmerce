@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/model/wishlist.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/services/wishlist/all_wishlist_services.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/product_card.dart';
@@ -19,30 +20,37 @@ class _WishlistFragmentState extends State<WishlistFragment> {
   final List _wishlistProducts = [];
 
   Future _getWishlistProducts() async {
-    setState(() => isLoading = true);
     final response = await getAllWishlistService();
 
     if (response.isSuccessful) {
-      setState(() => isLoading = false);
-
       var wishlistList = response.data as List<Wishlist>;
       _wishlistProducts.addAll(wishlistList);
       _checkEmptyList();
     } else {
-      // TODO: failed to get data
+      createErrorSnackbar(context, response);
     }
   }
 
-  _checkEmptyList() {
+  void _checkEmptyList() {
     if (_wishlistProducts.isEmpty) {
       setState(() => isEmpty = true);
     }
   }
 
+  Future _loadWishlistFragment() async {
+    setState(() => isLoading = true);
+
+    await _getWishlistProducts();
+
+    await Future.delayed(const Duration(milliseconds: 1));
+    setState(() => isLoading = false);
+  }
+
   @override
   void initState() {
     super.initState();
-    _getWishlistProducts();
+
+    _loadWishlistFragment();
   }
 
   @override
