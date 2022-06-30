@@ -64,7 +64,7 @@ class _EntryPointState extends State<EntryPoint> {
   Future _getToken() async {
     String? token = await getTheToken();
     int tokenLength = token!.length;
-    print(tokenLength);
+
     if (tokenLength <= 0) {
       setState(() => isAuthenticated = true);
     }
@@ -89,4 +89,3 @@ class _EntryPointState extends State<EntryPoint> {
     return (isAuthenticated) ? const MainWindow(0) : const GetStartedScreen();
   }
 }
-
