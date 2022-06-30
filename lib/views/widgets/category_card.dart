@@ -15,6 +15,24 @@ class CategoryCard extends StatefulWidget {
 }
 
 class _CategoryCardState extends State<CategoryCard> {
+  int categoryId = 0;
+  String categoryString = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    categoryId = widget.category.id;
+    categoryString = widget.category.nameCategory;
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
