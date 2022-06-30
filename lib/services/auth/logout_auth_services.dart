@@ -7,11 +7,9 @@ import 'package:telumerce/services/auth/create_storage.dart';
 import 'package:telumerce/services/auth/get_token.dart';
 
 import '../../const/http_header.dart';
-import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> logoutService() async {
-  // String? token = await storage.read(key: tokenKey);
   String? token = await getTheToken();
   http.Response response;
 
@@ -20,13 +18,11 @@ Future<ApiResponse> logoutService() async {
       Uri.parse(logoutURL),
       headers: getHeaderWithCookie(token),
     );
-
   } catch (e) {
     return catchTheException(e.toString());
   }
 // hapus valuenya
   await storage.deleteAll();
-
 
   final code = response.statusCode;
   return (code >= 200 && code <= 299)

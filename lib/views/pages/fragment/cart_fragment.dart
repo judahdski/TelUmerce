@@ -25,6 +25,10 @@ class _CartFragmentState extends State<CartFragment> {
   final List<CartItem> _cartItems = [];
 
   //function
+  Future refreshScreen() async {
+    await _loadCartFragment();
+  }
+
   int _setTotalPrice() {
     int sum = 0;
 
@@ -115,7 +119,9 @@ class _CartFragmentState extends State<CartFragment> {
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: CartProductCard(cartItemId: cartItem.id),
+                      child: CartProductCard(
+                          setRefreshButton: refreshScreen,
+                          cartItemId: cartItem.id),
                     );
                   },
                 ),
@@ -127,7 +133,9 @@ class _CartFragmentState extends State<CartFragment> {
                     var cartItem = _cartItems[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: CartProductCard(cartItemId: cartItem.id),
+                      child: CartProductCard(
+                          setRefreshButton: refreshScreen,
+                          cartItemId: cartItem.id),
                     );
                   },
                 ),

@@ -82,11 +82,21 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  Future _loadSearchScreen() async {
+    setState(() => isLoading = true);
+
+    await _getCategories();
+    await _getProducts();
+
+    await Future.delayed(const Duration(milliseconds: 1));
+    setState(() => isLoading = false);
+  }
+
   @override
   void initState() {
     super.initState();
-    _getCategories();
-    _getProducts();
+
+    _loadSearchScreen();
   }
 
   @override

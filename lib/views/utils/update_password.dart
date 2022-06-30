@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/services/user/update_password_service.dart';
+import 'package:telumerce/views/pages/fragment/main_window.dart';
 import 'package:telumerce/views/utils/edit_profile.dart';
 import 'package:telumerce/views/widgets/password_textfields.dart';
 
@@ -65,7 +66,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
 
     if (response.isSuccessful) {
       msg = 'Berhasil';
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()), (Route<dynamic> route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainWindow(3)), (Route<dynamic> route) => false);
     } else {
       msg = response.errorMessage!;
     }
@@ -80,7 +81,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()), (Route<dynamic> route) => false);
           },
           icon: const FaIcon(FontAwesomeIcons.chevronLeft),
         ),

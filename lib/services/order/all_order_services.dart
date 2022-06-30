@@ -12,7 +12,6 @@ import '../../const/http_header.dart';
 import '../../const/key.dart';
 
 Future<ApiResponse> getAllOrderService() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
   String? token = await getTheToken();
 

@@ -7,21 +7,18 @@ import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/auth/get_token.dart';
 
 import '../../const/http_header.dart';
-import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> addCartService(String productAmount, int id) async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
   String? token = await getTheToken();
 
   try {
-    response = await http.post(Uri.parse(addCartURL),
-        headers: getHeaderRequest(token),
-        body: {
-          'jumlah_barang': productAmount,
-          'id_produk': id.toString(),
-        });
+    response = await http
+        .post(Uri.parse(addCartURL), headers: getHeaderRequest(token), body: {
+      'jumlah_barang': productAmount,
+      'id_produk': id.toString(),
+    });
   } catch (e) {
     return catchTheException(e.toString());
   }
@@ -29,6 +26,6 @@ Future<ApiResponse> addCartService(String productAmount, int id) async {
   final code = response.statusCode;
 
   return (code >= 200 && code <= 299)
-          ? processingSuccessResponse(jsonDecode(response.body)['message'])
-          : processingFailedResponse('POST', code);
+      ? processingSuccessResponse(jsonDecode(response.body)['message'])
+      : processingFailedResponse('POST', code);
 }

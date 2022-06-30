@@ -13,7 +13,6 @@ import '../../const/key.dart';
 
 Future<ApiResponse> createOrderService(
     String alamat, int opsiKirim, int metodePembayaran) async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
   String? token = await getTheToken();
 
