@@ -9,8 +9,8 @@ import 'package:telumerce/services/utils/helper_method.dart';
 import '../../model/api_response.dart';
 
 Future<ApiResponse> uploadPaymentOrderService(int id, String imageFile) async {
-  http.StreamedResponse response;
   String? token = await getTheToken();
+  http.StreamedResponse streamedResponse;
 
   var req = http.MultipartRequest('POST', Uri.parse(orderPaymentURL(id)));
   var multiport = await http.MultipartFile.fromPath(
@@ -21,13 +21,15 @@ Future<ApiResponse> uploadPaymentOrderService(int id, String imageFile) async {
   req.headers.addAll(getHeaderFileUploadRequest(token));
 
   try {
-    response = await req.send();
+    streamedResponse  = await req.send();
+
   } catch (e) {
     return catchTheException(e.toString());
   }
 
-  final code = response.statusCode;
+  final code = streamedResponse.statusCode;
+  var response = await http.Response.fromStream(streamedResponse);
   return (code >= 200 && code <= 299)
-      ? processingSuccessResponse(jsonDecode(response.stream.toString()))
+      ? processingSuccessResponse(jsonDecode(response.body)['message'])
       : processingFailedResponse('POST', code);
 }
