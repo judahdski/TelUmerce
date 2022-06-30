@@ -6,6 +6,8 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
+import '../../const/key.dart';
+
 Future<ApiResponse> register(
     String name, String email, String password, String confirmationPass) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -30,7 +32,7 @@ Future<ApiResponse> register(
   try {
     user = jsonDecode(response.body)['user'];
     String token = jsonDecode(response.body)['token'];
-    pref.setString(tokenConst, token);
+    pref.setString(tokenKey, token);
   } catch (e) {
     final errorMsg = jsonDecode(response.body)['errors'].toString();
     return catchTheException(errorMsg);

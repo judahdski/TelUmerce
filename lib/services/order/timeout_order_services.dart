@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
 import '../../model/api_response.dart';
 
 Future<ApiResponse> timeoutOrderService(int id) async {
@@ -14,7 +16,7 @@ Future<ApiResponse> timeoutOrderService(int id) async {
   try {
     response = await http.post(
       Uri.parse(orderTimeOutURL(id)),
-      headers: getHeaderRequest(pref.getString(tokenConst)),
+      headers: getHeaderRequest(pref.getString(tokenKey)),
     );
   } catch (e) {
     return catchTheException(e.toString());

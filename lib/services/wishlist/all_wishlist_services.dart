@@ -7,6 +7,9 @@ import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/wishlist.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
+
 Future<ApiResponse> getAllWishlistService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
@@ -15,7 +18,7 @@ Future<ApiResponse> getAllWishlistService() async {
     response = await http.get(
       Uri.parse(getAllWishlistURL),
       headers: getHeaderWithCookie(
-        pref.getString(tokenConst),
+        pref.getString(tokenKey),
       ),
     );
   } catch (e) {

@@ -6,6 +6,8 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/payment_info.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> getInfoPaymentService() async {
@@ -15,7 +17,7 @@ Future<ApiResponse> getInfoPaymentService() async {
   try {
     response = await http.get(
       Uri.parse(paymentURL),
-      headers: getHeaderWithCookie(pref.getString(tokenConst)),
+      headers: getHeaderWithCookie(pref.getString(tokenKey)),
     );
   } catch (e) {
     return catchTheException(e.toString());

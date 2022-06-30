@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telumerce/model/api_response.dart';
 
-import '../../const/url_endpoint.dart';
+import '../../const/error_message.dart';
 
 ApiResponse catchTheException(String e) {
   ApiResponse apiResponse = ApiResponse();

@@ -6,6 +6,9 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
+
 Future<ApiResponse> cancelOrderService(int id) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
@@ -13,7 +16,7 @@ Future<ApiResponse> cancelOrderService(int id) async {
   try {
     response = await http.post(
       Uri.parse(cancelledOrderURL(id)),
-      headers: getHeaderRequest(pref.getString(tokenConst)),
+      headers: getHeaderRequest(pref.getString(tokenKey)),
     );
   } catch(e) {
     return catchTheException(e.toString());

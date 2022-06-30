@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telumerce/const/key.dart';
 import 'package:telumerce/const/text_theme.dart';
 
 import '../../../const/color_scheme.dart';
-import '../../../model/user.dart';
-import '../../../services/user/get_user_services.dart';
 import 'cart_fragment.dart';
 import 'home_fragment.dart';
 import 'profile_fragment.dart';
 import 'wishlist_fragment.dart';
 
 class MainWindow extends StatefulWidget {
-  final int pageIndex;
-
   const MainWindow(this.pageIndex, {Key? key}) : super(key: key);
+
+  final int pageIndex;
 
   @override
   State<MainWindow> createState() => _MainWindowState();
@@ -24,26 +24,25 @@ class _MainWindowState extends State<MainWindow> {
   bool isLoading = false;
   int _pageIndex = 0;
   String username = '';
-  User? user;
 
   Future _getUserInfo() async {
-    final response = await getUserService();
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(usernameKey);
+  }
 
-    if (response.isSuccessful) {
-      var user = response.data as User;
-      setState(() {
-        username = user.name;
-        this.user = user;
-      });
-    }
+  Future _setUserName() async {
+    var name = await _getUserInfo();
+    setState(() => username = name);
   }
 
   Future _loadMainWindow() async {
     setState(() => isLoading = true);
-    await _getUserInfo();
-    await Future.delayed(const Duration(milliseconds: 2));
-    setState(() => isLoading = false);
+
+    await _setUserName();
     _pageIndex = widget.pageIndex;
+
+    await Future.delayed(const Duration(microseconds: 524));
+    setState(() => isLoading = false);
   }
 
   @override
@@ -104,18 +103,20 @@ class _MainWindowState extends State<MainWindow> {
       body: Visibility(
         visible: isLoading,
         child: const Center(
-          child: Center(child: CircularProgressIndicator(color: Colors.redAccent),),
+          child: Center(
+            child: CircularProgressIndicator(color: Colors.redAccent),
+          ),
         ),
         replacement: SafeArea(
           child: SafeArea(
             child: Center(
               child: _pageIndex == 0
-                  ? const HomeFragment()
+                  ? HomeFragment(username: username)
                   : _pageIndex == 1
-                      ? CartFragment(user: user!)
+                      ? const CartFragment()
                       : _pageIndex == 2
                           ? const WishlistFragment()
-                          : const ProfileFragment(),
+                          : ProfileFragment(username: username),
             ),
           ),
         ),

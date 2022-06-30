@@ -51,7 +51,6 @@ class GetStartedSmall extends StatelessWidget {
                 children: [
                   TextButton(
                       onPressed: () {
-                        //  Navigate to login screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -65,7 +64,6 @@ class GetStartedSmall extends StatelessWidget {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(darkBlue)),
                       onPressed: () {
-                        //  Navigate to signup screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -82,7 +80,6 @@ class GetStartedSmall extends StatelessWidget {
   }
 }
 
-// ---------------------------- m e d i u m   w i d g e t
 class GetStartedMedium extends StatelessWidget {
   const GetStartedMedium({Key? key}) : super(key: key);
 
@@ -110,7 +107,6 @@ class GetStartedMedium extends StatelessWidget {
                 children: [
                   TextButton(
                       onPressed: () {
-                        //  Navigate to login screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -124,7 +120,6 @@ class GetStartedMedium extends StatelessWidget {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(darkBlue)),
                       onPressed: () {
-                        //  Navigate to signup screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(

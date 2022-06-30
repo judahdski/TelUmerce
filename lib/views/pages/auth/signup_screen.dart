@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/views/pages/fragment/main_window.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
@@ -6,7 +7,11 @@ import 'package:telumerce/views/widgets/password_textfields.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
 
 import '../../../const/color_scheme.dart';
+import '../../../const/key.dart';
+import '../../../model/user.dart';
 import '../../../services/auth/register_auth_services.dart';
+import '../../../services/user/get_user_services.dart';
+import '../../../services/utils/helper_method.dart';
 import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -81,12 +86,33 @@ class _SignupScreenState extends State<SignupScreen> {
     return isSuccess;
   }
 
+  Future _getUserData() async {
+    final response = await getUserService();
+    dynamic user;
+
+    if (response.isSuccessful) {
+      user = response.data as User;
+    } else {
+      createErrorSnackbar(context, response);
+    }
+
+    return user;
+  }
+
+  Future _sendUserName(String username) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(usernameKey, username);
+  }
+
   _setRegisterButton() async {
     sanitationCheck();
 
     setState(() => isLoading = false);
 
     if (await _register()) {
+      var user = _getUserData() as User;
+      _sendUserName(user.name);
+
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const MainWindow(0)));
     } else {

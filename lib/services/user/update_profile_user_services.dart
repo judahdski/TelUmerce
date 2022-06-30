@@ -6,6 +6,9 @@ import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
+
 Future<ApiResponse> updateProfileServices(
     String name, String email, String phoneNum, String address) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -15,7 +18,7 @@ Future<ApiResponse> updateProfileServices(
     response = await http.put(
       Uri.parse(updateUserURL),
       headers: getHeaderRequest(
-        pref.getString(tokenConst),
+        pref.getString(tokenKey),
       ),
       body: {
         'name': name,

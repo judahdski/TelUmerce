@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telumerce/const/key.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/model/user.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
+
+import '../../const/http_header.dart';
 
 Future<ApiResponse> getUserService() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -15,7 +18,7 @@ Future<ApiResponse> getUserService() async {
     response = await http.get(
       Uri.parse(getUserURL),
       headers: getHeaderWithCookie(
-        pref.getString('token'),
+        pref.getString(tokenKey),
       ),
     );
   } catch (e) {

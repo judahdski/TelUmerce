@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 
+import '../../const/http_header.dart';
+import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> addCartService(String productAmount, int id) async {
@@ -13,7 +15,7 @@ Future<ApiResponse> addCartService(String productAmount, int id) async {
 
   try {
     response = await http.post(Uri.parse(addCartURL),
-        headers: getHeaderRequest(pref.getString(tokenConst)),
+        headers: getHeaderRequest(pref.getString(tokenKey)),
         body: {
           'jumlah_barang': productAmount,
           'id_produk': id.toString(),

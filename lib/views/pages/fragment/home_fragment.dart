@@ -1,23 +1,21 @@
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/model/product.dart';
 import 'package:telumerce/services/product/all_category_service.dart';
 import 'package:telumerce/services/product/all_product_services.dart';
-import 'package:telumerce/services/user/get_user_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/category_card.dart';
 import 'package:telumerce/views/widgets/product_card.dart';
 import 'package:telumerce/views/widgets/top_bar.dart';
 
 import '../../../model/categori.dart';
-import '../../../model/user.dart';
 import '../../widgets/home_search_bar.dart';
 
 class HomeFragment extends StatefulWidget {
-  const HomeFragment({Key? key}) : super(key: key);
+  const HomeFragment({Key? key, required this.username}) : super(key: key);
+
+  final String username;
 
   @override
   State<HomeFragment> createState() => _HomeFragmentState();
@@ -25,7 +23,7 @@ class HomeFragment extends StatefulWidget {
 
 class _HomeFragmentState extends State<HomeFragment> {
   final List _categories = [];
-  final List _recommendedProducts = [];
+  final List _newestProducts = [];
   final List _products = [];
   String username = '';
 
@@ -36,16 +34,9 @@ class _HomeFragmentState extends State<HomeFragment> {
 
     if (response.isSuccessful) {
       _categories.addAll(response.data as List<Categori>);
-    } else {}
-  }
-
-  Future _getUserInfo() async {
-    final response = await getUserService();
-    var user = response.data as User;
-
-    setState(() {
-      username = user.name.toUpperCase();
-    });
+    } else {
+      createErrorSnackbar(context, response);
+    }
   }
 
   Future _getAllProducts() async {
@@ -53,44 +44,26 @@ class _HomeFragmentState extends State<HomeFragment> {
 
     if (response.isSuccessful) {
       _products.addAll(response.data as List<Product>);
-      _recommendedProducts
-          .addAll(randomiseProducts(response.data as List<Product>));
+      _getNewestProducts(response.data as List<Product>);
     } else {
-      if (kDebugMode) {
-        print('response error msg : ${response.errorMessage}');
-      }
+      createErrorSnackbar(context, response);
     }
   }
 
-  List<Product> randomiseProducts(List<Product> data) {
-    var size = data.length - 1;
-    int randomNum = 0;
+  void _getNewestProducts(List<Product> data) {
+    int size = (data.length > 10) ? 11 : data.length;
 
-    try {
-      randomNum = Random().nextInt(size);
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
+    for (int i = 0; i < size; i++) {
+      _newestProducts.add(data[i]);
     }
-
-    List<Product> newData = [];
-
-    for (int i = 0; i <= size; i++) {
-      newData.add(data[i]);
-
-      if (i==7) return newData;
-    }
-
-    return newData;
   }
 
   Future _loadHomeFragment() async {
     setState(() => isLoading = true);
 
-    await _getAllCategories();
-    await _getUserInfo();
     await _getAllProducts();
+    await _getAllCategories();
+    username = widget.username.toUpperCase();
 
     await Future.delayed(const Duration(milliseconds: 2));
     setState(() => isLoading = false);
@@ -105,10 +78,11 @@ class _HomeFragmentState extends State<HomeFragment> {
 
   @override
   void setState(VoidCallback fn) {
-    if(mounted) {
+    if (mounted) {
       super.setState(fn);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -125,7 +99,6 @@ class _HomeFragmentState extends State<HomeFragment> {
             child: ResponsiveLayout(
               smallMobile: ListView(
                 children: [
-                  // Teks greeting untuk user
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 14.0, top: 8.0, bottom: 18.0),
@@ -149,9 +122,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                     child: ListView.builder(
                       padding: const EdgeInsets.only(left: 14.0),
                       scrollDirection: Axis.horizontal,
-                      itemCount: _recommendedProducts.length,
+                      itemCount: _newestProducts.length,
                       itemBuilder: (_, int index) {
-                        Product item = _recommendedProducts[index];
+                        Product item = _newestProducts[index];
+
                         return Padding(
                           padding: const EdgeInsets.only(right: 16.0),
                           child: ProductCard(product: item),
@@ -188,7 +162,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                       children: _products.map((product) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 14.0),
-                          child: ProductCard(product: product),
+                          child: ProductCard(
+                              product: product),
                         );
                       }).toList(),
                     ),
@@ -203,14 +178,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                         left: 16.0, top: 8.0, bottom: 20.0),
                     child: RichText(
                       text: TextSpan(
-                          style: const TextStyle(height: 1.5),
-                          children: [
-                            const TextSpan(text: 'Hai, ', style: bodyLarge),
-                            TextSpan(text: '$username\n', style: titleLarge),
-                            const TextSpan(
-                                text: 'Ayo cari barang kesukaanmu.',
-                                style: bodyMedium),
-                          ]),
+                        style: const TextStyle(height: 1.5),
+                        children: [
+                          const TextSpan(text: 'Hai, ', style: bodyLarge),
+                          TextSpan(text: '$username\n', style: titleLarge),
+                          const TextSpan(
+                              text: 'Ayo cari barang kesukaanmu.',
+                              style: bodyMedium),
+                        ],
+                      ),
                     ),
                   ),
 
@@ -220,9 +196,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                     child: ListView.builder(
                       padding: const EdgeInsets.only(left: 14.0),
                       scrollDirection: Axis.horizontal,
-                      itemCount: _recommendedProducts.length,
+                      itemCount: _newestProducts.length,
                       itemBuilder: (_, int index) {
-                        Product item = _recommendedProducts[index];
+                        Product item = _newestProducts[index];
                         return Padding(
                           padding: const EdgeInsets.only(right: 16.0),
                           child: ProductCard(product: item),
@@ -258,7 +234,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                       children: _products.map((product) {
                         return Padding(
                           padding: const EdgeInsets.only(top: 16.0),
-                          child: ProductCard(product: product),
+                          child: ProductCard(
+                              product: product),
                         );
                       }).toList(),
                     ),

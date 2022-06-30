@@ -26,16 +26,16 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  //variable
+  var oCcy = NumberFormat("#,##0", "en_US");
+
   bool isFav = false;
   bool isLoading = false;
 
   String categoryName = 'null';
   int wishlistId = 0;
 
-  var oCcy = NumberFormat("#,##0", "en_US");
 
-  //function
+
   Future _checkWishlist() async {
     final response = await getAllWishlistService();
 
@@ -92,6 +92,8 @@ class _ProductCardState extends State<ProductCard> {
     setState(() => isLoading = false);
   }
 
+
+
   @override
   void initState() {
     super.initState();
@@ -106,7 +108,6 @@ class _ProductCardState extends State<ProductCard> {
     }
   }
 
-  //UI
   @override
   Widget build(BuildContext context) {
     return InkWell(
