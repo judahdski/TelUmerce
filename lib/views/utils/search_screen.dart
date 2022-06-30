@@ -5,7 +5,7 @@ import 'package:telumerce/const/text_theme.dart';
 import 'package:telumerce/model/categori.dart';
 import 'package:telumerce/services/product/all_category_service.dart';
 import 'package:telumerce/services/product/all_product_services.dart';
-import 'package:telumerce/services/product/detail_product_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/product_card.dart';
 
@@ -22,9 +22,13 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   bool isLoading = false;
+  bool isSearching = false;
+  bool isNotFound = false;
+  final TextEditingController _searchController = TextEditingController();
 
   final List _products = [];
   final List _categories = [];
+  final List<Product> _selectedProduct = [];
 
   Future _getProducts() async {
     setState(() => isLoading = true);
@@ -60,25 +64,32 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  // TODO: ini ngambil product detail
-  Future _getProductDetail() async {
-    Product? product;
+  void _setSearchMode() {
+    setState(() => isSearching = !isSearching);
+  }
 
-    try {
-      var response = await getProductDetailService(4);
-      product = response.data as Product;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
+  Future _onEditingComplete() async {
+    final response = await getProductsService();
+
+    if (response.isSuccessful) {
+      List<Product> products = response.data as List<Product>;
+
+      for (var product in products) {
+        if (product.productName == _searchController.text) {
+          setState(() {
+            _selectedProduct.add(product);
+          });
+          _checkIfNotFound();
+        }
       }
+    } else {
+      createErrorSnackbar(context, response);
     }
+  }
 
-    if (product != null) {
-      if (kDebugMode) {
-        print(product.id);
-        print(product.productName);
-        print(product.jumlahProduct);
-      }
+  void _checkIfNotFound() {
+    if (_selectedProduct.isEmpty) {
+      setState(() => isNotFound = true);
     }
   }
 
@@ -124,9 +135,17 @@ class _SearchScreenState extends State<SearchScreen> {
           decoration: BoxDecoration(
               color: const Color(0xffeeeeee),
               borderRadius: BorderRadius.circular(8.0)),
-          child: const TextField(
+          child: TextField(
+            onTap: () {
+              _setSearchMode();
+            },
+            onEditingComplete: () {
+              _onEditingComplete();
+            },
+            controller: _searchController,
+            maxLength: 15,
             maxLines: 1,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
               prefixIcon: Icon(
                 FontAwesomeIcons.magnifyingGlass,
@@ -142,83 +161,110 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: Visibility(
         visible: isLoading,
-        child: const Center(child: CircularProgressIndicator(),),
-        replacement: ResponsiveLayout(
-          smallMobile: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
-                child: Text('Rekomendasi Produk untukmu', style: labelMedium),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                child: Row(
-                  children: _categories.map((categori) {
-                    return CategoryCard(category: categori);
-                  }).toList(),
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        replacement: Visibility(
+          visible: isSearching,
+          child: Visibility(
+            visible: isNotFound,
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
+                        'https://cdn.dribbble.com/users/2480087/screenshots/7009361/media/5be4690e38762fd53647912018e86189.gif'),
+                  ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
-                child: Text('Produk unggul', style: labelMedium),
-              ),
-              SizedBox(
-                height: 120.0,
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 14.0, right: 4.0),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _products.length,
-                  itemBuilder: (_, int index) {
-                    var product = _products[index];
-
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 14.0),
-                      child: ProductCard(product: product),
-                    );
-                  },
-                ),
-              ),
-            ],
+                const Text(
+                    'Maaf, barang yang anda cari tidak dapat ditemukan.'),
+              ],
+            ),
+            replacement: Column(
+              children: _selectedProduct.map((product) {
+                return ProductCard(product: product);
+              }).toList(),
+            ),
           ),
-          mediumMobile: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 18.0, left: 16.0, bottom: 14.0),
-                child: Text('Rekomendasi Produk untukmu', style: labelLarge),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                child: Row(
-                  children: _categories.map((categori) {
-                    return CategoryCard(category: categori);
-                  }).toList(),
+          replacement: ResponsiveLayout(
+            smallMobile: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
+                  child: Text('Rekomendasi Produk untukmu', style: labelMedium),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 18.0, left: 16.0, bottom: 14.0),
-                child: Text('Produk unggul', style: labelLarge),
-              ),
-              SizedBox(
-                height: 120.0,
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 14.0, right: 4.0),
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  itemCount: _products.length,
-                  itemBuilder: (_, int index) {
-                    var product = _products[index];
-
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 14.0),
-                      child: ProductCard(product: product),
-                    );
-                  },
+                  padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                  child: Row(
+                    children: _categories.map((categori) {
+                      return CategoryCard(category: categori);
+                    }).toList(),
+                  ),
                 ),
-              ),
-            ],
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0, left: 14.0, bottom: 12.0),
+                  child: Text('Produk unggul', style: labelMedium),
+                ),
+                SizedBox(
+                  height: 120.0,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(left: 14.0, right: 4.0),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _products.length,
+                    itemBuilder: (_, int index) {
+                      var product = _products[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 14.0),
+                        child: ProductCard(product: product),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            mediumMobile: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 18.0, left: 16.0, bottom: 14.0),
+                  child: Text('Rekomendasi Produk untukmu', style: labelLarge),
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                  child: Row(
+                    children: _categories.map((categori) {
+                      return CategoryCard(category: categori);
+                    }).toList(),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 18.0, left: 16.0, bottom: 14.0),
+                  child: Text('Produk unggul', style: labelLarge),
+                ),
+                SizedBox(
+                  height: 120.0,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(left: 14.0, right: 4.0),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _products.length,
+                    itemBuilder: (_, int index) {
+                      var product = _products[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 14.0),
+                        child: ProductCard(product: product),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
