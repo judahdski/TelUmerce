@@ -12,7 +12,6 @@ import '../../const/key.dart';
 
 Future<ApiResponse> updateProfileServices(
     String name, String email, String phoneNum, String address) async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response? response;
   String? token = await getTheToken();
 

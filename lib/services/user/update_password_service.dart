@@ -13,7 +13,6 @@ import '../../const/http_header.dart';
 Future<ApiResponse> updatePasswordService
     (String oldPassword, String newPassword, String newPasswordConfirmation) async
 {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response? response;
   String? token = await getTheToken();
 

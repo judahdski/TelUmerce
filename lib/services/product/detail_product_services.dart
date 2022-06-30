@@ -12,7 +12,6 @@ import '../../model/product.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> getProductDetailService(int id) async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
   String? token = await getTheToken();
 

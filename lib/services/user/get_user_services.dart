@@ -12,7 +12,6 @@ import 'package:telumerce/services/utils/helper_method.dart';
 import '../../const/http_header.dart';
 
 Future<ApiResponse> getUserService() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response? response;
   String? token = await getTheToken();
 
