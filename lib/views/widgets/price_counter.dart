@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
@@ -30,7 +31,10 @@ class _PriceCountWidgetState extends State<PriceCountWidget> {
   _increaseAmount() {
     setState(() {
       if (amount >= 10) {
-
+        Fluttertoast.showToast(
+          msg: 'Anda mencapai jumlah maksimal pemesanan',
+          toastLength: Toast.LENGTH_SHORT,
+        );
         return;
       }
 

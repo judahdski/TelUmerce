@@ -7,14 +7,12 @@ import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/auth/get_token.dart';
 
 import '../../const/http_header.dart';
-import '../../const/key.dart';
 import '../../model/cart.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> getCartService() async {
   http.Response response;
   String? token = await getTheToken();
-
 
   try {
     response = await http.get(
@@ -29,6 +27,6 @@ Future<ApiResponse> getCartService() async {
 
   var cart = jsonDecode(response.body)['data'][0];
   return (code >= 200 && code <= 299)
-          ? processingSuccessResponse(Cart.fromJson(cart))
-          : processingFailedResponse('GET', code);
+      ? processingSuccessResponse(Cart.fromJson(cart))
+      : processingFailedResponse('GET', code);
 }

@@ -7,7 +7,6 @@ import 'package:telumerce/controller/get_category_controller.dart';
 import 'package:telumerce/model/product.dart';
 import 'package:telumerce/services/cart/all_cart_services.dart';
 import 'package:telumerce/services/cart/delete_cart_service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../const/color_scheme.dart';
 import '../../const/text_theme.dart';
@@ -16,9 +15,12 @@ import '../../model/cart.dart';
 import '../../model/cart_item.dart';
 
 class CartProductCard extends StatefulWidget {
-  const CartProductCard({Key? key, required this.cartItemId}) : super(key: key);
+  const CartProductCard(
+      {Key? key, required this.cartItemId, required this.setRefreshButton})
+      : super(key: key);
 
   final int cartItemId;
+  final VoidCallback setRefreshButton;
 
   @override
   State<CartProductCard> createState() => _CartProductCardState();
@@ -26,7 +28,7 @@ class CartProductCard extends StatefulWidget {
 
 class _CartProductCardState extends State<CartProductCard> {
   var oCcy = NumberFormat("#,##0", "en_US");
-  
+
   bool isLoading = false;
   String category = '';
   String namaBarang = '';
@@ -39,18 +41,27 @@ class _CartProductCardState extends State<CartProductCard> {
   CartItem? cartItem;
   Product? product;
 
+  Future _setRefreshButton() async {
+    await _deleteCartProduct(widget.cartItemId);
+    // await _loadCartProductCard();
+    // widget.setRefreshButton();
+  }
+
   Future _getCartItem() async {
-      for (var cartItem in _cartItems) {
-        if (cartItem.id == widget.cartItemId) {
-          this.cartItem = cartItem;
-        }
+    for (var cartItem in _cartItems) {
+      if (cartItem.id == widget.cartItemId) {
+        this.cartItem = cartItem;
       }
+    }
   }
 
   Future _getCartItems() async {
     final response = await getCartService();
     var cart = response.data as Cart;
     List<CartItem> cartItems = cart.cartItem;
+    if (kDebugMode) {
+      print('data di cartItems dari cart_product_card: ${cartItems.length}');
+    }
 
     if (response.isSuccessful) {
       _cartItems.addAll(cartItems);
@@ -105,7 +116,7 @@ class _CartProductCardState extends State<CartProductCard> {
 
   @override
   void setState(VoidCallback fn) {
-    if(mounted) {
+    if (mounted) {
       super.setState(fn);
     }
   }
@@ -121,7 +132,7 @@ class _CartProductCardState extends State<CartProductCard> {
       replacement: Container(
         height: 120.0,
         padding:
-        const EdgeInsets.only(left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
+            const EdgeInsets.only(left: 6.0, top: 8.0, bottom: 8.0, right: 6.0),
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: const Color(0xffcdcdcd), width: .75),
@@ -155,15 +166,17 @@ class _CartProductCardState extends State<CartProductCard> {
 
                       // Like button
                       SizedBox(
-                          width: 28.0,
-                          height: 28.0,
-                          child: IconButton(
-                              padding: const EdgeInsets.all(6.0),
-                              iconSize: 16.0,
-                              onPressed: () {
-                                _deleteCartProduct(widget.cartItemId);
-                              },
-                              icon: const FaIcon(FontAwesomeIcons.xmark)))
+                        width: 28.0,
+                        height: 28.0,
+                        child: IconButton(
+                          padding: const EdgeInsets.all(6.0),
+                          iconSize: 16.0,
+                          onPressed: () async {
+                            await _setRefreshButton();
+                          },
+                          icon: const FaIcon(FontAwesomeIcons.xmark),
+                        ),
+                      )
                     ],
                   ),
 
