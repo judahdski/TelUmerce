@@ -12,7 +12,6 @@ import '../../model/cart.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> getCartService() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
   String? token = await getTheToken();
 

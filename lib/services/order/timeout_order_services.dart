@@ -11,7 +11,6 @@ import '../../const/key.dart';
 import '../../model/api_response.dart';
 
 Future<ApiResponse> timeoutOrderService(int id) async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
   String? token = await getTheToken();
 

@@ -12,7 +12,6 @@ import '../../const/key.dart';
 import '../../model/api_response.dart';
 
 Future<ApiResponse> getCategoriesService() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
   http.Response response;
   String? token = await getTheToken();
   

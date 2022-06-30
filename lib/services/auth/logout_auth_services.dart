@@ -11,7 +11,6 @@ import '../../const/key.dart';
 import '../utils/helper_method.dart';
 
 Future<ApiResponse> logoutService() async {
-  // String? token = await storage.read(key: tokenKey);
   String? token = await getTheToken();
   http.Response response;
 
