@@ -12,7 +12,10 @@ import '../../model/user.dart';
 
 class CheckoutBar extends StatefulWidget {
   const CheckoutBar(
-      {Key? key, required this.amountItem, required this.totalPrice, required this.isListEmpty})
+      {Key? key,
+      required this.amountItem,
+      required this.totalPrice,
+      required this.isListEmpty})
       : super(key: key);
 
   // variable
@@ -69,7 +72,10 @@ class _CheckoutBarState extends State<CheckoutBar> {
             TextButton(
               child: const Text('Daftarkan'),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen()));
               },
             ),
           ],
@@ -87,81 +93,83 @@ class _CheckoutBarState extends State<CheckoutBar> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-              const PaymentOptionsScreen()));
+              builder: (context) => const PaymentOptionsScreen()));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-        smallMobile: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(6.0),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x29000000),
-                    offset: Offset(1, 2),
-                    blurRadius: 6.0)
-              ]),
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Barang (${widget.amountItem})', style: bodyMedium),
-                  Text('Rp ${oCcy.format(widget.totalPrice)}', style: titleMedium),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(darkBlue)),
-                  onPressed: () {
-                    if (!widget.isListEmpty) {
-                      _setCheckoutButton();
-                    }
-                  },
-                  child: const Text('Checkout'))
-            ],
-          ),
+      smallMobile: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(6.0),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0x29000000),
+                  offset: Offset(1, 2),
+                  blurRadius: 6.0)
+            ]),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Barang (${widget.amountItem})', style: bodyMedium),
+                Text('Rp ${oCcy.format(widget.totalPrice)}',
+                    style: titleMedium),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(darkBlue)),
+                onPressed: () {
+                  if (!widget.isListEmpty) {
+                    _setCheckoutButton();
+                  }
+                },
+                child: const Text('Checkout'))
+          ],
         ),
-        mediumMobile: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x29000000),
-                    offset: Offset(1, 2),
-                    blurRadius: 6.0)
-              ]),
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Barang (${widget.amountItem})', style: bodyLarge),
-                  Text('Rp ${oCcy.format(widget.totalPrice)}', style: titleMedium),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(darkBlue)),
-                  onPressed: () {
-                    if (!widget.isListEmpty) {
-                      _setCheckoutButton();
-                    }
-                  },
-                  child: const Text('Checkout'))
-            ],
-          ),
-        ));
+      ),
+      mediumMobile: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: const [
+              BoxShadow(
+                  color: Color(0x29000000),
+                  offset: Offset(1, 2),
+                  blurRadius: 6.0)
+            ]),
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Barang (${widget.amountItem})', style: bodyLarge),
+                Text('Rp ${oCcy.format(widget.totalPrice)}',
+                    style: titleMedium),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(darkBlue)),
+                onPressed: () {
+                  if (!widget.isListEmpty) {
+                    _setCheckoutButton();
+                  }
+                },
+                child: const Text('Checkout'))
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -5,6 +5,7 @@ import 'package:telumerce/services/auth/logout_auth_services.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/services/user/update_profile_user_services.dart';
 import 'package:telumerce/views/pages/auth/login_screen.dart';
+import 'package:telumerce/views/pages/fragment/main_window.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/password_textfields.dart';
 
@@ -19,7 +20,9 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  User? user;
+  bool isLoading = false;
+
+  dynamic user;
 
   final TextEditingController _namaController = TextEditingController();
 
@@ -35,7 +38,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var response = await logoutService();
 
     Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (Route<dynamic> route) => false);
     var snackBar = SnackBar(content: Text(response.data as String));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -44,8 +49,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final response = await getUserService();
     user = (response.data) as User;
 
-    _namaController.text = user!.name;
-    _emailController.text = user!.email;
+    _namaController.text = user.name;
+    _emailController.text = user.email;
     _phoneNumController.text = (user?.noTelp == null) ? '' : user?.noTelp;
     _addressController.text = (user?.alamat == null) ? '' : user?.alamat;
   }
@@ -73,11 +78,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  Future _setUpdateButton() async {
+    final isSuccess = await _updateProfile();
+
+    if (isSuccess) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainWindow(3)),
+          (Route<dynamic> route) => false);
+    }
+  }
+
+  Future _loadEditProfile() async {
+    setState(() => isLoading = true);
+
+    await _getUserInfo();
+
+    await Future.delayed(const Duration(milliseconds: 1));
+    setState(() => isLoading = false);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _getUserInfo();
+    _loadEditProfile();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   // UI
@@ -93,190 +125,196 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         title: const Text('Edit profile'),
       ),
-      body: ResponsiveLayout(
-        smallMobile: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 28.0),
-              alignment: Alignment.center,
-              child: SizedBox(
-                height: 80.0,
-                child: Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: CachedNetworkImage(
-                          imageUrl: 'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
+      body: Visibility(
+        visible: isLoading,
+        child: const Center(child: CircularProgressIndicator(),),
+        replacement: ResponsiveLayout(
+          smallMobile: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 28.0),
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 80.0,
+                  child: Stack(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                            'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: const Color(0x3d949494),
-                            borderRadius: BorderRadius.circular(12.0)),
-                        child: const Center(
-                            child: FaIcon(
-                          FontAwesomeIcons.pencil,
-                          size: 24.0,
-                          color: Colors.white,
-                        )),
-                      ),
-                    )
-                  ],
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: const Color(0x3d949494),
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: const Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.pencil,
+                                size: 24.0,
+                                color: Colors.white,
+                              )),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            RegularTextfields(
-                label: 'Nama',
-                hint: 'Masukan nama',
-                autoFocus: false,
-                controller: _namaController,
-                inputType: TextInputType.name),
-            const SizedBox(height: 16.0),
-            RegularTextfields(
-                label: 'E-mail',
-                hint: 'Masukan e-mail',
-                autoFocus: false,
-                controller: _emailController,
-                inputType: TextInputType.emailAddress),
-            const SizedBox(height: 16.0),
+              RegularTextfields(
+                  label: 'Nama',
+                  hint: 'Masukan nama',
+                  autoFocus: false,
+                  controller: _namaController,
+                  inputType: TextInputType.name),
+              const SizedBox(height: 16.0),
+              RegularTextfields(
+                  label: 'E-mail',
+                  hint: 'Masukan e-mail',
+                  autoFocus: false,
+                  controller: _emailController,
+                  inputType: TextInputType.emailAddress),
+              const SizedBox(height: 16.0),
 
-            // u p d a t e   p a s s w o r d
-            UpdatePasswordTextfield(
-                passController: _passwordController, label: 'Password'),
+              // u p d a t e   p a s s w o r d
+              UpdatePasswordTextfield(
+                  passController: _passwordController, label: 'Password'),
 
-            const SizedBox(height: 16.0),
-            RegularTextfields(
-                label: 'Nomor HP',
-                hint: 'Masukan nomor hp',
-                autoFocus: false,
-                controller: _phoneNumController,
-                inputType: TextInputType.number),
-            const SizedBox(height: 16.0),
-            RegularTextfields(
-                label: 'Alamat',
-                hint: 'Masukan alamat',
-                autoFocus: false,
-                controller: _addressController,
-                inputType: TextInputType.streetAddress),
-            const SizedBox(height: 32.0),
-            ElevatedButton(
-                onPressed: () async {
-                  await _updateProfile();
-                },
-                child: const Text('Simpan')),
-            OutlinedButton(
-                onPressed: () {
-                  _logout();
-                },
-                child: const Text(
-                  'Log Out',
-                  style: TextStyle(color: Colors.red),
-                )),
-          ],
-        ),
-        mediumMobile: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 28.0),
-              alignment: Alignment.center,
-              child: SizedBox(
-                height: 80.0,
-                child: Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: CachedNetworkImage(
-                          imageUrl: 'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
+              const SizedBox(height: 16.0),
+              RegularTextfields(
+                  label: 'Nomor HP',
+                  hint: 'Masukan nomor hp',
+                  autoFocus: false,
+                  controller: _phoneNumController,
+                  inputType: TextInputType.number),
+              const SizedBox(height: 16.0),
+              RegularTextfields(
+                  label: 'Alamat',
+                  hint: 'Masukan alamat',
+                  autoFocus: false,
+                  controller: _addressController,
+                  inputType: TextInputType.streetAddress),
+              const SizedBox(height: 32.0),
+              ElevatedButton(
+                  onPressed: () async {
+                    await _setUpdateButton();
+                  },
+                  child: const Text('Simpan')),
+              OutlinedButton(
+                  onPressed: () {
+                    _logout();
+                  },
+                  child: const Text(
+                    'Log Out',
+                    style: TextStyle(color: Colors.red),
+                  )),
+            ],
+          ),
+          mediumMobile: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 28.0),
+                alignment: Alignment.center,
+                child: SizedBox(
+                  height: 80.0,
+                  child: Stack(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                            'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: const Color(0x3d949494),
-                            borderRadius: BorderRadius.circular(12.0)),
-                        child: const Center(
-                            child: FaIcon(
-                          FontAwesomeIcons.pencil,
-                          size: 24.0,
-                          color: Colors.white,
-                        )),
-                      ),
-                    )
-                  ],
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: const Color(0x3d949494),
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: const Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.pencil,
+                                size: 24.0,
+                                color: Colors.white,
+                              )),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            RegularTextfields(
-                label: 'Nama',
-                hint: 'Masukan nama',
-                autoFocus: false,
-                controller: _namaController,
-                inputType: TextInputType.name),
-            const SizedBox(height: 16.0),
-            RegularTextfields(
-                label: 'E-mail',
-                hint: 'Masukan e-mail',
-                autoFocus: false,
-                controller: _emailController,
-                inputType: TextInputType.emailAddress),
-            const SizedBox(height: 16.0),
+              RegularTextfields(
+                  label: 'Nama',
+                  hint: 'Masukan nama',
+                  autoFocus: false,
+                  controller: _namaController,
+                  inputType: TextInputType.name),
+              const SizedBox(height: 16.0),
+              RegularTextfields(
+                  label: 'E-mail',
+                  hint: 'Masukan e-mail',
+                  autoFocus: false,
+                  controller: _emailController,
+                  inputType: TextInputType.emailAddress),
+              const SizedBox(height: 16.0),
 
-            // u p d a t e   p a s s w o r d
-            UpdatePasswordTextfield(
-                passController: _passwordController, label: 'Password'),
+              // u p d a t e   p a s s w o r d
+              UpdatePasswordTextfield(
+                  passController: _passwordController, label: 'Password'),
 
-            const SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
-            RegularTextfields(
-                label: 'Nomor HP',
-                hint: 'Masukan nomor hp',
-                autoFocus: false,
-                controller: _phoneNumController,
-                inputType: TextInputType.number),
-            const SizedBox(height: 16.0),
-            RegularTextfields(
-                label: 'Alamat',
-                hint: 'Masukan alamat',
-                autoFocus: false,
-                controller: _addressController,
-                inputType: TextInputType.streetAddress),
-            const SizedBox(height: 32.0),
-            ElevatedButton(
-                onPressed: () async {
-                  await _updateProfile();
-                },
-                child: const Text('Simpan')),
-            const SizedBox(height: 8.0),
-            OutlinedButton(
-                onPressed: () {
-                  _logout();
-                },
-                child: const Text(
-                  'Log Out',
-                  style: TextStyle(color: Colors.red),
-                )),
-          ],
+              RegularTextfields(
+                  label: 'Nomor HP',
+                  hint: 'Masukan nomor hp',
+                  autoFocus: false,
+                  controller: _phoneNumController,
+                  inputType: TextInputType.number),
+              const SizedBox(height: 16.0),
+              RegularTextfields(
+                  label: 'Alamat',
+                  hint: 'Masukan alamat',
+                  autoFocus: false,
+                  controller: _addressController,
+                  inputType: TextInputType.streetAddress),
+              const SizedBox(height: 32.0),
+              ElevatedButton(
+                  onPressed: () async {
+                    await _setUpdateButton();
+                  },
+                  child: const Text('Simpan')),
+              const SizedBox(height: 8.0),
+              OutlinedButton(
+                  onPressed: () {
+                    _logout();
+                  },
+                  child: const Text(
+                    'Log Out',
+                    style: TextStyle(color: Colors.red),
+                  )),
+            ],
+          ),
         ),
       ),
     );

@@ -71,13 +71,6 @@ class _EntryPointState extends State<EntryPoint> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    _getToken();
-  }
-
-  @override
   void setState(VoidCallback fn) {
     if (mounted) {
       super.setState(fn);
