@@ -12,9 +12,6 @@ Future<ApiResponse> uploadPaymentOrderService(int id, String imageFile) async {
   http.StreamedResponse response;
   String? token = await getTheToken();
 
-  // var stream = http.ByteStream(imageFile.openRead());
-  // stream.cast();
-  // var length = await imageFile.length();
   var req = http.MultipartRequest('POST', Uri.parse(orderPaymentURL(id)));
   var multiport = await http.MultipartFile.fromPath(
       'pembayaran',
