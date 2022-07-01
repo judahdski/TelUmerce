@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
 import '../../../const/color_scheme.dart';
@@ -86,7 +87,7 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
         });
 
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 70);
       if (image == null) {
         setState(() => isUploaded = false);
         Navigator.of(context).pop();
@@ -113,7 +114,7 @@ class _PaymentValidationScreenState extends State<PaymentValidationScreen> {
         });
 
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 70);
       if (image == null) {
         setState(() => isUploaded = false);
         Navigator.of(context).pop();
@@ -172,30 +173,27 @@ class _ImageUploadedContainerState extends State<ImageUploadedContainer> {
   bool isLoading = false;
 
   Future _uploadTransferForm() async {
-    String msg = '';
     var orderId = widget.orderId;
     var imageFile = widget.imageName;
 
     setState(() => isLoading = true);
-    final response = await uploadPaymentOrderService(orderId, imageFile);
-    setState(() => isLoading = false);
+    ApiResponse response = await uploadPaymentOrderService(orderId, imageFile);
+
+    if (response.isSuccessful == true) {
+      setState(() => isLoading = false);
+
+      var snackbar = const SnackBar(content: Text('Terimakasih. Pembayaran anda sudah tersimpan.'));
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
+    } else {
+      createErrorSnackbar(context, response);
+    }
 
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const MainWindow(0)),
         (Route<dynamic> route) => false);
 
-    // var snackbar = const SnackBar(content: Text('Terimakasih. Pembayaran anda sudah tersimpan.'));
-    // ScaffoldMessenger.of(context).showSnackBar(snackbar);
-
-    if (response.isSuccessful) {
-      msg = 'Berhasil mengupload gambar';
-      if (kDebugMode) {
-        print(msg);
-      }
-    } else {
-      createErrorSnackbar(context, response);
-    }
   }
 
   @override
