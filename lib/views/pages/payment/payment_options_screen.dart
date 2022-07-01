@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:telumerce/const/color_scheme.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/create_order.dart';
 import 'package:telumerce/model/payment_info.dart';
 import 'package:telumerce/services/order/create_order_services.dart';
 import 'package:telumerce/services/payment/info_payment_services.dart';
+import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 
 import 'checkout_screen.dart';
@@ -21,18 +22,16 @@ class PaymentOptionsScreen extends StatefulWidget {
 
 class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
   bool isLoading = false;
-
-  // ------------------------ metode pengiriman state
+  bool isSameAsProfile = false;
   bool isDeliver = true;
 
-  // ------------------------ metode pembayaran state
+  final TextEditingController _addressTextInputContoller =
+      TextEditingController();
   String paymentMethod = '';
-
-  // ------------------------ alamat state
   String alamat = 'null';
-  final TextEditingController _addressTextInputContoller = TextEditingController();
-  bool isSameAsProfile = false;
+  String dropdownValue = 'One';
 
+  final List<MetodePembayaran> _paymentMethods = [];
   PaymentInfo? paymentInfo;
 
   Future _getPaymentInfo() async {
@@ -41,9 +40,7 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
     if (response.isSuccessful) {
       paymentInfo = response.data as PaymentInfo;
     } else {
-      if (kDebugMode) {
-        print(response.errorMessage);
-      }
+      createErrorSnackbar(context, response);
     }
   }
 
@@ -58,6 +55,7 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
   _setUIState() {
     alamat = paymentInfo!.user;
     _addressTextInputContoller.text = alamat;
+    _paymentMethods.addAll(paymentInfo!.metodePembayaran);
   }
 
   int _getDeliveryMethod() {
@@ -266,38 +264,30 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
             const Text(
                 'Untuk sementara metode pembayaran hanya bisa dilakukan melalui transfer bank saja.',
                 style: bodySmall),
-            PaymentMethodOptions(
-              initValue: 'transfer_bank',
-              label: Row(
-                children: const [
-                  FaIcon(FontAwesomeIcons.moneyBill,
-                      color: Color(0xff666677), size: 16.0),
-                  SizedBox(width: 8.0),
-                  Text(
-                    'Transfer bank',
-                    style: TextStyle(fontSize: 12.0, color: Color(0xff666677)),
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                elevation: 24,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (newValue) {
+                  setState(() {
+                    dropdownValue = newValue ?? 'null';
+                  });
+                },
+                items: <String>['One', 'Two', 'Free', 'Four']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
-              paymentMethod: paymentMethod,
-              setPaymentMethod: () {
-                var value = 'transfer_bank';
-                setPaymentMethod(value);
-              },
             ),
-            PaymentMethodOptions(
-              initValue: 'linkaja',
-              label: SizedBox(
-                height: 32.0,
-                child: CachedNetworkImage(
-                    imageUrl: 'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
-              ),
-              paymentMethod: paymentMethod,
-              setPaymentMethod: () {
-                var value = 'linkaja';
-                setPaymentMethod(value);
-              },
-            )
           ],
         ),
       ),
@@ -311,38 +301,34 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
             const Text(
                 'Untuk sementara metode pembayaran hanya bisa dilakukan melalui transfer bank saja.',
                 style: bodySmall),
-            PaymentMethodOptions(
-              initValue: 'transfer_bank',
-              label: Row(
-                children: const [
-                  FaIcon(FontAwesomeIcons.moneyBill,
-                      color: Color(0xff666677), size: 18.0),
-                  SizedBox(width: 10.0),
-                  Text(
-                    'Transfer bank',
-                    style: TextStyle(fontSize: 14.0, color: Color(0xff666677)),
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                elevation: 24,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (newValue) {
+                  setState(
+                    () {
+                      dropdownValue = newValue ?? 'null';
+                    },
+                  );
+                },
+                items: _paymentMethods.map<DropdownMenuItem<String>>(
+                    (MetodePembayaran paymentMethod) {
+                  return DropdownMenuItem<String>(
+                    value: paymentMethod.id.toString(),
+                    child: ListTile(
+                      title: Text(paymentMethod.metode),
+                    ),
+                  );
+                }).toList(),
               ),
-              paymentMethod: paymentMethod,
-              setPaymentMethod: () {
-                var value = 'transfer_bank';
-                setPaymentMethod(value);
-              },
             ),
-            PaymentMethodOptions(
-              initValue: 'linkaja',
-              label: SizedBox(
-                height: 36.0,
-                child: CachedNetworkImage(
-                    imageUrl: 'https://harianrakyataceh.com/wp-content/uploads/2021/07/beli-saldo-paypal-via-linkaja.png'),
-              ),
-              paymentMethod: paymentMethod,
-              setPaymentMethod: () {
-                var value = 'linkaja';
-                setPaymentMethod(value);
-              },
-            )
           ],
         ),
       ),
@@ -360,7 +346,13 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
 // TODO: ubah widget function jadi widget class
 
 class PaymentMethodOptions extends StatelessWidget {
-  const PaymentMethodOptions({Key? key, required this.setPaymentMethod, required this.initValue, required this.paymentMethod, required this.label}) : super(key: key);
+  const PaymentMethodOptions(
+      {Key? key,
+      required this.setPaymentMethod,
+      required this.initValue,
+      required this.paymentMethod,
+      required this.label})
+      : super(key: key);
 
   final VoidCallback setPaymentMethod;
   final String initValue;
@@ -386,7 +378,11 @@ class PaymentMethodOptions extends StatelessWidget {
 }
 
 class AddressInputWidget extends StatefulWidget {
-  const AddressInputWidget({Key? key, required this.textInputController, required this.setAddressState}) : super(key: key);
+  const AddressInputWidget(
+      {Key? key,
+      required this.textInputController,
+      required this.setAddressState})
+      : super(key: key);
 
   final TextEditingController textInputController;
   final VoidCallback setAddressState;
