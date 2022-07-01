@@ -76,7 +76,6 @@ class _EntryPointState extends State<EntryPoint> {
     _getToken();
   }
 
-
   @override
   void setState(VoidCallback fn) {
     if (mounted) {

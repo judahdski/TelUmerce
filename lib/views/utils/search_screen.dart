@@ -65,23 +65,36 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _setSearchMode() {
-    setState(() => isSearching = !isSearching);
+    if (isSearching) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      if(_selectedProduct.isNotEmpty) {
+        _selectedProduct.removeAt(0);
+      }
+      _searchController.text = '';
+      setState(() => isSearching = false);
+    } else {
+      setState(() => isSearching = true);
+    }
   }
 
   Future _onEditingComplete() async {
     final response = await getProductsService();
 
     if (response.isSuccessful) {
+      _selectedProduct.clear();
       List<Product> products = response.data as List<Product>;
 
       for (var product in products) {
-        if (product.productName == _searchController.text) {
+        if (product.productName.toLowerCase() ==
+            _searchController.text.toString().toLowerCase()) {
           setState(() {
             _selectedProduct.add(product);
           });
-          _checkIfNotFound();
         }
       }
+
+      print('halloooo');
+      _checkIfNotFound();
     } else {
       createErrorSnackbar(context, response);
     }
@@ -89,6 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _checkIfNotFound() {
     if (_selectedProduct.isEmpty) {
+      print('isNotFound : $isNotFound');
       setState(() => isNotFound = true);
     }
   }
@@ -127,7 +141,11 @@ class _SearchScreenState extends State<SearchScreen> {
         leading: IconButton(
             color: darkBlue,
             onPressed: () {
-              Navigator.pop(context);
+              if (isSearching) {
+                _setSearchMode();
+              } else {
+                Navigator.pop(context);
+              }
             },
             icon: const FaIcon(FontAwesomeIcons.chevronLeft, size: 14.0)),
         title: Container(
@@ -143,7 +161,6 @@ class _SearchScreenState extends State<SearchScreen> {
               _onEditingComplete();
             },
             controller: _searchController,
-            maxLength: 15,
             maxLines: 1,
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -170,8 +187,8 @@ class _SearchScreenState extends State<SearchScreen> {
             visible: isNotFound,
             child: Column(
               children: [
-                SizedBox(
-                  width: 150,
+                Padding(
+                  padding: const EdgeInsets.all(56.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
@@ -179,13 +196,25 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 const Text(
-                    'Maaf, barang yang anda cari tidak dapat ditemukan.'),
+                  'Maaf, barang yang anda cari tidak dapat ditemukan.',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff707050),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ],
+              crossAxisAlignment: CrossAxisAlignment.stretch,
             ),
-            replacement: Column(
-              children: _selectedProduct.map((product) {
-                return ProductCard(product: product);
-              }).toList(),
+            replacement: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+              child: Column(
+                children: _selectedProduct.map((product) {
+                  return ProductCard(product: product);
+                }).toList(),
+              ),
             ),
           ),
           replacement: ResponsiveLayout(
