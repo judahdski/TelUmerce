@@ -92,8 +92,6 @@ class _SearchScreenState extends State<SearchScreen> {
           });
         }
       }
-
-      print('halloooo');
       _checkIfNotFound();
     } else {
       createErrorSnackbar(context, response);
@@ -102,7 +100,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _checkIfNotFound() {
     if (_selectedProduct.isEmpty) {
-      print('isNotFound : $isNotFound');
       setState(() => isNotFound = true);
     }
   }

@@ -91,7 +91,7 @@ class _PaymentOptionsScreenState extends State<PaymentOptionsScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => CheckoutScreen(orderId: order.id)));
+              builder: (context) => CheckoutScreen(orderId: order.id, deliveryMethod: _getDeliveryMethod())));
     } else {
       msg = 'Gagal, karena ${response.errorMessage}';
     }

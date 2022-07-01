@@ -13,9 +13,10 @@ import '../../widgets/order_detail_card.dart';
 import 'payment_validation_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({Key? key, required this.orderId}) : super(key: key);
+  const CheckoutScreen({Key? key, required this.orderId, required this.deliveryMethod}) : super(key: key);
 
   final int orderId;
+  final int deliveryMethod;
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -80,10 +81,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24.0),
         children: [
-          OrderDetail(orderId: widget.orderId),
+          OrderDetail(orderId: widget.orderId, deliveryMethod: widget.deliveryMethod),
           const Divider(color: Color(0xfff2f2f2), thickness: 6.0, height: 6.0),
           TimeCounter(orderId: widget.orderId),
-          const BankInfoCard(),
+           BankInfoCard(orderId: widget.orderId, deliveryMethod: widget.deliveryMethod),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
             child: ElevatedButton(
@@ -214,7 +215,7 @@ class _TimeCounterState extends State<TimeCounter> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Senin, 27 Juni 2022 21:44', style: labelMedium),
+                const Text('Jumat, 01 Juli 2022 14:36', style: labelMedium),
                 Text(
                     '00 : ${(minutes < 10) ? '0$minutes' : minutes}:${(seconds < 10) ? '0$seconds' : seconds}',
                     style: timeLabel),
@@ -243,7 +244,7 @@ class _TimeCounterState extends State<TimeCounter> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Senin, 27 Juni 2022 21:44', style: labelLarge),
+                const Text('Jumat, 01 Juli 2022 14:36', style: labelLarge),
                 Text(
                     '00 : ${(minutes < 10) ? '0$minutes' : minutes} : ${(seconds < 10) ? '0$seconds' : seconds}',
                     style: timeLabel),

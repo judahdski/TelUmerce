@@ -36,7 +36,7 @@ class _DetailOrderScreenState extends State<DetailOrderScreen> {
           // ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: OrderDetail(orderId: widget.orderId),
+            child: OrderDetail(orderId: widget.orderId, deliveryMethod: 2),
             // child: OrderDetail(),
           ),
         ],

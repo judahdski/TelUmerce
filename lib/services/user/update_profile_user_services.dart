@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/url_endpoint.dart';
 import 'package:telumerce/model/api_response.dart';
 import 'package:telumerce/services/auth/get_token.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 
 import '../../const/http_header.dart';
-import '../../const/key.dart';
 
 Future<ApiResponse> updateProfileServices(
     String name, String email, String phoneNum, String address) async {

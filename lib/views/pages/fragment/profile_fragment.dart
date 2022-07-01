@@ -178,8 +178,11 @@ class SuccessOrderList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 14.0),
       child: Column(
         children: orders.map((order) {
-          return OrderCard(
-            orderId: order.id,
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: OrderCard(
+              orderId: order.id,
+            ),
           );
         }).toList(),
       ),

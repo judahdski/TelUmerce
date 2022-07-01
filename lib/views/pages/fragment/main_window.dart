@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/key.dart';
 import 'package:telumerce/const/text_theme.dart';
-import 'package:telumerce/services/auth/get_token.dart';
 import 'package:telumerce/services/auth/create_storage.dart';
 
 import '../../../const/color_scheme.dart';

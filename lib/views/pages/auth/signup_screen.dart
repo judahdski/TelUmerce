@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/auth/create_storage.dart';
 import 'package:telumerce/views/pages/fragment/main_window.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/password_textfields.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
-import 'package:telumerce/services/auth/create_storage.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../../const/key.dart';
@@ -178,7 +177,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const LoginScreen()));
+                                            const LoginScreen()));
                               },
                               child: const Text('Masuk',
                                   style: confirmationButtonText))
@@ -187,7 +186,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(darkBlue)),
+                            backgroundColor:
+                                MaterialStateProperty.all(darkBlue)),
                         onPressed: () {
                           _setRegisterButton();
                         },
@@ -266,8 +266,8 @@ class _SignupScreenState extends State<SignupScreen> {
               visible: isLoading,
               child: const Center(child: CircularProgressIndicator()),
               replacement: SingleChildScrollView(
-                padding:
-                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 24.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 24.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -306,7 +306,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const LoginScreen()));
+                                            const LoginScreen()));
                               },
                               child: const Text('Masuk',
                                   style: confirmationButtonText))
@@ -315,7 +315,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(darkBlue)),
+                            backgroundColor:
+                                MaterialStateProperty.all(darkBlue)),
                         onPressed: () {
                           _setRegisterButton();
                         },

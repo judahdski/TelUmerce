@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telumerce/const/text_theme.dart';
+import 'package:telumerce/services/auth/create_storage.dart';
 import 'package:telumerce/services/user/get_user_services.dart';
 import 'package:telumerce/services/utils/helper_method.dart';
 import 'package:telumerce/views/responsive/responsive_layout.dart';
 import 'package:telumerce/views/widgets/regular_textfields.dart';
-import 'package:telumerce/services/auth/create_storage.dart';
 
 import '../../../const/color_scheme.dart';
 import '../../../const/key.dart';
@@ -30,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
-
 
   void _changeToScrollView() {
     setState(() {
@@ -155,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const SignupScreen()));
+                                              const SignupScreen()));
                                 },
                                 child: const Text('Daftar',
                                     style: confirmationButtonText))
@@ -165,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.all(darkBlue)),
+                                  MaterialStateProperty.all(darkBlue)),
                           onPressed: () {
                             _setLoginButton();
                           },
@@ -234,8 +232,8 @@ class _LoginScreenState extends State<LoginScreen> {
               visible: isLoading,
               child: const Center(child: CircularProgressIndicator()),
               replacement: SingleChildScrollView(
-                padding:
-                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 24.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -264,7 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const SignupScreen()));
+                                            const SignupScreen()));
                               },
                               child: const Text('Daftar',
                                   style: confirmationButtonText))
@@ -273,7 +271,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(darkBlue)),
+                            backgroundColor:
+                                MaterialStateProperty.all(darkBlue)),
                         onPressed: () {
                           _setLoginButton();
                         },

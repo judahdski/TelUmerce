@@ -90,7 +90,7 @@ class _OrderCardState extends State<OrderCard> {
               MaterialPageRoute(builder: (context) => DetailOrderScreen(orderId: widget.orderId)));
         } else if (statusText == "Menunggu Pembayaran") {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CheckoutScreen(orderId: widget.orderId)));
+              MaterialPageRoute(builder: (context) => CheckoutScreen(orderId: widget.orderId, deliveryMethod: 2)));
         }
       },
       child: Visibility(

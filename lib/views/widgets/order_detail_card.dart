@@ -10,9 +10,10 @@ import '../../model/order_detail.dart';
 import '../../services/order/all_order_services.dart';
 
 class OrderDetail extends StatefulWidget {
-  const OrderDetail({Key? key, required this.orderId}) : super(key: key);
+  const OrderDetail({Key? key, required this.orderId, required this.deliveryMethod}) : super(key: key);
 
   final int orderId;
+  final int deliveryMethod;
 
   @override
   State<OrderDetail> createState() => _OrderDetailState();
@@ -64,7 +65,9 @@ class _OrderDetailState extends State<OrderDetail> {
   }
 
   int _getTotalHargaBayar() {
-    return jumlahHarga + 5500;
+    int ongkir = (widget.deliveryMethod == 2) ? 5000 : 0;
+
+    return jumlahHarga + ongkir;
   }
 
   _setUIState() {
