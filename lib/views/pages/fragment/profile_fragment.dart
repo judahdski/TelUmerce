@@ -148,7 +148,7 @@ class ProfileCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0),
             child: CachedNetworkImage(
               imageUrl:
-                  'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+                  'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Free-Image.png',
               fit: BoxFit.cover,
               alignment: Alignment.center,
             ),

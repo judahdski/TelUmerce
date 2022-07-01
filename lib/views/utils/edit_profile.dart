@@ -145,29 +145,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           borderRadius: BorderRadius.circular(12.0),
                           child: CachedNetworkImage(
                             imageUrl:
-                            'https://images.pexels.com/photos/775358/pexels-photo-775358.jpeg',
+                            'https://www.pngall.com/wp-content/uploads/5/Profile-PNG-Free-Image.png',
                             fit: BoxFit.cover,
                             alignment: Alignment.center,
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: const Color(0x3d949494),
-                              borderRadius: BorderRadius.circular(12.0)),
-                          child: const Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.pencil,
-                                size: 24.0,
-                                color: Colors.white,
-                              )),
-                        ),
-                      )
                     ],
                   ),
                 ),
