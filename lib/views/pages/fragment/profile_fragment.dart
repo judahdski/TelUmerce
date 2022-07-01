@@ -41,7 +41,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
     await _getOrders();
 
     for (var order in _orders) {
-      if (order.statusOrder.status == "Selesai") {
+      if (order.statusOrder.status == "Selesai" || order.statusOrder.status == "Terverifikasi") {
         _successfulOrders.add(order);
       }
     }
@@ -97,7 +97,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                   status: StatusBtnIndicator.waitingPayment,
                 ),
                 const OrderConfirmationButton(
-                  icon: FontAwesomeIcons.solidCircleCheck,
+                  icon: FontAwesomeIcons.circleQuestion,
                   text: "Menunggu verifikasi",
                   status: StatusBtnIndicator.waitingVerification,
                 ),
